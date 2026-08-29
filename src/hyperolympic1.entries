@@ -1,0 +1,10 @@
+# Puntos de entrada de Hyper Olympic 1 (Konami, RC-710). ROM de 16 KB en 0x4000.
+#
+# El unico punto de entrada que declara el cartucho: la BIOS lee la cabecera
+# "AB" y llama a INIT tras inicializar la maquina. Todo lo demas sale de
+# seguir el flujo desde aqui.
+0x4081   # INIT, declarado en la cabecera del cartucho (bytes 2-3: 81 40)
+
+0x4010   # la rutina de interrupcion. INIT escribe `jp 0x4010` en el gancho
+         # H.KEYI (0xFD9A): `ld hl,0FD9Ah / ld (hl),0C3h / ld hl,4010h /
+         # ld (0FD9Bh),hl` en 0x4082-0x408C. La BIOS la llama en cada interrupcion.

@@ -1,0 +1,144 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hyper Olympic 1 (Konami, RC-710) - lo que dice el binario — Hyper Olympic 1 (Konami, 1984)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html" style=color:var(--tinta)>Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="COMPARATIVA-TRACK-AND-FIELD.html">vs Track &amp; Field</a><a href="../FINDINGS.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="hyper-olympic-1-konami-rc-710-lo-que-dice-el-binario">Hyper Olympic 1 (Konami, RC-710) - lo que dice el binario</h1>
+<p>Todo lo de aqui sale de leer el cartucho o de medirlo en openMSX. Lo que es suposicion lleva la palabra SUPOSICION delante.</p>
+<h2 id="1-son-cuatro-pruebas-y-una-no-es-del-arcade">1. Son CUATRO pruebas, y una no es del arcade</h2>
+<p>0xE016 va de 1 a 4 y 0xE015 cuenta doce rondas, o sea las cuatro pruebas tres veces. Fotografiadas una a una (<code>medidas/pruebas.txt</code>):</p>
+<pre><code>1  100 METER DASH      record 09 SEC 95
+2  LONG JUMP           record 08 M 90
+3  HAMMER THROW        record 83 M 98
+4  400 METER DASH      record 43 SEC 86</code></pre>
+<p>Los 400 metros no existen en el arcade de Konami del que viene el juego. La prueba 4 reaprovecha la lista de pantallas y el marcador de la 1: lo unico que cambia es el rotulo de la pizarra, y ese rotulo (0x6332) es el de los 100 metros con el primer glifo cambiado de &quot;1&quot; a &quot;4&quot;.</p>
+<h2 id="2-los-records-son-de-verdad-pero-la-tabla-se-hizo-antes-de-1983">2. Los records son de verdad, pero la tabla se hizo ANTES de 1983</h2>
+<p>MEDIDO en el binario: 0x5174 lleva <code>00 09 95 / 00 08 90 / 00 83 98 / 00 43 86</code>, que INIT copia a 0xE040. O sea 9,95 s en los 100 m, 8,90 m en longitud, 83,98 m en martillo y 43,86 s en los 400.</p>
+<p>Los cuatro son records del mundo de verdad. Lo que <b>no</b> es verdad es que fueran los vigentes cuando salio el cartucho, que es lo que decia aqui antes:</p>
+<table><tr><th>prueba</th><th>el cartucho</th><th>de quien y de cuando</th><th>¿seguia en pie en 1984?</th></tr><tr><td>100 m</td><td>9,95</td><td>Jim Hines, Mexico, octubre de 1968</td><td><b>no</b>: Calvin Smith corrio 9,93 el 3 de julio de 1983</td></tr><tr><td>longitud</td><td>8,90</td><td>Bob Beamon, Mexico, octubre de 1968</td><td>si, y hasta 1991</td></tr><tr><td>martillo</td><td>83,98</td><td>Sergey Litvinov, 1982</td><td><b>no</b>: el propio Litvinov lo dejo en 84,14 en 1983</td></tr><tr><td>400 m</td><td>43,86</td><td>Lee Evans, Mexico, octubre de 1968</td><td>si, y hasta 1988</td></tr></table>
+<p><b>La tabla se compilo antes de la temporada de 1983.</b> Los dos que seguian en pie son los de Mexico 68, que llevaban quince anos sin que nadie los tocara; los otros dos ya estaban batidos cuando el cartucho llego a las tiendas. El mismo patron sale en el cartucho hermano, y alli es aun mas claro.</p>
+<p>El error de los 100 m lo caza <b>Araubi</b>, y es un error de los que ensenan algo: la parte medible -que la ROM guarda 9,95- estaba bien; lo que estaba mal era la frase de alrededor, que anadia al binario una afirmacion que el binario no hace. Las fechas de esta tabla no salen del cartucho, sino de las progresiones publicas de records; se dan como lo que son, un cotejo externo.</p>
+<h2 id="3-el-reloj-esta-calculado-para-60-hz-y-en-europa-miente">3. El reloj esta calculado para 60 Hz, y en Europa miente</h2>
+<p>0x5695 suma 1,665 centesimas por cuadro. Medido: en un MSX de 50 Hz el reloj del juego avanza 0,8325 segundos por segundo real, y en uno de 60 Hz avanza 0,9990. En una maquina europea un &quot;12,00&quot; son 14,4 segundos de verdad. Las cifras y el metodo estan en <code>medidas/reloj.md</code>.</p>
+<h2 id="4-el-cartucho-no-guarda-pantallas-guarda-guiones">4. El cartucho no guarda pantallas: guarda guiones</h2>
+<p>Hay cuatro interpretes distintos, cada uno con su formato:</p>
+<ul><li>0x4D09 el guion largo, con cinco tipos de orden (bytes con RLE, tiras de glifos, rotulos de letra grande, rellenos y repeticion de un patron)</li><li>0x4AFE el guion corto, para textos sueltos</li><li>0x4C63 el rotulo, que se estira despues a letra grande</li><li>0x7A1F la figura, que se expande a codigos de caracter</li></ul>
+<p>Los 2,5 KB de 0x5C96 a 0x668E son enteramente guiones y datos de guion. Un recorrido desde las raices los cubre sin dejar un byte suelto (<code>tools/cobertura.py</code>).</p>
+<h2 id="5-las-letras-grandes-se-fabrican-no-se-guardan">5. Las letras grandes se fabrican, no se guardan</h2>
+<p>0x4C49 copia glifos NORMALES de 8x8 a 0xE230 y luego 0x4CAB da tres pasadas sacando los dos bits altos de cada byte y metiendolos en el byte de ocho posiciones antes. Con eso una tira de ocho glifos da cuatro filas de patron: la letra sale al doble sin ocupar el doble en la ROM.</p>
+<p>Efecto secundario medido: los rotulos de tipo 0 declaran 24 bytes de largo y solo llevan 16 suyos; los ocho que faltan salen del bloque de detras. Los tres bloques de 0x629E, 0x62B0 y 0x62BE se pisan asi, uno detras de otro.</p>
+<h2 id="6-la-fuente-se-quedo-sin-x-y-sin-z-y-la-q-llego-tarde">6. La fuente se quedo sin X y sin Z, y la Q llego tarde</h2>
+<p>Los 51 glifos de 0x6002 empiezan ordenados: 0..9, el espacio, y luego el alfabeto <b>de la A a la Y saltandose la Q, la X y la Z</b>. Con A en el indice 0x0B, la P cae en 0x1A y la siguiente, en 0x1B, ya es la R.</p>
+<p>Y sin embargo <b>la Q existe</b>. Esta al final, en el indice <b>0x2C</b>, fuera del alfabeto y entre los simbolos, y el motivo se ve en la unica palabra del juego que la necesita: el rotulo <b>QUALIFY</b> del marcador, que en 0x5F88 es la tira <code>2C 1E 0B 16 13 10 21</code>. Alguien monto el alfabeto sin las tres letras que no hacian falta, y despues tuvo que anadir una.</p>
+<p>X y Z no aparecen ni asi: ninguna palabra del cartucho las usa.</p>
+<p>La hoja entera esta en <code>docs/imagenes/fuente.png</code>, y la dibuja <code>tools/graficos.py</code> leyendo el rango que declara el listado. Esto es de lo que solo se ve DIBUJANDO: leyendo el bloque, los 51 glifos son 408 bytes iguales.</p>
+<h2 id="7-tres-tablas-indexadas-desde-uno">7. Tres tablas indexadas desde uno</h2>
+<p>0x49BA avanza 2*0xE016 posiciones ANTES de leer, asi que la direccion que registra el codigo cae dos bytes por delante de la primera casilla util. Pasa lo mismo con la tabla de melodias (el codigo dice 0x6D26 y la tabla empieza en 0x6D28) y con la de fichas de actor (0x7B44 por 0x7B46). En el caso de la tabla de pantallas, esos dos bytes de &quot;casilla cero&quot; son el 0xFF 0xFF que cierra el ultimo mensaje del menu: dos bytes que sirven para dos cosas.</p>
+<h2 id="8-el-piloto-de-la-demo-aporrea-el-boton-al-azar">8. El piloto de la demo aporrea el boton al azar</h2>
+<p>La demo no lleva una partida grabada: la juega la interrupcion. Cuando 0xE002 vale 1, 0x4030 mete en 0xE00B un valor de <code>ld a,r</code> -el registro de refresco de la memoria- enmascarado a dos bits, una vez cada cuatro cuadros. Eso es todo el piloto: pulsaciones al azar.</p>
+<p>OJO CON EL BIT 7 DE 0xE029. Da la impresion de ser el interruptor, porque 0x5849 lo pone y 0x4030 lo mira, pero MEDIDO en el emulador (<code>medidas/demo.txt</code>) esta puesto igual en la demo y en una partida de verdad: 0xE029 vale 0x82 en las dos. El que manda es 0xE002, que vale 1 en la demo y 0 en partida, y es lo primero que mira la interrupcion. En partida las pulsaciones inventadas no llegan nunca a 0xE00B.</p>
+<h2 id="9-los-dos-atletas-se-mueven-en-cuadros-alternos">9. Los dos atletas se mueven en cuadros alternos</h2>
+<p>0x51AD mira el bit 0 del contador de cuadros: en los pares mueve al atleta del jugador 1 y en los impares al del 2. La mitad del trabajo por cuadro.</p>
+<h2 id="10-los-actores-se-empujan-unos-a-otros">10. Los actores se empujan unos a otros</h2>
+<p>Las cuatro fichas de actor viven SEGUIDAS en 0xE120, 0xE130, 0xE140 y 0xE150. El bit 2 de la ficha hace que el actor suba el contador de la ficha que tiene 0x11 bytes por detras, y el bit 3 el de la que tiene 0x0F por delante. Asi el decorado se arrastra en cadena sin que nadie lleve una lista.</p>
+<h2 id="11-la-marca-oculta-de-konami-no-esta">11. La marca oculta de Konami NO esta</h2>
+<p>El truco que destapo Manuel Pazos -el codigo RC-7xx y el titulo en katakana escondidos detras del relleno del final de la ROM- no aparece en este cartucho: el ultimo byte util es codigo del reproductor de sonido y solo queda un 0xFF de relleno. Se comprobo con <code>tools/marca_konami.py</code>, que en el mismo tiro SI la encuentra en Pippols (RC-729). Tampoco la llevan Time Pilot, Frogger ni Athletic Land, asi que el cartucho no es raro por esto.</p>
+<h2 id="12-este-cartucho-no-se-parece-a-ningun-otro-konami-de-la-serie">12. Este cartucho no se parece a ningun otro Konami de la serie</h2>
+<h3 id="el-metodo">El metodo</h3>
+<p><code>tools/comun_konami.py</code>, que compara bytes crudos, solo encuentra una rutina compartida si ademas cayo en la MISMA direccion. Para esto se escribio <code>tools/comun_normalizado.py</code>: traza las dos ROM con sus desensamblados ya hechos, decodifica las instrucciones, pone a cero los operandos de dieciseis bits -que son los que llevan direcciones- y busca los tramos comunes sobre esa tira. Asi una rutina reensamblada en otro sitio SI se ve.</p>
+<p>Control, para saber que el metodo mide algo: Frogger contra Time Pilot, que ya se sabia que comparten reproductor, da 667 bytes en 15 tramos (13,7 % de Frogger, 7,5 % de Time Pilot). El metodo crudo daba 354.</p>
+<h3 id="las-cifras">Las cifras</h3>
+<pre><code>contra                bytes en comun   % de Hyper Olympic 1   tramo mayor
+-------------------   --------------   --------------------   -----------
+Hyper Olympic 2                6.298                 67,5 %        63 B
+Frogger                          175                  1,9 %        21 B
+Super Cobra                      173                  1,9 %        21 B
+Athletic Land                    120                  1,3 %        21 B
+Billiards de Konami              105                  1,1 %        23 B
+Monkey Academy                   103                  1,1 %        20 B
+Pippols                           64                  0,7 %        20 B
+Time Pilot                        21                  0,2 %        21 B</code></pre>
+<h3 id="lo-que-sale-de-ahi">Lo que sale de ahi</h3>
+<p>Hyper Olympic 1 y 2 son el MISMO programa: dos tercios del codigo es comun. Con cualquier otro cartucho Konami de MSX de la serie no comparten NADA: los tramos mas largos son de veinte bytes, que es lo que dan por casualidad dos programas escritos por la misma casa (un <code>ldir</code> de relleno, un bucle de espera). No hay ni rastro del reproductor de sonido de Frogger y Time Pilot, ni del armazon de Athletic Land.</p>
+<p>O sea: los dos Hyper Olympic no pertenecen a ninguno de los dos armazones Konami que ya estaban medidos en esta serie. Son un TERCERO, y de momento solo tiene dos miembros.</p>
+<footer><p><em>Hyper Olympic 1</em> lo publico Konami para MSX; su numero de catalogo es RC-710 y son 16 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El juego — Hyper Olympic 1 (Konami, 1984)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html" style=color:var(--tinta)>El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html">Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="COMPARATIVA-TRACK-AND-FIELD.html">vs Track &amp; Field</a><a href="../THE-GAME.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="el-juego">El juego</h1>
+<p>Hyper Olympic 1 es la conversión para MSX del arcade de atletismo de Konami que en occidente se llamó <em>Track &amp; Field</em>. Se juega aporreando: dos teclas para correr y una para saltar o lanzar.</p>
+<h2 id="cuatro-pruebas-doce-rondas">Cuatro pruebas, doce rondas</h2>
+<p><code>0xE016</code> va de 1 a 4 y elige la prueba; <code>0xE015</code> cuenta hasta doce. O sea <b>las cuatro pruebas, tres veces</b>. Fotografiadas una a una en el emulador (<code>medidas/pruebas.txt</code>):</p>
+<table><tr><th></th><th>prueba</th><th>récord que enseña</th></tr><tr><td>1</td><td>100 METER DASH</td><td>09 SEC 95</td></tr><tr><td>2</td><td>LONG JUMP</td><td>08 M 90</td></tr><tr><td>3</td><td>HAMMER THROW</td><td>83 M 98</td></tr><tr><td>4</td><td>400 METER DASH</td><td>43 SEC 86</td></tr></table>
+<p><b>Los 400 metros no existen en el arcade.</b> La prueba 4 reaprovecha la lista de pantallas y el marcador de la 1; lo único que cambia es el rótulo de la pizarra, y ese rótulo (0x6332) es el de los 100 metros con el primer glifo cambiado de «1» a «4». Una prueba nueva por el precio de un carácter.</p>
+<h2 id="hay-que-clasificarse">Hay que clasificarse</h2>
+<p>Cada ronda tiene una marca que batir, y están en <code>marcas_de_clasificacion</code> (0x5008): dos bytes en BCD por ronda, que 0x4625 lee con <code>2*(ronda-1)</code>. Salen</p>
+<pre><code>14.00  06.00  80.00  55.00
+12.00  07.00  85.00  50.00
+11.00  08.00  95.00  40.00</code></pre>
+<p>Las cuatro pruebas se repiten tres veces y <b>cada vuelta aprieta</b>: en los 100 metros hay que bajar de 14, luego de 12, luego de 11; en longitud pasar de 6, de 7 y de 8 metros.</p>
+<p>Si no te clasificas, se acabó. <code>0xE021</code> lleva un bit por jugador diciendo si sigue en juego, y <code>0xE022</code> quién pasa a la ronda siguiente.</p>
+<h2 id="los-intentos">Los intentos</h2>
+<p>En las pruebas de lanzamiento y salto no hay una carrera y ya: hay cuatro intentos. <code>0xE023</code>/<code>0xE024</code> cuentan los gastados por jugador y <code>0xE025</code>/<code>0xE026</code> el que está en curso. El resultado de cada uno va en <code>0xE02A</code>/<code>0xE02B</code>: <b>1 nulo, 2 vale, 3 récord</b>.</p>
+<p>Cuando un intento no vale, el marcador escribe el rótulo de fallo (<code>rotulo_de_fallo</code>, 0x5133), y lo piden dos sitios distintos: 0x433A y 0x44D0.</p>
+<h2 id="el-reloj-miente-en-europa">El reloj miente en Europa</h2>
+<p>La rutina que cuenta el tiempo (0x5695) suma <b>1,665 centésimas por cuadro</b>, o sea un sesentavo de segundo. Está calculada para una máquina de 60 Hz.</p>
+<p>Medido con <code>tools/omsx_reloj.tcl</code> en las dos:</p>
+<table><tr><th>máquina</th><th>Hz</th><th>reloj del juego por segundo real</th></tr><tr><td>Philips VG-8020 (PAL)</td><td>50</td><td><b>0,8325 s</b></td></tr><tr><td>C-BIOS MSX1 JP (NTSC)</td><td>60</td><td>0,9990 s</td></tr></table>
+<p>En un MSX europeo, <b>un «12,00» son 14,4 segundos de verdad</b>. Y no es que el juego vaya lento: es que el reloj cuenta corto. Las marcas de clasificación y los récords del mundo están pensados para la máquina japonesa.</p>
+<p>Cuidado con leerlo al revés: eso es un <b>periodo</b>, no una velocidad. El detalle y las tablas en crudo están en <a href="EN-EL-EMULADOR.html">En el emulador</a>.</p>
+<h2 id="dos-jugadores-cuadros-alternos">Dos jugadores, cuadros alternos</h2>
+<p><code>0xE010</code> dice si juegan dos y <code>0xE011</code> a quién le toca. Cuando corren los dos a la vez, 0x51AD mira el bit 0 del contador de cuadros: <b>en los pares mueve al atleta del jugador 1 y en los impares al del 2</b>. La mitad del trabajo por cuadro, y a 50 o 60 Hz no se nota.</p>
+<h2 id="la-demo-se-juega-sola-y-muy-mal">La demo se juega sola, y muy mal</h2>
+<p>Cuando nadie toca nada arranca una demo. No lleva una partida grabada: la <b>juega la interrupción</b>, y el piloto es de lo más tonto que se puede escribir. Con <code>0xE002</code> a 1, la rutina de 0x4030 mete en <code>0xE00B</code> un valor de <code>ld a,r</code> —el registro de refresco de la memoria— enmascarado a dos bits, una vez cada cuatro cuadros. Eso es todo: <b>pulsaciones al azar</b>.</p>
+<p>Hay un detalle que despista y que está medido, no supuesto. El bit 7 de <code>0xE029</code> parece el interruptor de la demo, porque 0x5849 lo pone y 0x4030 lo mira; pero en el emulador (<code>medidas/demo.txt</code>) está puesto <b>igual en la demo y en una partida de verdad</b>: 0xE029 vale 0x82 en las dos. El que manda es <code>0xE002</code>, que vale 1 en la demo y 0 en partida, y es lo primero que mira la interrupción.</p>
+<h2 id="los-mandos">Los mandos</h2>
+<p><code>0xE004</code> dice si se juega con joystick o con teclado, y <code>0xE005</code> lleva lo leído en este cuadro: bit 0 arriba, bit 1 abajo, bit 4 espacio, bit 5 F5. Con joystick, los dos botones. De cada jugador se guardan <b>los mandos de antes y los de ahora</b> (0xE008-0xE00F), que es como se detecta el flanco y no la pulsación mantenida — imprescindible en un juego que se basa en machacar una tecla.</p>
+<footer><p><em>Hyper Olympic 1</em> lo publico Konami para MSX; su numero de catalogo es RC-710 y son 16 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

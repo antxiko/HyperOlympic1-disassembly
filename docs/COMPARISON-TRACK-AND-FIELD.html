@@ -1,0 +1,233 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The two builds of each cartridge: HYPER OLYMPIC and TRACK &amp; FIELD — Hyper Olympic 1 (Konami, 1984)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="COMPARISON-TRACK-AND-FIELD.html" style=color:var(--tinta)>vs Track &amp; Field</a><a href="es/COMPARATIVA-TRACK-AND-FIELD.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<h1 id="the-two-builds-of-each-cartridge-hyper-olympic-and-track-field">The two builds of each cartridge: HYPER OLYMPIC and TRACK &amp; FIELD</h1>
+<p>Two different 16,384-byte dumps circulate for Hyper Olympic 1 (RC-710) and two for Hyper Olympic 2 (RC-711). This document measures how they differ, byte by byte, cross-referencing every stretch against the disassembly, which accounts for 100 % of each cartridge.</p>
+<p>The short answer, number first: <b>no, it is not only the logo — although by volume it nearly is.</b> In Hyper Olympic 1, 1,143 bytes out of 16,384 really change (6.98 %), and 860 of them are the title-screen script, where the logo lives: that leaves <b>283 bytes of change outside the logo</b>. In Hyper Olympic 2, 1,047 bytes change (6.39 %), 850 in the title script and <b>197 outside</b>. And among those outside bytes there is <b>code</b>, not just decoration.</p>
+<hr>
+<h2 id="the-four-files">The four files</h2>
+<table><tr><th>cartridge</th><th>build</th><th>sha256</th><th>bytes</th></tr><tr><td>RC-710</td><td>HYPER OLYMPIC 1</td><td><code>0cd8a7928e10a8551d7f6fd68943a6d4a008e04a254d258413c120dda18b792e</code></td><td>16384</td></tr><tr><td>RC-710</td><td>TRACK &amp; FIELD 1</td><td><code>b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6</code></td><td>16384</td></tr><tr><td>RC-711</td><td>HYPER OLYMPIC 2</td><td><code>f254764f4bd1634f50abcdabe5813d133d719197216071772845983ffabad22d</code></td><td>16384</td></tr><tr><td>RC-711</td><td>TRACK &amp; FIELD 2</td><td><code>b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52</code></td><td>16384</td></tr></table>
+<p>Below, <b>A</b> is the HYPER OLYMPIC build (the one that is disassembled) and <b>B</b> the TRACK &amp; FIELD build.</p>
+<h3 id="about-the-publisher-s-name">About the publisher&#x27;s name</h3>
+<p>MEASURED: <b>not one byte in any of the four ROMs says who published it.</b> There is no ASCII text in any of them: searching for <code>SONY</code>, <code>KONAMI</code>, <code>HITBIT</code>, <code>TRACK</code>, <code>FIELD</code>, <code>OLYMPIC</code>, <code>HYPER</code>, <code>1984</code> and <code>(C) 19</code> with <code>strings -n 3</code> returns nothing. Nor do they carry Konami&#x27;s hidden mark (see below). The only thing the binary states about identity is <b>the label it draws on screen</b>, and that does change: one build shows HYPER OLYMPIC and the other TRACK &amp; FIELD.</p>
+<p>That is why this document names them after their on-screen label. If one of them is called &quot;the Sony one&quot;, that comes from outside the binary, not from the binary.</p>
+<hr>
+<h2 id="why-the-raw-diff-is-useless">Why the raw diff is useless</h2>
+<p>MEASURED: compared byte for byte at the same offset, <b>15,107 of 16,384</b> bytes differ on the RC-710 (92.2 %) and <b>15,696 of 16,384</b> on the RC-711 (95.8 %). That number means nothing: the cartridge header already declares a different INIT — <b>0x4081 in A and 0x4080 in B</b> — and from there <b>the whole ROM is shifted</b>, so nearly every 16-bit operand lands a little further along or a little further back.</p>
+<p>Aligning the two builds first, the bytes that fail to match drop to <b>1,379 (8.4 %)</b> on the RC-710 and <b>1,263 (7.7 %)</b> on the RC-711. Separating what has merely moved from what has changed leaves the 1,143 and 1,047 bytes of the summary.</p>
+<p>The shift between the two RC-710 builds keeps changing along the cartridge:</p>
+<pre><code>A 0x4010-0x407E  -&gt;  B 0x4010-0x407E    +0
+A 0x4081-0x4099  -&gt;  B 0x4080-0x4098    -1     (INIT starts one byte earlier)
+A 0x409A-0x474F  -&gt;  B 0x409E-0x4753    +4
+A 0x4750-0x476D  -&gt;  B 0x4757-0x4774    +7
+A 0x4771-0x4775  -&gt;  B 0x4777-0x477B    +6
+A 0x4779-0x4793  -&gt;  B 0x477E-0x4798    +5
+A 0x4797-0x4E8F  -&gt;  B 0x479B-0x4E93    +4
+A 0x4EB7-0x52E3  -&gt;  B 0x4EB8-0x52E4    +1
+A 0x52EC-0x5580  -&gt;  B 0x52EC-0x5580     0
+A 0x5584-0x55DB  -&gt;  B 0x5583-0x55DA    -1
+A 0x55DF-0x5664  -&gt;  B 0x55DD-0x5662    -2
+A 0x566A-0x569A  -&gt;  B 0x5667-0x5697    -3
+A 0x569F-0x56AD  -&gt;  B 0x569B-0x56A9    -4
+A 0x56B0-0x56B2  -&gt;  B 0x56AA-0x56AC    -6
+A 0x56B5-0x5730  -&gt;  B 0x56AE-0x5729    -7
+A 0x5734-0x578C  -&gt;  B 0x572B-0x5783    -9
+A 0x5790-0x5E21  -&gt;  B 0x5786-0x5E17   -10
+A 0x5F27-0x65C5  -&gt;  B 0x5F1B-0x65B9   -12
+A 0x65CA-0x65E2  -&gt;  B 0x65BB-0x65D3   -15
+A 0x65F2-0x660F  -&gt;  B 0x65DD-0x65FA   -21
+A 0x6645-0x6B19  -&gt;  B 0x6622-0x6AF6   -35
+A 0x6B1A-0x6B58  -&gt;  B 0x6AFA-0x6B38   -32
+A 0x6B5E-0x6B77  -&gt;  B 0x6B3C-0x6B55   -34
+A 0x6B78-0x7FFE  -&gt;  B 0x6B59-0x7FDF   -31</code></pre>
+<p>MEASURED: at the end of the cartridge, A leaves <b>1 byte</b> of 0xFF padding and B leaves <b>32</b> on the RC-710; on the RC-711, A leaves <b>2</b> and B leaves <b>12</b>. The TRACK &amp; FIELD build takes up less room.</p>
+<hr>
+<h2 id="1-the-logo">1. The logo</h2>
+<p>MEASURED. The logo is not stored as a picture: its patterns are uploaded by the <b>title-screen long script</b> (<code>pantalla_del_titulo</code>) and placed by the first four orders of the <b>menu short script</b> (<code>pantalla_del_menu</code>), on rows 3 to 6 and columns 12 to 21 of the name table.</p>
+<p>Running both scripts and comparing the VRAM they leave behind (tool <code>tools/pinta_largo.py</code>, a Python translation of <code>GUION_LARGO</code>, <code>MONTA_UN_ROTULO</code>, <code>LLENA_EL_PAPEL</code> and <code>ESTIRA_LAS_LETRAS</code>), <b>the entire graphical difference of the title script falls into 26 stretches, and every one of them belongs to the logo</b>:</p>
+<table><tr><th>VRAM stretch</th><th>what it is</th></tr><tr><td>0x2100-0x2217</td><td>patterns 0x20-0x43, the logo tiles</td></tr><tr><td>0x0178-0x017E, 0x01F0-0x01F7, 0x0210-0x0217</td><td>the colour of patterns 0x2F, 0x3E and 0x42</td></tr></table>
+<p>Not one byte of difference in the scenery patterns, the font, the event labels or the athlete sprites.</p>
+<p>The label that comes out:</p>
+<table><tr><th>cartridge</th><th>A</th><th>B</th></tr><tr><td>RC-710</td><td><code>HYPER 1 / OLYMPIC</code></td><td><code>TRACK 1 / &amp; FIELD</code></td></tr><tr><td>RC-711</td><td><code>HYPER 2 / OLYMPIC</code></td><td><code>TRACK 2 / &amp; FIELD</code></td></tr></table>
+<p><img src="imagenes/ho1_rotulo_A.png" alt="HYPER 1 OLYMPIC"> <img src="imagenes/ho1_rotulo_B.png" alt="TRACK 1 &amp; FIELD"></p>
+<p><img src="imagenes/ho2_rotulo_A.png" alt="HYPER 2 OLYMPIC"> <img src="imagenes/ho2_rotulo_B.png" alt="TRACK 2 &amp; FIELD"></p>
+<p>The menu script changes too, because the new label uses fewer cells: A writes 59 name-table cells and B writes 56; the three spare ones are 0x38B4, 0x38B5 (row 5, columns 20 and 21) and 0x38D4 (row 6, column 20). Same figure on both cartridges.</p>
+<blockquote>Note for the <code>.notes</code>: the <code>pantalla_del_menu</code> block is described as &quot;the PLAY SELECT label and the four numbers down the left&quot;, but <b>its first four blocks place the game logo</b>, not PLAY SELECT. PLAY SELECT and the numbers are the two blocks behind them (VRAM 0x390B and 0x39AB).</blockquote>
+<hr>
+<h2 id="2-the-code">2. The code</h2>
+<p>MEASURED. Aligning both builds instruction by instruction — every instruction normalised, with 16-bit operands and JR/DJNZ displacements zeroed, which is the method of <code>tools/porta_notas.py</code> — the result is:</p>
+<table><tr><th></th><th>RC-710</th><th>RC-711</th></tr><tr><td>instructions in A / in B</td><td>5032 / 5038</td><td>5345 / 5348</td></tr><tr><td>aligned</td><td>5014</td><td>5328</td></tr><tr><td>identical byte for byte</td><td>4439</td><td>4700</td></tr><tr><td>merely relocated (same destination)</td><td>575</td><td>628</td></tr><tr><td>genuinely changed while aligned</td><td><b>0</b></td><td><b>0</b></td></tr><tr><td>stretches that do not match</td><td><b>19</b></td><td><b>14</b></td></tr></table>
+<p>In other words: <b>of the instructions that pair up, not a single one points somewhere else.</b> All the code change sits in 19 stretches (RC-710) and 14 (RC-711), 48 and 39 bytes of A respectively. Here they are.</p>
+<h3 id="2-1-what-changes-behaviour">2.1 What changes behaviour</h3>
+<p><b>a) A RAM shadow of the PSG mixer.</b> On both cartridges.</p>
+<table><tr><th></th><th>A</th><th>B</th></tr><tr><td>RC-710</td><td><code>0x6B59  ld a,7 / call 0x0096</code> (BIOS RDPSG)</td><td><code>0x6B39  ld a,(0E09Fh)</code></td></tr><tr><td>RC-710</td><td><code>0x6B78  ESCRIBE_EL_MEZCLADOR</code></td><td><code>0x6B56  ld (0E09Fh),a</code> in front</td></tr><tr><td>RC-710</td><td>INIT, nothing there</td><td><code>0x4099  ld a,0B8h / call 6B56h</code></td></tr><tr><td>RC-711</td><td><code>0x6C95  ld a,7 / call 0x0096</code></td><td><code>0x6C8A  ld a,(0E09Fh)</code></td></tr><tr><td>RC-711</td><td><code>0x6CB4  ESCRIBE_EL_MEZCLADOR</code></td><td><code>0x6CA7  ld (0E09Fh),a</code> in front</td></tr><tr><td>RC-711</td><td>INIT, nothing there</td><td><code>0x4099  ld a,0B8h / call 6CA7h</code></td></tr></table>
+<p>A <b>reads PSG register 7 back</b> (the mixer) through the BIOS every time it turns a voice on or off. B <b>does not read it: it keeps a copy in RAM at 0xE09F</b> and reads that. INIT seeds the copy with 0xB8, the normal MSX mixer value (all three tones open, noise off, port A input, port B output), and writes it to the PSG on the way.</p>
+<p>MEASURED: in A&#x27;s disassembly <b>no instruction names 0xE09F</b>; 0xE09F is the last byte of the 0xE060-0xE09F block, the scoreboards being painted. B repurposes it as the shadow.</p>
+<p>ASSESSMENT (not measured on real hardware): this looks like a compatibility fix. Reading PSG register 7 back does not behave the same on every machine, and a RAM copy sidesteps the question.</p>
+<p>There is an asymmetry between the two cartridges, and it is MEASURED:</p>
+<ul><li>On the RC-711, <code>MUEVE_EL_SONIDO</code> starts in B with <code>0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h</code>: <b>it rewrites the mixer from the shadow on every pass.</b></li><li>On the RC-710, <code>MUEVE_EL_SONIDO</code> starts in B with <code>0x6AF7 ld a,(0E09Fh)</code> <b>and nothing else</b>. Register A is overwritten at <code>0x6B27 ld a,(ix+002h)</code> before anyone reads it: that instruction <b>does nothing</b>. Three dead bytes.</li></ul>
+<p><b>b) 0xE022 is cleared when the attempt is retried.</b> On both cartridges.</p>
+<pre><code>RC-710   A  0x474A  OTRA_VEZ_A_LA_LINEA:  ld hl,0 / ld (0E02Ch),hl / jp PINTA_EL_TURNO
+         B  0x474E                        xor a / ld l,a / ld h,a / ld (0E02Ch),hl
+                                          ld (0E022h),a / jp PINTA_EL_TURNO
+RC-711   A  0x476F   same as above
+         B  0x4773   same as above, with the ld (0E022h),a inserted</code></pre>
+<p>According to the disassembly, 0xE022 is <b>who qualifies for the next round</b>. A does not touch it when setting the event up again after a failed attempt; B zeroes it. It is the only code difference that changes a game variable.</p>
+<p><b>c) RC-711 only: a threshold goes up by one.</b></p>
+<pre><code>A  0x530C  cp 011h        ; &quot;with the other one below 0x11&quot;
+B  0x530F  cp 012h</code></pre>
+<p>This is in <code>MIRA_SI_HAY_QUE_REFRESCAR</code>, right after <code>pop bc / ld a,c</code>. The condition &quot;C below 0x11&quot; becomes &quot;C below 0x12&quot;. On the RC-710 the same place (<code>0x52D2</code> in A, <code>0x52D3</code> in B) carries <code>cp 011h</code> in both builds: <b>the change is RC-711 only.</b></p>
+<h3 id="2-2-what-does-not-change-behaviour">2.2 What does not change behaviour</h3>
+<p>Everything else is either a shorter instruction doing exactly the same thing, or dead code removed. Each one checked against the state it is reached with:</p>
+<table><tr><th>where</th><th>A</th><th>B</th><th>why it makes no difference</th></tr><tr><td>RC-710 0x407F, RC-711 0x407F</td><td><code>reti</code> (<code>ED 4D</code>)</td><td><code>ret</code> (<code>C9</code>)</td><td>the H.KEYI hook is entered with CALL; both pop the return address. RETI additionally emits the acknowledge cycle for Z80-family peripherals, which standard MSX hardware does not use. One byte less</td></tr><tr><td>RC-710 0x476E / 0x4776</td><td><code>ld de,0E07Ah</code> / <code>ld de,0E094h</code></td><td><code>ld e,7Ah</code> / <code>ld e,94h</code></td><td>D already holds 0xE0 from <code>0x4765 ld de,0E08Fh</code></td></tr><tr><td>RC-710 0x4794</td><td><code>ld hl,0E0A7h</code></td><td><code>ld l,0A7h</code></td><td>H already holds 0xE0 from <code>0x478F ld hl,0E020h</code></td></tr><tr><td>RC-710 0x5581</td><td><code>ld hl,0E141h</code></td><td><code>ld l,41h</code></td><td>HL holds 0xE151 from <code>0x5572</code></td></tr><tr><td>RC-710 0x55DC</td><td><code>ld hl,0E151h</code></td><td><code>ld l,51h</code></td><td>HL holds 0xE141 from <code>0x55CD</code></td></tr><tr><td>RC-710 0x5667, RC-711 0x56A9</td><td><code>ld hl,0E0A7h</code></td><td><code>ld l,0A7h</code></td><td>HL holds 0xE0ED from the preceding <code>bit 6,(hl)</code></td></tr><tr><td>RC-710 0x5731</td><td><code>ld hl,0E02Eh</code></td><td><code>inc l</code></td><td>HL holds 0xE02D</td></tr><tr><td>RC-710 0x578D</td><td><code>ld hl,0E02Eh</code></td><td><code>ld l,2Eh</code></td><td>HL holds 0xE02C</td></tr><tr><td>RC-710 0x52E4, RC-711 0x5325</td><td><code>ld a,(0E02Eh) / set 5,a / ld (0E02Eh),a</code></td><td><code>push hl / ld hl,0E02Eh / set 5,(hl) / pop hl</code></td><td>same effect on 0xE02E, one byte less. It changes what is left in A, but what follows is <code>call GASTA_Y_APUNTA</code>, which starts with <code>push de / push hl / ld b,002h</code> and never looks at it</td></tr><tr><td>RC-710 0x569D, RC-711 0x56DF</td><td><code>ld a,066h</code></td><td><code>dec a</code></td><td>it is reached with A = 0x67</td></tr><tr><td>RC-710 0x56B3</td><td><code>cp 001h</code></td><td><code>dec a</code></td><td>only the Z flag is used, and A is overwritten right after</td></tr><tr><td>RC-711 0x49C6 and 0x4BB7</td><td><code>ld b,001h</code></td><td><code>inc b</code></td><td>reached from a <code>call</code> that ends in <code>djnz</code>, so B = 0</td></tr><tr><td>RC-711 0x4AAD</td><td><code>dec a / or a / jr nz</code></td><td><code>dec a / jr nz</code></td><td><code>dec a</code> already sets the Z flag: the <code>or a</code> is redundant</td></tr><tr><td>RC-710 0x56AE</td><td><code>jr nc,+0</code></td><td>removed</td><td>it jumps to the next instruction: it does nothing</td></tr><tr><td>RC-711 0x56F0</td><td><code>jr nc,+7 / ld a,(0E02Eh) / bit 6,a / jr z,+0</code></td><td>removed</td><td>both paths end up at 0x56F9, where A is reloaded</td></tr></table>
+<hr>
+<h2 id="3-the-data">3. The data</h2>
+<p>MEASURED, block by block from the <code>.notes</code>, using the shift map to tell a relocated pointer from a pointer that really points elsewhere:</p>
+<table><tr><th></th><th>RC-710</th><th>RC-711</th></tr><tr><td>named blocks</td><td>92</td><td>98</td></tr><tr><td>identical or merely relocated</td><td>88</td><td>94</td></tr><tr><td>with changed content</td><td><b>4</b></td><td><b>4</b></td></tr></table>
+<p>The ones that change:</p>
+<table><tr><th>cartridge</th><th>block</th><th>A</th><th>B</th><th>bytes that differ</th></tr><tr><td>RC-710</td><td><code>pantalla_del_titulo</code></td><td>860</td><td>858</td><td>200 (23 %)</td></tr><tr><td>RC-710</td><td><code>pantalla_del_menu</code></td><td>78</td><td>75</td><td>7 (9 %)</td></tr><tr><td>RC-710</td><td><code>marcador_del_salto_de_longitud</code></td><td>73</td><td>64</td><td>11 (15 %)</td></tr><tr><td>RC-710</td><td><code>marcador_del_martillo</code></td><td>84</td><td>70</td><td>28 (33 %)</td></tr><tr><td>RC-711</td><td><code>pantalla_del_titulo</code></td><td>850</td><td>848</td><td>200 (24 %)</td></tr><tr><td>RC-711</td><td><code>pantalla_del_menu</code></td><td>78</td><td>75</td><td>7 (9 %)</td></tr><tr><td>RC-711</td><td><code>marcador_de_la_jabalina</code></td><td>64</td><td>58</td><td>8 (12 %)</td></tr><tr><td>RC-711</td><td><code>rotulo_110_vallas</code></td><td>16</td><td>16</td><td>1 (6 %)</td></tr></table>
+<p>The first two on each cartridge are the logo, already covered. Two things are left.</p>
+<h3 id="3-1-the-scoreboards-same-screen-better-packed">3.1 The scoreboards: same screen, better packed</h3>
+<p>MEASURED by running both scripts (<code>tools/pinta_corto.py</code>): in all three cases <b>the resulting VRAM is identical</b>, the same 416 addresses (0x3960-0x3AFF) with the same values. All that changes is the packing.</p>
+<ul><li><code>marcador_del_salto_de_longitud</code>: A paints it in <b>two blocks</b> (384 bytes from 0x3960 and 32 from 0x3AE0, which are contiguous) and also splits runs that could be joined: <code>32 x 0xB0</code> plus <code>32 x 0xB0</code> in A is <code>64 x 0xB0</code> in B. B does it in <b>one block</b>. -9 bytes.</li><li><code>marcador_del_martillo</code>: same with the runs. Where A writes <code>run of 10 x 0xC0 / 2 literal bytes C0 C1 / run of 20 x 0xC1</code>, B writes <code>run of 11 x 0xC0 / run of 21 x 0xC1</code>. -14 bytes.</li><li><code>marcador_de_la_jabalina</code> (RC-711): likewise. -6 bytes.</li></ul>
+<p>As a control, <code>marcador_de_los_100_metros</code> (RC-710) comes out identical in both builds, the same 74 bytes.</p>
+<h3 id="3-2-rc-711-only-hurdlers-is-corrected">3.2 RC-711 only: HURDLERS is corrected</h3>
+<p>MEASURED. The big-letter label of the third event, <code>rotulo_110_vallas</code>, is a list of glyph indices closed with 0xFF (the leading 0x11 is the label type). Indices 0-9 are the digits, 10 is the space, and from 11 up come the letters A to Y with no Q, X or Z.</p>
+<pre><code>A  0x64B1   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1B 1C 0A FF
+                  1  1  0     H  U  R  D  L  E  R  S
+B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
+                  1  1  0     H  U  R  D  L  E  S</code></pre>
+<p><b>The HYPER OLYMPIC 2 build writes &quot;110 HURDLERS&quot;. The TRACK &amp; FIELD 2 build writes &quot;110 HURDLES&quot;, which is how it is spelt.</b> It is the only text change on either cartridge.</p>
+<p><img src="imagenes/ho2_vallas_A.png" alt="110 HURDLERS"> <img src="imagenes/ho2_vallas_B.png" alt="110 HURDLES"></p>
+<p>(Both labels drawn with the cartridge&#x27;s own font at normal size: the cartridge stretches them to double height before uploading.)</p>
+<p>(The glyph table is checked against other labels in the same format: <code>0x6320</code> gives &quot; 100 METER DASH &quot;, <code>0x6344</code> gives &quot; LONG JUMP &quot; and <code>0x6351</code> gives &quot;  HAMMER THROW &quot; on the RC-710.)</p>
+<hr>
+<h2 id="4-konami-s-hidden-mark">4. Konami&#x27;s hidden mark</h2>
+<p>MEASURED with <code>tools/marca_konami.py</code>, the tool that extracts the katakana title and the RC number Konami hid behind the padding at the end of some cartridges — a finding by Manuel Pazos (@ManuelPazosMSX), September 2021: <b>none of the four ROMs carries it.</b> The tool exits with code 1 for all four. This was already known for the two HYPER OLYMPIC builds; the two TRACK &amp; FIELD ones do not carry it either.</p>
+<p>The last useful bytes are 0x7FFE (HYPER OLYMPIC 1), 0x7FDF (TRACK &amp; FIELD 1), 0x7FFD (HYPER OLYMPIC 2) and 0x7FF3 (TRACK &amp; FIELD 2), and what follows is 0xFF padding, not a mark.</p>
+<hr>
+<h2 id="5-the-disassembly-serves-both">5. The disassembly serves both</h2>
+<p>MEASURED, and this is the hardest proof of the lot.</p>
+<ol><li>Trace the TRACK &amp; FIELD build with <code>tools/z80trace.py</code> from its INIT (0x4080) and its interrupt routine (0x4010). Both come out <b>with no blind spots</b>: 9332 bytes of code on the RC-710 and 9871 on the RC-711.</li><li>Carry the annotations across with <code>tools/porta_notas.py</code>. <b>2307 of 2315</b> land on the RC-710 (99.65 %) and <b>2311 of 2323</b> on the RC-711 (99.48 %).</li><li>Generate the listing with <code>tools/mkasm.py</code> and assemble it with pasmo.</li></ol>
+<pre><code>b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  ho1sony.bin
+b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  TRACK &amp; FIELD 1
+b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52  ho2sony.bin
+b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52  TRACK &amp; FIELD 2</code></pre>
+<p><b>Both TRACK &amp; FIELD builds reassemble byte for byte</b> from the listing that comes out of the HYPER OLYMPIC disassembly.</p>
+<p>The annotations that find no home in the sibling are <b>exactly the points that change</b>, which is a good cross-check:</p>
+<pre><code>RC-710: OTRA_VEZ_A_LA_LINEA (0x474A), 0x52E7, 0x5667, 0x569D,
+        ENCIENDE_O_APAGA_LA_VOZ (0x6B59), 0x55DC
+RC-711: OTRA_VEZ_A_LA_LINEA (0x476F), 0x49C6, 0x4AAD, 0x530C, 0x5328,
+        0x56A9, 0x56DF, MIRA_EL_LIMITE_DEL_RELOJ (0x56F2),
+        ENCIENDE_O_APAGA_LA_VOZ (0x6C95)</code></pre>
+<p>What <code>porta_notas.py</code> does NOT carry across are the D and F directives, that is, the name and row width of the data blocks: closing a TRACK &amp; FIELD disassembly properly would mean placing those again — mechanical work, using the shift map above.</p>
+<hr>
+<h2 id="6-which-one-came-first">6. Which one came first</h2>
+<p>SUPPOSITION, not measured. The binary carries no date and no version number, so this cannot be settled from the ROM. What is measured is the direction the changes run in, and it all points the same way:</p>
+<ul><li>the TRACK &amp; FIELD build <b>removes dead code</b> the other one has (RC-710 0x56AE, RC-711 0x56F0);</li><li>it <b>shortens instructions</b> without changing what they do, in the seventeen places listed in 2.2;</li><li>it <b>fixes a spelling mistake</b> (HURDLERS for HURDLES);</li><li>it <b>replaces a PSG read-back with a RAM copy</b>, which is what you do when something misbehaves on some machine;</li><li>and it ends up smaller: 32 free bytes at the end instead of 1.</li></ul>
+<p>All of that is typical of a later revision, but <b>it is a reading, not a measurement</b>: nothing in the binary says which was manufactured first. And in particular, nothing in the binary says who published which.</p>
+<p>One measured detail argues against that reading: on the RC-710, the TRACK &amp; FIELD build leaves <b>three dead bytes</b> in <code>MUEVE_EL_SONIDO</code> (<code>0x6AF7 ld a,(0E09Fh)</code>, with A overwritten immediately after) that on the RC-711 are part of a meaningful <code>ld a,(0E09Fh) / call ESCRIBE_EL_MEZCLADOR</code>. Either the patch was applied to the RC-710 half-finished, or the RC-711 got the rest of it later. It cannot be decided from here.</p>
+<hr>
+<h2 id="reproducing-the-measurements">Reproducing the measurements</h2>
+<p>Every tool used in this document lives in <code>tools/</code> and writes nothing outside its own working directory. No ROM is distributed.</p>
+<pre><code># the shift map between the two builds
+python tools/desplazamiento.py A.rom A.trace.json B.rom B.trace.json desp.json
+
+# the full report: code instruction by instruction, data block by block
+python tools/informe.py A.rom A.trace.json A.notes B.rom B.trace.json desp.json out.txt
+
+# the summary figures
+python tools/cuentas.py A.rom A.trace.json A.notes B.rom B.trace.json desp.json &lt;logo_start&gt; &lt;logo_end&gt;
+
+# what a short script paints, to tell whether two different scripts agree
+python tools/pinta_corto.py A.rom 0x65BA B.rom 0x65AE
+
+# what a long script paints, and drawing it
+python tools/pinta_largo.py A.rom 0x5C96 0x6002 B.rom 0x5C8C 0x5FF6
+python tools/dibuja_rotulo_menu.py A.rom 0x5C96 0x6002 0x4E87 logo.png
+
+# Konami&#x27;s hidden mark
+python tools/marca_konami.py *.rom</code></pre>
+<footer><p><em>Hyper Olympic 1</em> was published by Konami for the MSX; its catalogue number is RC-710 and it is 16 KB. All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>

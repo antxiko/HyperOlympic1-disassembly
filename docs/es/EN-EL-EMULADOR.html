@@ -1,0 +1,119 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>En el emulador — Hyper Olympic 1 (Konami, 1984)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html">Hallazgos</a><a href="EN-EL-EMULADOR.html" style=color:var(--tinta)>En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="COMPARATIVA-TRACK-AND-FIELD.html">vs Track &amp; Field</a><a href="../IN-THE-EMULATOR.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="en-el-emulador">En el emulador</h1>
+<p>Leer el binario dice lo que el código <b>hace</b>. Hay cosas que solo dicen lo que el código <b>vale</b> cuando corre, y para ésas está openMSX. Todo lo de esta página está medido, y las tablas en crudo están en <code>medidas/</code>.</p>
+<h2 id="la-regla-de-la-casa">La regla de la casa</h2>
+<p>Los guiones de <code>tools/omsx_*.tcl</code> <b>solo leen memoria</b>. La ROM no se toca en ningún caso: no hay parches, ni bytes cambiados, ni ejecución forzada de nada.</p>
+<p>La única excepción está declarada y es una medida, no una modificación: <code>tools/omsx_prueba_n.tcl</code> para la máquina en 0x4220 —justo después de que <code>PARTIDA_NUEVA</code> (0x4218) ponga la ronda y la prueba a 1— y escribe en 0xE016 el número de la prueba que se quiere ver. 0xE016 es una variable del propio juego, y de ahí en adelante corre el cartucho solo, con sus datos y su código. Lo que se ahorra es tener que clasificarse en las tres pruebas anteriores para llegar a la cuarta.</p>
+<h2 id="las-cuatro-pruebas">Las cuatro pruebas</h2>
+<p>Con eso se fotografiaron una a una (<code>medidas/pruebas.txt</code>, capturas en <code>docs/imagenes/</code>):</p>
+<table><tr><th>0xE016</th><th>rótulo que sale</th><th>récord que pinta</th></tr><tr><td>1</td><td>100 METER DASH</td><td>09 SEC 95</td></tr><tr><td>2</td><td>LONG JUMP</td><td>08 M 90</td></tr><tr><td>3</td><td>HAMMER THROW</td><td>83 M 98</td></tr><tr><td>4</td><td>400 METER DASH</td><td>43 SEC 86</td></tr></table>
+<p>Los cuatro récords coinciden byte a byte con la tabla de 0x5174, que INIT copia a 0xE040: <code>00 09 95 / 00 08 90 / 00 83 98 / 00 43 86</code>. O sea que lo que se ve en pantalla y lo que dice el binario son lo mismo, comprobado por los dos lados.</p>
+<h2 id="el-reloj-esta-calculado-para-60-hz">El reloj está calculado para 60 Hz</h2>
+<p>Ésta es la medida que más cambia lo que uno cree del juego.</p>
+<p><code>SUMA_AL_RELOJ</code> (0x5695) suma al contador BCD de 0xE0A9-0xE0AB una vez por cuadro, alternando 0x0167 y 0x0166. Si el byte de arriba son segundos y el de en medio centésimas, eso es 1,67 y 1,66 centésimas: media <b>1,665</b>, que es un sesentavo de segundo con cuatro cifras.</p>
+<p><code>tools/omsx_reloj.tcl</code> corre los 100 metros machacando el espacio y muestrea 0xE0A9-0xE0AB una vez por segundo emulado. En dos máquinas:</p>
+<table><tr><th>máquina</th><th>Hz</th><th>reloj del juego por segundo real</th></tr><tr><td>Philips VG-8020 (PAL)</td><td>50</td><td><b>0,8325 s</b> — se queda un 16,75 % corto</td></tr><tr><td>C-BIOS MSX1 JP (NTSC)</td><td>60</td><td>0,9990 s — clavado</td></tr></table>
+<p>Las dos cifras salen de restar dos muestras seguidas de <code>reloj_pal.txt</code> y <code>reloj_ntsc.txt</code>, y coinciden con la cuenta: 50 × 1,665 = 83,25 y 60 × 1,665 = 99,9.</p>
+<p><b>La consecuencia:</b> en un MSX europeo los tiempos que enseña el cartucho no son segundos. Un 100 metros cronometrado en 12,00 por el juego ha durado 14,4 segundos de verdad. Las marcas de clasificación de 0x5008 y los récords del mundo de 0x5174 están pensados para la máquina japonesa.</p>
+<p><b>Y cuidado con leerlo al revés.</b> Eso es un <em>periodo</em>, no una <em>velocidad</em>: el juego no va más despacio en Europa —el atleta corre a la misma velocidad de pantalla que le permitan los 50 Hz—, lo que pasa es que <b>el cronómetro cuenta corto</b>. Son dos afirmaciones distintas y solo una está medida.</p>
+<h2 id="la-demo-quien-manda-de-verdad">La demo: quién manda de verdad</h2>
+<p>Cuando nadie toca nada, el cartucho cae en una demo que se juega sola. El piloto es <code>INT_CON_MANDOS</code> (0x4027) metiendo en 0xE00B un valor de <code>ld a,r</code> enmascarado a dos bits, una vez cada cuatro cuadros: pulsaciones al azar.</p>
+<p>Leyendo el listado, el interruptor <b>parece</b> el bit 7 de 0xE029, porque 0x5849 lo pone y 0x4030 lo mira. <code>tools/omsx_demo.tcl</code> muestrea las dos situaciones sin tocar nada, primero dejando correr la demo y después arrancando una partida de verdad, y sale esto (<code>medidas/demo.txt</code>, resumido):</p>
+<table><tr><th></th><th>0xE002</th><th>0xE029</th></tr><tr><td>demo</td><td><b>01</b></td><td>0x82</td></tr><tr><td>partida</td><td><b>00</b></td><td>0x82</td></tr></table>
+<p><b>0xE029 vale igual en las dos.</b> El que manda es 0xE002, que es lo primero que mira la interrupción: si vale cero, lee los mandos de verdad; si no, se inventa las pulsaciones. En partida, las inventadas no llegan nunca a 0xE00B.</p>
+<p>Es un buen ejemplo de por qué hay que medir: leyendo el código, la hipótesis del bit 7 era razonable, estaba bien construida y era falsa.</p>
+<h2 id="el-menu-medido-en-la-captura-del-titulo">El menú, medido en la captura del título</h2>
+<p>Cuatro líneas, y lo que cada una deja en memoria:</p>
+<table><tr><th>línea</th><th>0xE01B</th></tr><tr><td>1PLAYER with JOYSTICK</td><td>1</td></tr><tr><td>2PLAYERS with JOYSTICK</td><td>2</td></tr><tr><td>1PLAYER with KEYBOARD</td><td>3</td></tr><tr><td>2PLAYERS with KEYBOARD</td><td>4</td></tr></table>
+<p><code>EMPIEZA_LA_PARTIDA</code> (0x41BC) lo reparte: el bit 0 de 0xE01B da el número de jugadores (0xE010) y el valor por debajo de 3 da el mando (0xE004). Una sola variable con las dos respuestas dentro.</p>
+<h2 id="como-repetirlo">Cómo repetirlo</h2>
+<pre><code>openmsx -machine Philips_VG_8020 -cart hyperolympic1.rom \
+        -script tools/omsx_reloj.tcl
+PRUEBA=3 openmsx -machine Philips_VG_8020 -cart hyperolympic1.rom \
+        -script tools/omsx_prueba_n.tcl</code></pre>
+<p>Las tablas que salen se quedan en <code>work/omsx/</code>. Las que están en <code>medidas/</code> son las que se usaron para escribir esto.</p>
+<footer><p><em>Hyper Olympic 1</em> lo publico Konami para MSX; su numero de catalogo es RC-710 y son 16 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

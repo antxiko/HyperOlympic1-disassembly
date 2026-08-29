@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El cartucho — Hyper Olympic 1 (Konami, 1984)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html" style=color:var(--tinta)>El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html">Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="COMPARATIVA-TRACK-AND-FIELD.html">vs Track &amp; Field</a><a href="../THE-CARTRIDGE.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="el-cartucho">El cartucho</h1>
+<p>Dieciséis kilobytes en la página 1, sin un solo cambio de banco. Todo lo que hace el juego cabe entre 0x4000 y 0x7FFF.</p>
+<h2 id="la-cabecera">La cabecera</h2>
+<p>Los dieciséis primeros bytes son la cabecera que lee la BIOS: la firma <code>AB</code> y cuatro punteros. <b>Solo INIT tiene valor</b> (0x4081); STATEMENT, DEVICE y TEXT van a cero. O sea que el cartucho no añade órdenes al BASIC ni se declara como dispositivo: arranca y se queda con la máquina.</p>
+<h2 id="lo-que-hace-init-y-por-que-no-vuelve">Lo que hace INIT, y por qué no vuelve</h2>
+<p>INIT hace cuatro cosas y se va:</p>
+<ol><li>engancha la interrupción en <b>H.KEYI</b> (0xFD9A) con un <code>jp</code> a 0x4010;</li><li>limpia 0xE000-0xE3FE;</li><li>pone la pila en 0xE3FE;</li><li>copia los cuatro récords del mundo de 0x5174 a 0xE040.</li></ol>
+<p>A partir de ahí <b>el programa principal y la interrupción se reparten el trabajo</b>. La interrupción lleva el reloj, los mandos y lo que tiene que ir a ritmo de pantalla; el principal, la máquina de estados del juego.</p>
+<h2 id="el-mapa-de-la-memoria">El mapa de la memoria</h2>
+<p>La RAM de trabajo es 0xE000-0xE3FE, con la pila arriba del todo. Está repartida por zonas, y cada una tiene su explicación en el listado:</p>
+<table><tr><th>tramo</th><th>qué es</th></tr><tr><td>0xE000-0xE001</td><td>contador de cuadros y espera en unidades de 32</td></tr><tr><td>0xE002-0xE017</td><td>el estado de la partida: quién juega, con qué, ronda y prueba</td></tr><tr><td>0xE019-0xE01C</td><td>el menú: dónde está la flecha y qué línea elegida</td></tr><tr><td>0xE01D-0xE01E</td><td>los dos semáforos de la interrupción</td></tr><tr><td>0xE020-0xE02E</td><td>el estado del intento y de la prueba, bit a bit</td></tr><tr><td>0xE040-0xE04B</td><td>los cuatro récords del mundo, tres bytes BCD cada uno</td></tr><tr><td>0xE051-0xE052</td><td>la marca a batir de esta ronda</td></tr><tr><td>0xE060-0xE09F</td><td>los marcadores que se pintan</td></tr><tr><td>0xE0A0-0xE0FF</td><td>los dos atletas: velocidad, ángulo, marca y postura</td></tr><tr><td>0xE120-0xE15F</td><td>cuatro fichas de actor de 16 bytes</td></tr><tr><td>0xE160-0xE190</td><td>los tres canales del reproductor de sonido</td></tr><tr><td>0xE200-0xE22F</td><td>el estado de las pruebas de distancia</td></tr><tr><td>0xE230-0xE2CF</td><td>el papel donde se montan las figuras antes de subirlas</td></tr></table>
+<h2 id="los-dos-semaforos-de-la-interrupcion">Los dos semáforos de la interrupción</h2>
+<p>Merecen párrafo aparte porque son la clave de que esto no se rompa.</p>
+<ul><li><b>0xE01E, el candado.</b> Si está puesto, la interrupción se va sin tocar nada. Lo usa quien no puede permitirse que le interrumpan a mitad.</li><li><b>0xE01D, el aviso.</b> La interrupción lo pone al entrar. Lo mira quien estuviera fijando una dirección de VRAM: si la interrupción ha pasado por medio, la dirección ya no vale y hay que repetirla.</li></ul>
+<p>Ese segundo es el truco fino. Fijar una dirección en el VDP son dos escrituras al puerto de control, y si la interrupción se cuela entre ellas —y ella también escribe en el VDP— lo que venga detrás se escribe en el sitio equivocado. En vez de prohibir la interrupción, se deja pasar y se comprueba después.</p>
+<h2 id="la-pantalla">La pantalla</h2>
+<p>SCREEN 2, con los tres tercios:</p>
+<table><tr><th>tabla</th><th>dirección</th></tr><tr><td>nombres</td><td>0x3800</td></tr><tr><td>patrones</td><td>0x2000</td></tr><tr><td>color</td><td>0x0000</td></tr><tr><td>atributos de sprite</td><td>0x3B00</td></tr><tr><td>patrones de sprite</td><td>0x1800, de 16x16</td></tr></table>
+<p>Los ocho registros del VDP salen de <code>registros_del_vdp</code> (0x4E73).</p>
+<p>En el listado, las direcciones de VRAM aparecen <b>con el bit 14 puesto</b> (sumado 0x4000) cuando se va a escribir, que es como lo pide el VDP: por eso 0x7800 es la tabla de nombres y 0x5800 los patrones de sprite. Al leer un volcado conviene tenerlo presente o los números no cuadran.</p>
+<h2 id="tres-tablas-indexadas-desde-uno">Tres tablas indexadas desde uno</h2>
+<p>Un patrón que se repite y que despista al leer el listado: hay tablas cuya dirección registrada cae <b>dos bytes por delante</b> de la primera casilla útil, porque el índice empieza en uno y el código avanza <code>2*indice</code> antes de leer.</p>
+<table><tr><th>tabla</th><th>lo que dice el código</th><th>dónde empieza de verdad</th></tr><tr><td>pantallas (0x49BA)</td><td>—</td><td>dos bytes después</td></tr><tr><td>melodías</td><td>0x6D26</td><td>0x6D28</td></tr><tr><td>fichas de actor</td><td>0x7B44</td><td>0x7B46</td></tr></table>
+<p>No es un error: la casilla cero no se usa nunca. Y en el caso de la tabla de pantallas esos dos bytes <b>sirven además para otra cosa</b>: son el <code>FF FF</code> que cierra el último mensaje del menú. Dos bytes con dos oficios.</p>
+<h2 id="los-actores-se-empujan-unos-a-otros">Los actores se empujan unos a otros</h2>
+<p>Las cuatro fichas de actor viven <b>seguidas</b> en 0xE120, 0xE130, 0xE140 y 0xE150, de dieciséis bytes cada una. Y eso no es casualidad: el bit 2 de una ficha hace que ese actor suba el contador de la que tiene <b>0x11 bytes por detrás</b>, y el bit 3 el de la que tiene <b>0x0F por delante</b>.</p>
+<p>Así el decorado se arrastra en cadena sin que nadie lleve una lista de quién empuja a quién: la relación está en la distancia entre las fichas.</p>
+<h2 id="lo-que-no-lleva">Lo que no lleva</h2>
+<p><b>La marca oculta de Konami no está.</b> Muchos cartuchos de la casa esconden al final de la ROM su número de catálogo RC-7xx y el título en katakana, detrás del relleno; lo descubrió <b>Manuel Pazos</b> (<a href="https://twitter.com/ManuelPazosMSX">@ManuelPazosMSX</a>). Aquí el último byte útil es código del reproductor de sonido y solo queda un <code>0xFF</code> de relleno. Se comprobó con <code>tools/marca_konami.py</code>, que en el mismo tiro <b>sí</b> la encuentra en otro cartucho de la casa, así que el método funciona.</p>
+<footer><p><em>Hyper Olympic 1</em> lo publico Konami para MSX; su numero de catalogo es RC-710 y son 16 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

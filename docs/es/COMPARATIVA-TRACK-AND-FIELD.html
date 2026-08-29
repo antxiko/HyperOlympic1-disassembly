@@ -1,0 +1,233 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Las dos compilaciones de cada cartucho: HYPER OLYMPIC y TRACK &amp; FIELD — Hyper Olympic 1 (Konami, 1984)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html">Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="COMPARATIVA-TRACK-AND-FIELD.html" style=color:var(--tinta)>vs Track &amp; Field</a><a href="../COMPARISON-TRACK-AND-FIELD.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="las-dos-compilaciones-de-cada-cartucho-hyper-olympic-y-track-field">Las dos compilaciones de cada cartucho: HYPER OLYMPIC y TRACK &amp; FIELD</h1>
+<p>De Hyper Olympic 1 (RC-710) y de Hyper Olympic 2 (RC-711) circulan <b>dos volcados distintos de 16.384 bytes cada uno</b>. Este documento mide en que se diferencian, byte a byte, cruzando cada tramo con el desensamblado, que tiene el 100 % del cartucho explicado.</p>
+<p>La respuesta corta, con la cifra delante: <b>no, no es solo el logotipo, pero por volumen casi</b>. En Hyper Olympic 1 cambian de verdad 1.143 bytes de 16.384 (el 6,98 %), y 860 de ellos son el guion de la pantalla del titulo, que es donde vive el logotipo: quedan <b>283 bytes de cambio fuera del logotipo</b>. En Hyper Olympic 2 cambian 1.047 bytes (el 6,39 %), 850 en el guion del titulo y <b>197 fuera</b>. Y entre esos bytes de fuera hay <b>codigo</b>, no solo adorno.</p>
+<hr>
+<h2 id="los-cuatro-ficheros">Los cuatro ficheros</h2>
+<table><tr><th>cartucho</th><th>compilacion</th><th>sha256</th><th>bytes</th></tr><tr><td>RC-710</td><td>HYPER OLYMPIC 1</td><td><code>0cd8a7928e10a8551d7f6fd68943a6d4a008e04a254d258413c120dda18b792e</code></td><td>16384</td></tr><tr><td>RC-710</td><td>TRACK &amp; FIELD 1</td><td><code>b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6</code></td><td>16384</td></tr><tr><td>RC-711</td><td>HYPER OLYMPIC 2</td><td><code>f254764f4bd1634f50abcdabe5813d133d719197216071772845983ffabad22d</code></td><td>16384</td></tr><tr><td>RC-711</td><td>TRACK &amp; FIELD 2</td><td><code>b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52</code></td><td>16384</td></tr></table>
+<p>En lo que sigue, <b>A</b> es la compilacion HYPER OLYMPIC (la que esta desensamblada) y <b>B</b> la compilacion TRACK &amp; FIELD.</p>
+<h3 id="sobre-el-nombre-del-editor">Sobre el nombre del editor</h3>
+<p>MEDIDO: <b>ni un solo byte de las cuatro ROM dice quien las publico.</b> No hay texto ASCII en ninguna de las cuatro: buscando <code>SONY</code>, <code>KONAMI</code>, <code>HITBIT</code>, <code>TRACK</code>, <code>FIELD</code>, <code>OLYMPIC</code>, <code>HYPER</code>, <code>1984</code> y <code>(C) 19</code> con <code>strings -n 3</code> no sale ninguna coincidencia. Tampoco llevan la marca oculta de Konami que descubrio Manuel Pazos (ver mas abajo). Lo unico que se puede leer del binario es <b>el rotulo que dibuja en pantalla</b>, y ese si cambia: una compilacion pone HYPER OLYMPIC y la otra TRACK &amp; FIELD.</p>
+<p>Por eso este documento las llama por su rotulo. Si a una de las dos se le llama &quot;la de Sony&quot; es por lo que se sepa de fuera del binario, no por lo que diga el binario.</p>
+<hr>
+<h2 id="por-que-el-diff-crudo-no-sirve">Por que el diff crudo no sirve</h2>
+<p>MEDIDO: comparando byte a byte en la misma posicion difieren <b>15.107 de 16.384</b> en el RC-710 (92,2 %) y <b>15.696 de 16.384</b> en el RC-711 (95,8 %). Ese numero no significa nada: la cabecera del cartucho ya declara un INIT distinto —<b>0x4081 en A y 0x4080 en B</b>— y a partir de ahi <b>toda la ROM esta desplazada</b>, asi que casi cada operando de dieciseis bits cae un poco mas alla o un poco mas aca.</p>
+<p>Alineando primero las dos compilaciones, los bytes que no casan bajan a <b>1.379 (8,4 %)</b> en el RC-710 y <b>1.263 (7,7 %)</b> en el RC-711. Y separando lo que solo se ha movido de lo que ha cambiado, quedan los 1.143 y 1.047 bytes del resumen.</p>
+<p>El desplazamiento entre las dos compilaciones del RC-710 va cambiando a lo largo del cartucho:</p>
+<pre><code>A 0x4010-0x407E  -&gt;  B 0x4010-0x407E    +0
+A 0x4081-0x4099  -&gt;  B 0x4080-0x4098    -1     (INIT empieza un byte antes)
+A 0x409A-0x474F  -&gt;  B 0x409E-0x4753    +4
+A 0x4750-0x476D  -&gt;  B 0x4757-0x4774    +7
+A 0x4771-0x4775  -&gt;  B 0x4777-0x477B    +6
+A 0x4779-0x4793  -&gt;  B 0x477E-0x4798    +5
+A 0x4797-0x4E8F  -&gt;  B 0x479B-0x4E93    +4
+A 0x4EB7-0x52E3  -&gt;  B 0x4EB8-0x52E4    +1
+A 0x52EC-0x5580  -&gt;  B 0x52EC-0x5580     0
+A 0x5584-0x55DB  -&gt;  B 0x5583-0x55DA    -1
+A 0x55DF-0x5664  -&gt;  B 0x55DD-0x5662    -2
+A 0x566A-0x569A  -&gt;  B 0x5667-0x5697    -3
+A 0x569F-0x56AD  -&gt;  B 0x569B-0x56A9    -4
+A 0x56B0-0x56B2  -&gt;  B 0x56AA-0x56AC    -6
+A 0x56B5-0x5730  -&gt;  B 0x56AE-0x5729    -7
+A 0x5734-0x578C  -&gt;  B 0x572B-0x5783    -9
+A 0x5790-0x5E21  -&gt;  B 0x5786-0x5E17   -10
+A 0x5F27-0x65C5  -&gt;  B 0x5F1B-0x65B9   -12
+A 0x65CA-0x65E2  -&gt;  B 0x65BB-0x65D3   -15
+A 0x65F2-0x660F  -&gt;  B 0x65DD-0x65FA   -21
+A 0x6645-0x6B19  -&gt;  B 0x6622-0x6AF6   -35
+A 0x6B1A-0x6B58  -&gt;  B 0x6AFA-0x6B38   -32
+A 0x6B5E-0x6B77  -&gt;  B 0x6B3C-0x6B55   -34
+A 0x6B78-0x7FFE  -&gt;  B 0x6B59-0x7FDF   -31</code></pre>
+<p>MEDIDO: al final del cartucho, A deja <b>1 byte</b> de relleno 0xFF y B deja <b>32</b> en el RC-710; en el RC-711, A deja <b>2</b> y B deja <b>12</b>. La compilacion TRACK &amp; FIELD ocupa menos.</p>
+<hr>
+<h2 id="1-el-logotipo">1. El logotipo</h2>
+<p>MEDIDO. El logotipo no esta dibujado tal cual en la ROM: lo suben los patrones del <b>guion largo de la pantalla del titulo</b> (<code>pantalla_del_titulo</code>) y lo colocan las cuatro primeras ordenes del <b>guion corto del menu</b> (<code>pantalla_del_menu</code>), en las filas 3 a 6 y las columnas 12 a 21 de la tabla de nombres.</p>
+<p>Ejecutando los dos guiones y comparando la VRAM que dejan (herramienta <code>tools/pinta_largo.py</code>, que es la traduccion a Python de <code>GUION_LARGO</code>, <code>MONTA_UN_ROTULO</code>, <code>LLENA_EL_PAPEL</code> y <code>ESTIRA_LAS_LETRAS</code>), <b>toda la diferencia grafica del guion del titulo cae en 26 tramos y todos son del logotipo</b>:</p>
+<table><tr><th>tramo de VRAM</th><th>que es</th></tr><tr><td>0x2100-0x2217</td><td>patrones 0x20-0x43, los del logotipo</td></tr><tr><td>0x0178-0x017E, 0x01F0-0x01F7, 0x0210-0x0217</td><td>el color de los patrones 0x2F, 0x3E y 0x42</td></tr></table>
+<p>Ni un byte de diferencia en los patrones del decorado, ni en la fuente, ni en los rotulos de las pruebas, ni en los sprites del atleta.</p>
+<p>El rotulo que sale:</p>
+<table><tr><th>cartucho</th><th>A</th><th>B</th></tr><tr><td>RC-710</td><td><code>HYPER 1 / OLYMPIC</code></td><td><code>TRACK 1 / &amp; FIELD</code></td></tr><tr><td>RC-711</td><td><code>HYPER 2 / OLYMPIC</code></td><td><code>TRACK 2 / &amp; FIELD</code></td></tr></table>
+<p><img src="../imagenes/ho1_rotulo_A.png" alt="HYPER 1 OLYMPIC"> <img src="../imagenes/ho1_rotulo_B.png" alt="TRACK 1 &amp; FIELD"></p>
+<p><img src="../imagenes/ho2_rotulo_A.png" alt="HYPER 2 OLYMPIC"> <img src="../imagenes/ho2_rotulo_B.png" alt="TRACK 2 &amp; FIELD"></p>
+<p>El guion del menu tambien cambia porque el rotulo nuevo gasta menos casillas: A escribe 59 casillas de la tabla de nombres y B 56; las tres que sobran son 0x38B4, 0x38B5 (fila 5, columnas 20 y 21) y 0x38D4 (fila 6, columna 20). Es el mismo numero en los dos cartuchos.</p>
+<blockquote>Nota para el <code>.notes</code>: el bloque <code>pantalla_del_menu</code> esta descrito como &quot;el rotulo PLAY SELECT y los cuatro numeros de la izquierda&quot;, pero <b>sus cuatro primeros bloques colocan el logotipo del juego</b>, no PLAY SELECT. PLAY SELECT y los numeros son los dos bloques de detras (VRAM 0x390B y 0x39AB).</blockquote>
+<hr>
+<h2 id="2-el-codigo">2. El codigo</h2>
+<p>MEDIDO. Alineando las dos compilaciones instruccion a instruccion —cada instruccion normalizada, los operandos de dieciseis bits y el desplazamiento de los JR/DJNZ a cero, que es el metodo de <code>tools/porta_notas.py</code>— el resultado es:</p>
+<table><tr><th></th><th>RC-710</th><th>RC-711</th></tr><tr><td>instrucciones en A / en B</td><td>5032 / 5038</td><td>5345 / 5348</td></tr><tr><td>alineadas</td><td>5014</td><td>5328</td></tr><tr><td>identicas byte a byte</td><td>4439</td><td>4700</td></tr><tr><td>solo reubicadas (mismo destino)</td><td>575</td><td>628</td></tr><tr><td>con cambio real estando alineadas</td><td><b>0</b></td><td><b>0</b></td></tr><tr><td>tramos que no casan</td><td><b>19</b></td><td><b>14</b></td></tr></table>
+<p>O sea: <b>de las instrucciones que se emparejan, ni una sola apunta a otro sitio.</b> Todo el cambio de codigo esta en 19 tramos (RC-710) y 14 (RC-711), 48 y 39 bytes de A respectivamente. Estos son.</p>
+<h3 id="2-1-lo-que-cambia-el-comportamiento">2.1 Lo que cambia el comportamiento</h3>
+<p><b>a) La sombra del mezclador del PSG.</b> En los dos cartuchos.</p>
+<table><tr><th></th><th>A</th><th>B</th></tr><tr><td>RC-710</td><td><code>0x6B59  ld a,7 / call 0x0096</code> (BIOS RDPSG)</td><td><code>0x6B39  ld a,(0E09Fh)</code></td></tr><tr><td>RC-710</td><td><code>0x6B78  ESCRIBE_EL_MEZCLADOR</code></td><td><code>0x6B56  ld (0E09Fh),a</code> delante</td></tr><tr><td>RC-710</td><td>INIT, sin nada</td><td><code>0x4099  ld a,0B8h / call 6B56h</code></td></tr><tr><td>RC-711</td><td><code>0x6C95  ld a,7 / call 0x0096</code></td><td><code>0x6C8A  ld a,(0E09Fh)</code></td></tr><tr><td>RC-711</td><td><code>0x6CB4  ESCRIBE_EL_MEZCLADOR</code></td><td><code>0x6CA7  ld (0E09Fh),a</code> delante</td></tr><tr><td>RC-711</td><td>INIT, sin nada</td><td><code>0x4099  ld a,0B8h / call 6CA7h</code></td></tr></table>
+<p>A <b>lee de vuelta el registro 7 del PSG</b> (el mezclador) con la BIOS cada vez que enciende o apaga una voz. B <b>no lo lee: mantiene una copia en RAM en 0xE09F</b> y lee de ahi. INIT arranca la copia con 0xB8, que es el valor normal del mezclador en MSX (los tres tonos abiertos, el ruido cerrado, el puerto A de entrada y el B de salida), y de paso lo escribe en el PSG.</p>
+<p>MEDIDO: en el desensamblado de A <b>ninguna instruccion nombra 0xE09F</b>; 0xE09F es el ultimo byte del bloque 0xE060-0xE09F, el de los marcadores que se pintan. B lo aprovecha como sombra.</p>
+<p>VALORACION (no medido en maquina real): esto tiene toda la pinta de un arreglo de compatibilidad. Releer el registro 7 del PSG no se comporta igual en todas las maquinas, y una copia en RAM se lo quita de encima.</p>
+<p>Hay una asimetria entre los dos cartuchos, y es MEDIDA:</p>
+<ul><li>En el RC-711, <code>MUEVE_EL_SONIDO</code> empieza en B con <code>0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h</code>: <b>vuelve a escribir el mezclador desde la sombra en cada pasada</b>.</li><li>En el RC-710, <code>MUEVE_EL_SONIDO</code> empieza en B con <code>0x6AF7 ld a,(0E09Fh)</code> <b>y nada mas</b>. El registro A se pisa en <code>0x6B27 ld a,(ix+002h)</code> antes de que nadie lo lea: esa instruccion <b>no hace nada</b>. Son tres bytes muertos.</li></ul>
+<p><b>b) 0xE022 se limpia al repetir el intento.</b> En los dos cartuchos.</p>
+<pre><code>RC-710   A  0x474A  OTRA_VEZ_A_LA_LINEA:  ld hl,0 / ld (0E02Ch),hl / jp PINTA_EL_TURNO
+         B  0x474E                        xor a / ld l,a / ld h,a / ld (0E02Ch),hl
+                                          ld (0E022h),a / jp PINTA_EL_TURNO
+RC-711   A  0x476F   igual que arriba
+         B  0x4773   igual que arriba, con el ld (0E022h),a metido</code></pre>
+<p>0xE022 es, segun el desensamblado, <b>quien pasa a la siguiente ronda</b>. A no lo toca al volver a montar la prueba tras un intento fallido; B lo pone a cero. Es la unica diferencia de codigo que cambia una variable del juego.</p>
+<p><b>c) Solo en el RC-711: un umbral que sube en uno.</b></p>
+<pre><code>A  0x530C  cp 011h        ; &quot;con el otro por debajo de 0x11&quot;
+B  0x530F  cp 012h</code></pre>
+<p>Esta en <code>MIRA_SI_HAY_QUE_REFRESCAR</code>, justo detras de <code>pop bc / ld a,c</code>. La condicion &quot;C por debajo de 0x11&quot; pasa a &quot;C por debajo de 0x12&quot;. En el RC-710 el mismo sitio (<code>0x52D2</code> en A, <code>0x52D3</code> en B) lleva <code>cp 011h</code> en las dos compilaciones: <b>el cambio es solo del RC-711</b>.</p>
+<h3 id="2-2-lo-que-no-cambia-el-comportamiento">2.2 Lo que no cambia el comportamiento</h3>
+<p>Todo lo demas son instrucciones mas cortas que hacen exactamente lo mismo, o codigo muerto que se quita. Cada una comprobada leyendo el estado con el que se llega:</p>
+<table><tr><th>donde</th><th>A</th><th>B</th><th>por que da igual</th></tr><tr><td>RC-710 0x407F, RC-711 0x407F</td><td><code>reti</code> (<code>ED 4D</code>)</td><td><code>ret</code> (<code>C9</code>)</td><td>el gancho H.KEYI se llama con CALL; los dos sacan la direccion de la pila. RETI ademas suelta el ciclo de reconocimiento para los perifericos de la familia Z80, que el MSX estandar no usa. Un byte menos</td></tr><tr><td>RC-710 0x476E / 0x4776</td><td><code>ld de,0E07Ah</code> / <code>ld de,0E094h</code></td><td><code>ld e,7Ah</code> / <code>ld e,94h</code></td><td>D ya vale 0xE0 desde <code>0x4765 ld de,0E08Fh</code></td></tr><tr><td>RC-710 0x4794</td><td><code>ld hl,0E0A7h</code></td><td><code>ld l,0A7h</code></td><td>H ya vale 0xE0 desde <code>0x478F ld hl,0E020h</code></td></tr><tr><td>RC-710 0x5581</td><td><code>ld hl,0E141h</code></td><td><code>ld l,41h</code></td><td>HL vale 0xE151 desde <code>0x5572</code></td></tr><tr><td>RC-710 0x55DC</td><td><code>ld hl,0E151h</code></td><td><code>ld l,51h</code></td><td>HL vale 0xE141 desde <code>0x55CD</code></td></tr><tr><td>RC-710 0x5667, RC-711 0x56A9</td><td><code>ld hl,0E0A7h</code></td><td><code>ld l,0A7h</code></td><td>HL vale 0xE0ED desde el <code>bit 6,(hl)</code> de antes</td></tr><tr><td>RC-710 0x5731</td><td><code>ld hl,0E02Eh</code></td><td><code>inc l</code></td><td>HL vale 0xE02D</td></tr><tr><td>RC-710 0x578D</td><td><code>ld hl,0E02Eh</code></td><td><code>ld l,2Eh</code></td><td>HL vale 0xE02C</td></tr><tr><td>RC-710 0x52E4, RC-711 0x5325</td><td><code>ld a,(0E02Eh) / set 5,a / ld (0E02Eh),a</code></td><td><code>push hl / ld hl,0E02Eh / set 5,(hl) / pop hl</code></td><td>mismo efecto en 0xE02E, un byte menos. Cambia el valor que queda en A, pero lo siguiente es <code>call GASTA_Y_APUNTA</code>, que empieza con <code>push de / push hl / ld b,002h</code> y no lo mira</td></tr><tr><td>RC-710 0x569D, RC-711 0x56DF</td><td><code>ld a,066h</code></td><td><code>dec a</code></td><td>se llega con A = 0x67</td></tr><tr><td>RC-710 0x56B3</td><td><code>cp 001h</code></td><td><code>dec a</code></td><td>solo se usa el flag Z, y A se pisa a continuacion</td></tr><tr><td>RC-711 0x49C6 y 0x4BB7</td><td><code>ld b,001h</code></td><td><code>inc b</code></td><td>se llega de un <code>call</code> que acaba en <code>djnz</code>, o sea con B = 0</td></tr><tr><td>RC-711 0x4AAD</td><td><code>dec a / or a / jr nz</code></td><td><code>dec a / jr nz</code></td><td><code>dec a</code> ya deja el flag Z puesto: el <code>or a</code> sobra</td></tr><tr><td>RC-710 0x56AE</td><td><code>jr nc,+0</code></td><td>quitado</td><td>salta a la instruccion siguiente: no hace nada</td></tr><tr><td>RC-711 0x56F0</td><td><code>jr nc,+7 / ld a,(0E02Eh) / bit 6,a / jr z,+0</code></td><td>quitado</td><td>los dos caminos van a parar a 0x56F9, y alli A se recarga</td></tr></table>
+<hr>
+<h2 id="3-los-datos">3. Los datos</h2>
+<p>MEDIDO, bloque a bloque del <code>.notes</code>, con el mapa de desplazamiento para distinguir un puntero reubicado de un puntero que apunta a otro sitio:</p>
+<table><tr><th></th><th>RC-710</th><th>RC-711</th></tr><tr><td>bloques con nombre</td><td>92</td><td>98</td></tr><tr><td>identicos o solo reubicados</td><td>88</td><td>94</td></tr><tr><td>con cambio de contenido</td><td><b>4</b></td><td><b>4</b></td></tr></table>
+<p>Los que cambian:</p>
+<table><tr><th>cartucho</th><th>bloque</th><th>A</th><th>B</th><th>bytes que difieren</th></tr><tr><td>RC-710</td><td><code>pantalla_del_titulo</code></td><td>860</td><td>858</td><td>200 (23 %)</td></tr><tr><td>RC-710</td><td><code>pantalla_del_menu</code></td><td>78</td><td>75</td><td>7 (9 %)</td></tr><tr><td>RC-710</td><td><code>marcador_del_salto_de_longitud</code></td><td>73</td><td>64</td><td>11 (15 %)</td></tr><tr><td>RC-710</td><td><code>marcador_del_martillo</code></td><td>84</td><td>70</td><td>28 (33 %)</td></tr><tr><td>RC-711</td><td><code>pantalla_del_titulo</code></td><td>850</td><td>848</td><td>200 (24 %)</td></tr><tr><td>RC-711</td><td><code>pantalla_del_menu</code></td><td>78</td><td>75</td><td>7 (9 %)</td></tr><tr><td>RC-711</td><td><code>marcador_de_la_jabalina</code></td><td>64</td><td>58</td><td>8 (12 %)</td></tr><tr><td>RC-711</td><td><code>rotulo_110_vallas</code></td><td>16</td><td>16</td><td>1 (6 %)</td></tr></table>
+<p>Los dos primeros de cada cartucho son el logotipo, ya visto. Quedan dos cosas.</p>
+<h3 id="3-1-los-marcadores-la-misma-pantalla-mejor-comprimida">3.1 Los marcadores: la misma pantalla, mejor comprimida</h3>
+<p>MEDIDO ejecutando los dos guiones (<code>tools/pinta_corto.py</code>): en los tres casos <b>la VRAM que queda es identica</b>, las mismas 416 direcciones (0x3960-0x3AFF) con los mismos valores. Lo unico que cambia es como se comprime.</p>
+<ul><li><code>marcador_del_salto_de_longitud</code>: A lo pinta en <b>dos bloques</b> (uno de 384 bytes desde 0x3960 y otro de 32 desde 0x3AE0, que van seguidos) y ademas parte rachas que se podian unir: <code>32 x 0xB0</code> mas <code>32 x 0xB0</code> en A es <code>64 x 0xB0</code> en B. B lo hace en <b>un bloque</b>. -9 bytes.</li><li><code>marcador_del_martillo</code>: lo mismo con las rachas. Donde A pone <code>racha de 10 x 0xC0 / 2 bytes tal cual C0 C1 / racha de 20 x 0xC1</code>, B pone <code>racha de 11 x 0xC0 / racha de 21 x 0xC1</code>. -14 bytes.</li><li><code>marcador_de_la_jabalina</code> (RC-711): igual. -6 bytes.</li></ul>
+<p>De control, <code>marcador_de_los_100_metros</code> (RC-710) sale identico en las dos compilaciones, los mismos 74 bytes.</p>
+<h3 id="3-2-solo-en-el-rc-711-se-corrige-hurdlers">3.2 Solo en el RC-711: se corrige HURDLERS</h3>
+<p>MEDIDO. El rotulo de letra grande de la tercera prueba, <code>rotulo_110_vallas</code>, es una lista de indices de glifo cerrada con 0xFF (el 0x11 de delante es el tipo de rotulo). Los indices son 0-9 las cifras, 10 el espacio y de 11 en adelante las letras de la A a la Y sin la Q, la X ni la Z.</p>
+<pre><code>A  0x64B1   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1B 1C 0A FF
+                  1  1  0     H  U  R  D  L  E  R  S
+B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
+                  1  1  0     H  U  R  D  L  E  S</code></pre>
+<p><b>La compilacion HYPER OLYMPIC 2 escribe &quot;110 HURDLERS&quot;. La compilacion TRACK &amp; FIELD 2 escribe &quot;110 HURDLES&quot;, que es como se dice.</b> Es el unico cambio de texto de los dos cartuchos.</p>
+<p><img src="../imagenes/ho2_vallas_A.png" alt="110 HURDLERS"> <img src="../imagenes/ho2_vallas_B.png" alt="110 HURDLES"></p>
+<p>(Los dos rotulos dibujados con la fuente del propio cartucho, a tamano normal: el cartucho los estira al doble antes de subirlos.)</p>
+<p>(La tabla de glifos esta comprobada con otros rotulos del mismo formato: <code>0x6320</code> da &quot; 100 METER DASH &quot;, <code>0x6344</code> da &quot; LONG JUMP &quot; y <code>0x6351</code> da &quot;  HAMMER THROW &quot; en el RC-710.)</p>
+<hr>
+<h2 id="4-la-marca-oculta-de-konami">4. La marca oculta de Konami</h2>
+<p>MEDIDO con <code>tools/marca_konami.py</code>, la herramienta que saca el titulo en katakana y el numero RC que Konami escondio detras del relleno del final de algunos cartuchos —hallazgo de Manuel Pazos (@ManuelPazosMSX), septiembre de 2021—: <b>ninguna de las cuatro ROM la lleva</b>. La herramienta sale con codigo 1 para las cuatro. Ya se sabia de las dos compilaciones HYPER OLYMPIC; las dos TRACK &amp; FIELD tampoco.</p>
+<p>Los ultimos bytes utiles son 0x7FFE (HYPER OLYMPIC 1), 0x7FDF (TRACK &amp; FIELD 1), 0x7FFD (HYPER OLYMPIC 2) y 0x7FF3 (TRACK &amp; FIELD 2), y lo que hay detras es relleno 0xFF, no una marca.</p>
+<hr>
+<h2 id="5-el-desensamblado-sirve-para-las-dos">5. El desensamblado sirve para las dos</h2>
+<p>MEDIDO, y es la prueba mas dura de todas.</p>
+<ol><li>Se traza la compilacion TRACK &amp; FIELD con <code>tools/z80trace.py</code> desde su INIT (0x4080) y su rutina de interrupcion (0x4010). Sale <b>sin ningun punto ciego</b> en las dos: 9332 bytes de codigo en el RC-710 y 9871 en el RC-711.</li><li>Se llevan las anotaciones con <code>tools/porta_notas.py</code>. Portan <b>2307 de 2315</b> en el RC-710 (99,65 %) y <b>2311 de 2323</b> en el RC-711 (99,48 %).</li><li>Se genera el listado con <code>tools/mkasm.py</code> y se ensambla con pasmo.</li></ol>
+<pre><code>b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  ho1sony.bin
+b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  TRACK &amp; FIELD 1
+b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52  ho2sony.bin
+b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52  TRACK &amp; FIELD 2</code></pre>
+<p><b>Las dos compilaciones TRACK &amp; FIELD se reensamblan byte a byte</b> a partir del listado que sale del desensamblado de HYPER OLYMPIC.</p>
+<p>Las anotaciones que no encuentran sitio en la hermana son <b>exactamente los puntos que cambian</b>, lo cual es un buen control cruzado:</p>
+<pre><code>RC-710: OTRA_VEZ_A_LA_LINEA (0x474A), 0x52E7, 0x5667, 0x569D,
+        ENCIENDE_O_APAGA_LA_VOZ (0x6B59), 0x55DC
+RC-711: OTRA_VEZ_A_LA_LINEA (0x476F), 0x49C6, 0x4AAD, 0x530C, 0x5328,
+        0x56A9, 0x56DF, MIRA_EL_LIMITE_DEL_RELOJ (0x56F2),
+        ENCIENDE_O_APAGA_LA_VOZ (0x6C95)</code></pre>
+<p>Lo que NO porta <code>porta_notas.py</code> son las directivas D y F, o sea el nombre y la anchura de los bloques de datos: para dar por cerrado un desensamblado de la compilacion TRACK &amp; FIELD habria que volver a situarlos, que es trabajo mecanico con el mapa de desplazamiento de arriba.</p>
+<hr>
+<h2 id="6-cual-es-anterior">6. Cual es anterior</h2>
+<p>SUPOSICION, no medida. El binario no lleva fecha ni numero de version, asi que esto no se puede cerrar desde la ROM. Lo que si esta medido es la direccion en la que van los cambios, y toda apunta al mismo lado:</p>
+<ul><li>la compilacion TRACK &amp; FIELD <b>quita codigo muerto</b> que la otra tiene (RC-710 0x56AE, RC-711 0x56F0);</li><li><b>acorta instrucciones</b> sin cambiar lo que hacen, en los diecisiete sitios de la tabla de 2.2;</li><li><b>corrige una errata de texto</b> (HURDLERS por HURDLES);</li><li><b>cambia una lectura del PSG por una copia en RAM</b>, que es lo que se hace cuando algo no funciona en alguna maquina;</li><li>y acaba ocupando menos: 32 bytes libres al final en vez de 1.</li></ul>
+<p>Todo eso es tipico de una revision posterior, pero <b>es una lectura, no una medida</b>: nada del binario dice cual se fabrico antes. Y en particular, nada del binario dice quien publico cual.</p>
+<p>Contra esa lectura juega un detalle, tambien medido: en el RC-710 la compilacion TRACK &amp; FIELD deja <b>tres bytes muertos</b> en <code>MUEVE_EL_SONIDO</code> (<code>0x6AF7 ld a,(0E09Fh)</code>, con A pisada acto seguido) que en el RC-711 son parte de un <code>ld a,(0E09Fh) / call ESCRIBE_EL_MEZCLADOR</code> con sentido. O el parche se aplico primero en el RC-710 a medias, o al RC-711 se le anadio despues. No se puede decidir desde aqui.</p>
+<hr>
+<h2 id="como-reproducir-las-medidas">Como reproducir las medidas</h2>
+<p>Todas las herramientas de este documento estan en <code>tools/</code> y no escriben nada fuera de su directorio de trabajo. Ninguna ROM se distribuye.</p>
+<pre><code># el mapa de desplazamiento entre las dos compilaciones
+python tools/desplazamiento.py A.rom A.trace.json B.rom B.trace.json desp.json
+
+# el informe completo: codigo instruccion a instruccion y datos bloque a bloque
+python tools/informe.py A.rom A.trace.json A.notes B.rom B.trace.json desp.json out.txt
+
+# las cifras del resumen
+python tools/cuentas.py A.rom A.trace.json A.notes B.rom B.trace.json desp.json &lt;logo_ini&gt; &lt;logo_fin&gt;
+
+# que pinta un guion corto, para saber si dos guiones distintos dan lo mismo
+python tools/pinta_corto.py A.rom 0x65BA B.rom 0x65AE
+
+# que pinta un guion largo, y dibujarlo
+python tools/pinta_largo.py A.rom 0x5C96 0x6002 B.rom 0x5C8C 0x5FF6
+python tools/dibuja_rotulo_menu.py A.rom 0x5C96 0x6002 0x4E87 logo.png
+
+# la marca oculta de Konami
+python tools/marca_konami.py *.rom</code></pre>
+<footer><p><em>Hyper Olympic 1</em> lo publico Konami para MSX; su numero de catalogo es RC-710 y son 16 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

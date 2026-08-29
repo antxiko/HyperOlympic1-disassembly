@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The cartridge — Hyper Olympic 1 (Konami, 1984)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-CARTRIDGE.html" style=color:var(--tinta)>The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="COMPARISON-TRACK-AND-FIELD.html">vs Track &amp; Field</a><a href="es/EL-CARTUCHO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<h1 id="the-cartridge">The cartridge</h1>
+<p>Sixteen kilobytes on page 1, without a single bank switch. Everything the game does fits between 0x4000 and 0x7FFF.</p>
+<h2 id="the-header">The header</h2>
+<p>The first sixteen bytes are the header the BIOS reads: the <code>AB</code> signature and four pointers. <b>Only INIT has a value</b> (0x4081); STATEMENT, DEVICE and TEXT are all zero. So the cartridge adds no commands to BASIC and does not declare itself as a device: it boots and keeps the machine.</p>
+<h2 id="what-init-does-and-why-it-never-returns">What INIT does, and why it never returns</h2>
+<p>INIT does four things and leaves:</p>
+<ol><li>hooks the interrupt at <b>H.KEYI</b> (0xFD9A) with a <code>jp</code> to 0x4010;</li><li>clears 0xE000-0xE3FE;</li><li>puts the stack at 0xE3FE;</li><li>copies the four world records from 0x5174 to 0xE040.</li></ol>
+<p>From then on <b>the main program and the interrupt split the work</b>. The interrupt carries the clock, the controls and anything that has to go at screen rate; the main program, the game&#x27;s state machine.</p>
+<h2 id="the-memory-map">The memory map</h2>
+<p>Working RAM is 0xE000-0xE3FE, with the stack at the very top. It is laid out in zones, and each one has its explanation in the listing:</p>
+<table><tr><th>range</th><th>what it is</th></tr><tr><td>0xE000-0xE001</td><td>frame counter and wait in units of 32</td></tr><tr><td>0xE002-0xE017</td><td>the state of the game: who plays, with what, round and event</td></tr><tr><td>0xE019-0xE01C</td><td>the menu: where the arrow is and which line is picked</td></tr><tr><td>0xE01D-0xE01E</td><td>the interrupt&#x27;s two semaphores</td></tr><tr><td>0xE020-0xE02E</td><td>the state of the attempt and the event, bit by bit</td></tr><tr><td>0xE040-0xE04B</td><td>the four world records, three BCD bytes each</td></tr><tr><td>0xE051-0xE052</td><td>this round&#x27;s mark to beat</td></tr><tr><td>0xE060-0xE09F</td><td>the scoreboards as painted</td></tr><tr><td>0xE0A0-0xE0FF</td><td>the two athletes: speed, angle, mark and pose</td></tr><tr><td>0xE120-0xE15F</td><td>four 16-byte actor records</td></tr><tr><td>0xE160-0xE190</td><td>the sound player&#x27;s three channels</td></tr><tr><td>0xE200-0xE22F</td><td>the state of the distance events</td></tr><tr><td>0xE230-0xE2CF</td><td>the scratch area where figures are assembled before upload</td></tr></table>
+<h2 id="the-interrupt-s-two-semaphores">The interrupt&#x27;s two semaphores</h2>
+<p>They deserve their own section, because they are the reason this does not fall apart.</p>
+<ul><li><b>0xE01E, the lock.</b> If it is set, the interrupt leaves without touching anything. It is used by whoever cannot afford to be interrupted halfway.</li><li><b>0xE01D, the flag.</b> The interrupt sets it on the way in. It is read by whoever was setting a VRAM address: if the interrupt went through in the middle, that address is no longer valid and has to be set again.</li></ul>
+<p>The second one is the fine trick. Setting an address in the VDP is two writes to the control port, and if the interrupt slips in between them —and it writes to the VDP too— whatever comes next gets written in the wrong place. Rather than forbid the interrupt, you let it through and check afterwards.</p>
+<h2 id="the-screen">The screen</h2>
+<p>SCREEN 2, with its three thirds:</p>
+<table><tr><th>table</th><th>address</th></tr><tr><td>names</td><td>0x3800</td></tr><tr><td>patterns</td><td>0x2000</td></tr><tr><td>colour</td><td>0x0000</td></tr><tr><td>sprite attributes</td><td>0x3B00</td></tr><tr><td>sprite patterns</td><td>0x1800, 16x16</td></tr></table>
+<p>The eight VDP registers come from <code>registros_del_vdp</code> (0x4E73).</p>
+<p>In the listing, VRAM addresses appear <b>with bit 14 set</b> (0x4000 added) when they are about to be written, which is how the VDP wants them: that is why 0x7800 is the name table and 0x5800 the sprite patterns. Worth keeping in mind when reading a dump, or the numbers will not add up.</p>
+<h2 id="three-tables-indexed-from-one">Three tables indexed from one</h2>
+<p>A pattern that repeats and that misleads when reading the listing: there are tables whose recorded address falls <b>two bytes ahead</b> of the first useful slot, because the index starts at one and the code advances <code>2*index</code> before reading.</p>
+<table><tr><th>table</th><th>what the code says</th><th>where it really starts</th></tr><tr><td>screens (0x49BA)</td><td>—</td><td>two bytes later</td></tr><tr><td>melodies</td><td>0x6D26</td><td>0x6D28</td></tr><tr><td>actor records</td><td>0x7B44</td><td>0x7B46</td></tr></table>
+<p>It is not a mistake: slot zero is never used. And in the case of the screen table those two bytes <b>do double duty</b>: they are the <code>FF FF</code> that closes the last menu message. Two bytes with two jobs.</p>
+<h2 id="the-actors-shove-each-other">The actors shove each other</h2>
+<p>The four actor records live <b>back to back</b> at 0xE120, 0xE130, 0xE140 and 0xE150, sixteen bytes each. And that is no accident: bit 2 of a record makes that actor bump the counter of the one <b>0x11 bytes behind it</b>, and bit 3 the one <b>0x0F ahead</b>.</p>
+<p>That is how the scenery drags itself along in a chain with nobody keeping a list of who pushes whom: the relationship is the distance between the records.</p>
+<h2 id="what-it-does-not-carry">What it does not carry</h2>
+<p><b>Konami&#x27;s hidden mark is not there.</b> Many cartridges from the house hide their RC-7xx catalogue number and the title in katakana at the end of the ROM, behind the filler; it was <b>Manuel Pazos</b> (<a href="https://twitter.com/ManuelPazosMSX">@ManuelPazosMSX</a>) who found that out. Here the last useful byte is sound player code and only one <code>0xFF</code> of filler is left. It was checked with <code>tools/marca_konami.py</code>, which in the same run <b>does</b> find it in another cartridge from the house, so the method works.</p>
+<footer><p><em>Hyper Olympic 1</em> was published by Konami for the MSX; its catalogue number is RC-710 and it is 16 KB. All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>

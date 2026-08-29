@@ -1,0 +1,138 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El código — Hyper Olympic 1 (Konami, 1984)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html" style=color:var(--tinta)>El código</a><a href="HALLAZGOS.html">Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="COMPARATIVA-TRACK-AND-FIELD.html">vs Track &amp; Field</a><a href="../THE-CODE.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="el-codigo">El código</h1>
+<p>Dieciséis kilobytes repartidos en 9.335 bytes de código y 7.049 de datos. No hay ningún cambio de banco ni ningún truco de carga: el programa entero está a la vista entre 0x4000 y 0x7FFF, y esta página cuenta cómo está montado.</p>
+<h2 id="dos-hilos-que-se-reparten-el-trabajo">Dos hilos que se reparten el trabajo</h2>
+<p>El cartucho tiene un programa principal y una interrupción, y la frontera entre los dos es nítida.</p>
+<p><b>La interrupción</b> (<code>INTERRUPCION</code>, 0x4010) entra por el gancho H.KEYI que INIT rellena con un <code>jp</code>, y hace todo lo que tiene que ir a ritmo de pantalla: lee los mandos, mueve el reproductor de sonido, cuenta el reloj y llama al motor de la prueba que se esté jugando. Es donde ocurre el juego.</p>
+<p><b>El principal</b> lleva la máquina de estados: montar el decorado, esperar a que acabe el intento, repartir puntos, pasar de ronda. Casi siempre está esperando a que la interrupción le ponga un bit.</p>
+<p>El reparto tiene una consecuencia bonita: si paras el programa principal, el atleta sigue corriendo.</p>
+<h2 id="la-vida-de-una-prueba">La vida de una prueba</h2>
+<p><code>MONTA_LA_PRUEBA</code> (0x4234) es la cabecera de todo lo que pasa entre dos pruebas. El recorrido es siempre el mismo:</p>
+<ol><li><code>MONTA_EL_DECORADO</code> (0x4253) pide el guion de pantalla que le toque a esta prueba y lo interpreta;</li><li><code>MONTA_LOS_ACTORES_DE_LA_PRUEBA</code> (0x7B2C) copia las fichas de actor de la tabla de la ROM a la RAM;</li><li><code>EMPIEZA_EL_INTENTO</code> (0x4296) coloca a los atletas y suelta el semáforo;</li><li><code>BUCLE_DE_LA_PRUEBA</code> (0x4396) se queda mirando 0xE02E hasta que la interrupción diga que el intento se acabó;</li><li><code>PUNTUA_EL_INTENTO</code> (0x4F4D) convierte la marca en puntos;</li><li><code>MIRA_SI_SE_ACABO_LA_PRUEBA</code> (0x45A1) decide si hay otro intento, otro jugador, otra ronda o se acabó la partida.</li></ol>
+<p>Los puntos merecen una nota, porque el cálculo cambia de signo según la prueba: salen de la diferencia entre la marca y una referencia fija por prueba (0x5020). <b>En las pruebas de tiempo la referencia está arriba</b> y se le resta la marca —cuanto menos tardas, más puntos—; <b>en las de distancia está abajo</b> y es la marca la que le gana. Después se multiplica por dieciséis, y en las pruebas impares se dobla otra vez.</p>
+<h2 id="cuatro-motores-y-uno-hace-de-dos">Cuatro motores, y uno hace de dos</h2>
+<p>Cada prueba tiene su motor, y la interrupción llama al que toque:</p>
+<table><tr><th>prueba</th><th>motor</th><th>qué hace</th></tr><tr><td>100 y 400 metros</td><td><code>MOTOR_DE_LA_CARRERA</code> (0x5180)</td><td>correr, la separación entre los dos y la llegada</td></tr><tr><td>longitud</td><td><code>MOTOR_DEL_SALTO</code> (0x668F)</td><td>la carrera, la batida, el vuelo y la caída</td></tr><tr><td>martillo</td><td><code>MOTOR_DEL_MARTILLO</code> (0x68B3)</td><td>las vueltas, el ángulo y el vuelo</td></tr></table>
+<p>El de la carrera vale para las dos pruebas de tiempo tal cual, y además <b>el salto de longitud reaprovecha su carrera</b>: lo propio del salto es la batida y lo que pasa después.</p>
+<p>Y hay un cuarto trozo que no es un motor pero se comporta como si lo fuera: <code>AVANZA_EL_TIRO</code> (0x7D2C), que calcula el vuelo. Lo usan el salto y el martillo, y es lo único del cartucho que hace cuentas de verdad.</p>
+<h2 id="la-unica-cuenta-de-verdad">La única cuenta de verdad</h2>
+<p><code>CALCULA_EL_TIRO</code> (0x7D39) coge la velocidad de carrera y el ángulo y saca de ahí el avance y la altura de cada cuadro, y al final la marca en metros. Para eso hay tres rutinas de aritmética escritas a mano, porque el Z80 no trae ninguna:</p>
+<ul><li><code>DIVIDE</code> (0x7E76), desplazando y restando;</li><li><code>MULTIPLICA</code> (0x7E94), desplazando y sumando;</li><li><code>PASA_A_BCD</code> (0x7EB8), que convierte un número binario a BCD doblándolo en BCD, bit a bit, para poder imprimirlo.</li></ul>
+<p>Y el seno sale de una tabla, <code>EL_SENO_DEL_ANGULO</code> (0x7E54): un byte por grado. Nada de aproximaciones en tiempo real.</p>
+<p>El resto del cartucho no calcula: consulta tablas o suma en BCD directamente, que es como se llevan las marcas y los marcadores sin tener que convertir nada para pintarlo.</p>
+<h2 id="el-cartucho-no-guarda-pantallas-guarda-guiones">El cartucho no guarda pantallas: guarda guiones</h2>
+<p>Ninguna pantalla está dibujada en la ROM tal cual. Lo que hay son <b>guiones</b>, y cuatro intérpretes distintos que los leen, cada uno con su formato:</p>
+<p><b>El guion largo</b> (<code>GUION_LARGO</code>, 0x4D09) es el gordo: un byte con el número de órdenes y detrás las órdenes, cada una empezando por su tipo.</p>
+<table><tr><th>tipo</th><th>qué hace</th></tr><tr><td>0</td><td>bytes a VRAM, con 0x11 como marca de racha (RLE)</td></tr><tr><td>1</td><td>tiras de glifos de la fuente, subidos como patrón</td></tr><tr><td>2</td><td>rótulos de letra grande</td></tr><tr><td>3</td><td>rellenos de un byte</td></tr><tr><td>4+</td><td>repetir un patrón de ocho bytes N veces</td></tr></table>
+<p><b>El guion corto</b> (<code>GUION_CORTO</code>, 0x4AFE) es para textos sueltos, como los del menú. <b>El rótulo</b> (<code>LLENA_EL_PAPEL</code>, 0x4C63) prepara un texto que después se estira a letra grande. Y <b>la figura</b> (<code>MONTA_LA_FIGURA</code>, 0x7A1F) expande la descripción de un actor a códigos de carácter.</p>
+<p>Los 2,5 KB que van de 0x5C96 a 0x668E son enteramente guiones y datos de guion, y un recorrido desde las raíces los cubre sin dejar un byte suelto.</p>
+<h2 id="las-letras-grandes-se-fabrican">Las letras grandes se fabrican</h2>
+<p>Un rótulo de letra grande no está dibujado en ningún sitio: se monta al vuelo. <code>MONTA_UN_ROTULO</code> (0x4C49) copia los glifos <b>normales</b> de 8x8 a un papel en 0xE230, y luego <code>ESTIRA_LAS_LETRAS</code> (0x4CAB) da <b>tres pasadas</b> que van sacando los dos bits altos de cada byte y metiéndolos en el byte de ocho posiciones antes.</p>
+<p>Con eso una fila de ocho glifos da cuatro filas de patrón: la letra sale al doble de tamaño sin ocupar el doble en la ROM. El precio está contado en <a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a>: tres rótulos declaran veinticuatro bytes de largo y solo llevan dieciséis suyos, así que se llevan ocho del bloque de detrás.</p>
+<h2 id="escribir-en-el-vdp-sin-que-la-interrupcion-lo-pise">Escribir en el VDP sin que la interrupción lo pise</h2>
+<p>Este es el detalle más fino del cartucho, y hay cuatro rutinas dedicadas a él (<code>FIJA_ESCRITURA_CON_CANDADO</code> 0x4DFC, <code>FIJA_LECTURA</code> 0x4E14, <code>FIJA_ESCRITURA</code> 0x4E25 y las que las usan).</p>
+<p>El problema: fijar una dirección en el VDP son <b>dos escrituras seguidas</b> al puerto de control, y la interrupción también escribe en el VDP. Si se cuela entre las dos, la dirección que queda puesta es la suya, y lo que venga detrás se escribe en el sitio equivocado.</p>
+<p>La solución no es prohibir la interrupción, sino <b>darse cuenta</b>:</p>
+<ol><li>se borra 0xE01D;</li><li>se fija la dirección;</li><li>se mira 0xE01D: si la interrupción ha entrado por en medio, lo habrá puesto, y entonces se repite.</li></ol>
+<p>Es más barato que apagar y encender las interrupciones en cada escritura, y no pierde ni un cuadro. El otro semáforo, 0xE01E, es el candado de verdad: cuando está puesto, la interrupción se va sin tocar nada.</p>
+<h2 id="el-reproductor-de-sonido">El reproductor de sonido</h2>
+<p>Tres canales, once bytes de ficha cada uno, en 0xE160, 0xE16B y 0xE176:</p>
+<table><tr><th>desplazamiento</th><th>qué es</th></tr><tr><td>+0</td><td>cuenta de la nota</td></tr><tr><td>+1</td><td>duración base</td></tr><tr><td>+2</td><td>número de sonido</td></tr><tr><td>+3/+4</td><td>puntero a la tira</td></tr><tr><td>+5</td><td>octava</td></tr><tr><td>+6</td><td>caída</td></tr><tr><td>+7</td><td>volumen</td></tr><tr><td>+8</td><td>cuenta de la caída</td></tr><tr><td>+9</td><td>repeticiones que quedan</td></tr><tr><td>+0x0A</td><td>duración</td></tr></table>
+<p>Lo interesante es <b>el número de sonido</b>, que lleva la información en sus bits altos: el bit 7 dice que la nota va en un solo byte, el bit 6 que el canal 3 se usa como ruido, y <b>los seis de abajo son la prioridad</b>. <code>MIRA_LA_PRIORIDAD</code> (0x6AE8) es lo que impide que el pitido de una tecla se cargue la música de final de prueba: un sonido no interrumpe a otro de prioridad más alta.</p>
+<p><code>DOBLA_LA_MELODIA</code> (0x6B7E) hace lo que dice: reproduce la misma tira una octava por encima o por debajo, que es como se consigue que suene a dos voces sin gastar otra.</p>
+<h2 id="los-actores">Los actores</h2>
+<p>Un actor es una ficha de dieciséis bytes en RAM, y hay cuatro: 0xE120, 0xE130, 0xE140 y 0xE150.</p>
+<table><tr><th>desplazamiento</th><th>qué es</th></tr><tr><td>+0</td><td>banderas</td></tr><tr><td>+1</td><td>cuenta</td></tr><tr><td>+2</td><td>escalón</td></tr><tr><td>+6</td><td>columna dentro de la figura</td></tr><tr><td>+7/+8</td><td>dirección de VRAM</td></tr><tr><td>+9/+0A</td><td>la ficha que le releva</td></tr><tr><td>+0B</td><td>fila de la tabla de ajuste</td></tr><tr><td>+0C</td><td>columna calculada</td></tr><tr><td>+0D/+0E</td><td>la figura</td></tr><tr><td>+0F</td><td>cuántos caracteres se pintan</td></tr></table>
+<p>Las cuatro fichas van <b>seguidas</b> en memoria, y de ahí sale el truco: <code>MIRA_SI_EMPUJA_AL_DE_DETRAS</code> (0x79CF) mira el bit 2 y el bit 3 de las banderas y, según cuál esté puesto, suma o resta 0x11 al puntero para subir el contador de la ficha vecina.</p>
+<p>Así el decorado se arrastra en cadena sin que nadie lleve una lista de quién empuja a quién: <b>la relación está en la distancia entre las fichas</b>.</p>
+<h2 id="el-atleta-son-siete-sprites">El atleta son siete sprites</h2>
+<p><code>FICHA_DEL_QUE_JUEGA</code> (0x7F52) y lo que hay debajo montan al corredor. No es un sprite: son <b>siete</b>, y cada postura los coloca a mano.</p>
+<p><code>SUBE_LOS_PATRONES</code> (0x7F9C) sube a VRAM los patrones que hagan falta para la postura, y después <code>UN_SPRITE_DEL_ATLETA</code> (0x7FD5) escribe las siete filas de la tabla de atributos, sumando a cada una la fila y la columna donde está el atleta. Cambiar de postura es cambiar los patrones; mover al atleta es sumar a las siete filas.</p>
+<h2 id="como-leerlo">Cómo leerlo</h2>
+<p>El listado se genera; no se edita a mano. Los comentarios viven aparte, en <code>src/hyperolympic1.notes</code>, anclados a la dirección que describen, y <code>make listado</code> los pega donde toca. Eso quiere decir que si mañana el trazador reparte el binario de otra forma, los comentarios siguen cayendo en su sitio.</p>
+<p>Las direcciones de VRAM aparecen en el listado <b>con el bit 14 puesto</b> (sumado 0x4000) cuando se va a escribir, que es como lo pide el VDP. Por eso la tabla de nombres, que está en 0x3800, se ve escrita como 0x7800.</p>
+<footer><p><em>Hyper Olympic 1</em> lo publico Konami para MSX; su numero de catalogo es RC-710 y son 16 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

@@ -1,0 +1,31 @@
+LAS CUATRO PRUEBAS DE HYPER OLYMPIC 1, MEDIDAS EN openMSX
+=========================================================
+Como: openmsx -machine Philips_VG_8020 -cart hyperolympic1.rom
+      -script tools/omsx_prueba_n.tcl, con PRUEBA=1..4.
+El guion para la maquina en 0x4220 -justo despues de que 0x4218 ponga la ronda
+y la prueba a 1- y cambia SOLO 0xE016. De ahi en adelante corre el juego con
+sus propios datos. Las capturas estan en docs/imagenes/.
+
+  0xE016   rotulo que sale                  record del mundo que pinta
+  ------   ------------------------------   --------------------------
+     1     100 METER DASH                   09 SEC 95
+     2     LONG JUMP                        08 M 90
+     3     HAMMER THROW                     83 M 98
+     4     400 METER DASH                   43 SEC 86
+
+Los cuatro records coinciden byte a byte con la tabla de 0x5174, que INIT copia
+a 0xE040: 00 09 95 / 00 08 90 / 00 83 98 / 00 43 86.
+
+Eso es lo MEDIDO, y no llega mas alla. Los cuatro son records del mundo reales,
+pero DOS ya estaban batidos cuando el cartucho llego a las tiendas, asi que no
+son "los vigentes": quien los tenia, de cuando son y cual cayo esta cotejado con
+las progresiones publicas en docs/es/HALLAZGOS.md. Ese cotejo NO sale del
+binario y no se escribe aqui, que es la hoja de lo medido.
+
+EL MENU. Cuatro lineas, medidas en la captura del titulo:
+    1PLAYER  with JOYSTICK      0xE01B = 1  -> un jugador,  joystick
+    2PLAYERS with JOYSTICK      0xE01B = 2  -> dos,         joystick
+    1PLAYER  with KEYBOARD      0xE01B = 3  -> un jugador,  teclado
+    2PLAYERS with KEYBOARD      0xE01B = 4  -> dos,         teclado
+0x41BC lo reparte: el bit 0 de 0xE01B da el numero de jugadores (0xE010) y el
+valor por debajo de 3 da el mando (0xE004).
