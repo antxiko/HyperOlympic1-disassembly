@@ -85,7 +85,7 @@ alfabeto **de la A a la Y saltandose la Q, la X y la Z**. Con A en el indice
 
 Y sin embargo **la Q existe**. Esta al final, en el indice **0x2C**, fuera del
 alfabeto y entre los simbolos, y el motivo se ve en la unica palabra del juego
-que la necesita: el rotulo **QUALIFY** del marcador, que en 0x5F88 es la tira
+que la necesita: el rotulo **QUALIFY** del marcador, que en 0x5F87 es la tira
 `2C 1E 0B 16 13 10 21`. Alguien monto el alfabeto sin las tres letras que no
 hacian falta, y despues tuvo que anadir una.
 

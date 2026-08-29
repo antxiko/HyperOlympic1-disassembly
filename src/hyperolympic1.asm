@@ -4440,7 +4440,7 @@ DATA_patrones_de_relleno:
 ; DATOS fuente: Los 51 glifos de 8x8 con los que se escribe TODO el cartucho.
 ;   El alfabeto va ordenado de la A (indice 0x0B) a la Y SALTANDOSE la Q, la X
 ;   y la Z, pero la Q SI existe: esta al final, en el indice 0x2C, fuera del
-;   alfabeto, porque la necesita QUALIFY (la tira de 0x5F88). X y Z no salen
+;   alfabeto, porque la necesita QUALIFY (la tira de 0x5F87). X y Z no salen
 ;   en ningun rotulo. Detras van "min", "SEC", "m", el punto, las flechas y
 ;   los dos puntos. Los leen 0x4C88, 0x4D5F y 0x5B68.
 ;   0x6002..0x619a  (408 bytes)

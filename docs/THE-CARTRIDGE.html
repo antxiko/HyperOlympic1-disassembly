@@ -88,8 +88,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <h2 id="the-header">The header</h2>
 <p>The first sixteen bytes are the header the BIOS reads: the <code>AB</code> signature and four pointers. <b>Only INIT has a value</b> (0x4081); STATEMENT, DEVICE and TEXT are all zero. So the cartridge adds no commands to BASIC and does not declare itself as a device: it boots and keeps the machine.</p>
 <h2 id="what-init-does-and-why-it-never-returns">What INIT does, and why it never returns</h2>
-<p>INIT does four things and leaves:</p>
-<ol><li>hooks the interrupt at <b>H.KEYI</b> (0xFD9A) with a <code>jp</code> to 0x4010;</li><li>clears 0xE000-0xE3FE;</li><li>puts the stack at 0xE3FE;</li><li>copies the four world records from 0x5174 to 0xE040.</li></ol>
+<p>INIT sets up house and leaves:</p>
+<ol><li>hooks the interrupt at <b>H.KEYI</b> (0xFD9A) with a <code>jp</code> to 0x4010;</li><li>clears 0xE000-0xE3FE and puts the stack right above it, at 0xE3FE;</li><li>silences the PSG —the three tone registers to zero— and leaves it with channel A at volume 8 and the mixer at 0xA2;</li><li>turns off the CAPS lamp;</li><li>copies the four world records from 0x5174 to 0xE040;</li><li>puts the menu arrow on the first line.</li></ol>
 <p>From then on <b>the main program and the interrupt split the work</b>. The interrupt carries the clock, the controls and anything that has to go at screen rate; the main program, the game&#x27;s state machine.</p>
 <h2 id="the-memory-map">The memory map</h2>
 <p>Working RAM is 0xE000-0xE3FE, with the stack at the very top. It is laid out in zones, and each one has its explanation in the listing:</p>

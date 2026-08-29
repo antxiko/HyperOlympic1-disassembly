@@ -88,8 +88,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <h2 id="la-cabecera">La cabecera</h2>
 <p>Los dieciséis primeros bytes son la cabecera que lee la BIOS: la firma <code>AB</code> y cuatro punteros. <b>Solo INIT tiene valor</b> (0x4081); STATEMENT, DEVICE y TEXT van a cero. O sea que el cartucho no añade órdenes al BASIC ni se declara como dispositivo: arranca y se queda con la máquina.</p>
 <h2 id="lo-que-hace-init-y-por-que-no-vuelve">Lo que hace INIT, y por qué no vuelve</h2>
-<p>INIT hace cuatro cosas y se va:</p>
-<ol><li>engancha la interrupción en <b>H.KEYI</b> (0xFD9A) con un <code>jp</code> a 0x4010;</li><li>limpia 0xE000-0xE3FE;</li><li>pone la pila en 0xE3FE;</li><li>copia los cuatro récords del mundo de 0x5174 a 0xE040.</li></ol>
+<p>INIT se prepara la casa y se va:</p>
+<ol><li>engancha la interrupción en <b>H.KEYI</b> (0xFD9A) con un <code>jp</code> a 0x4010;</li><li>limpia 0xE000-0xE3FE y pone la pila justo encima, en 0xE3FE;</li><li>calla el PSG —los tres registros de tono a cero— y lo deja con el canal A a volumen 8 y el mezclador a 0xA2;</li><li>apaga el piloto de CAPS;</li><li>copia los cuatro récords del mundo de 0x5174 a 0xE040;</li><li>coloca la flecha del menú en la primera línea.</li></ol>
 <p>A partir de ahí <b>el programa principal y la interrupción se reparten el trabajo</b>. La interrupción lleva el reloj, los mandos y lo que tiene que ir a ritmo de pantalla; el principal, la máquina de estados del juego.</p>
 <h2 id="el-mapa-de-la-memoria">El mapa de la memoria</h2>
 <p>La RAM de trabajo es 0xE000-0xE3FE, con la pila arriba del todo. Está repartida por zonas, y cada una tiene su explicación en el listado:</p>

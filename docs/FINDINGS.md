@@ -86,7 +86,7 @@ alphabet **from A to Y skipping Q, X and Z**. With A at index 0x0B, P falls at
 
 And yet **the Q exists**. It sits at the end, at index **0x2C**, outside the
 alphabet and among the symbols, and the reason shows up in the one word in the
-game that needs it: the scoreboard's **QUALIFY**, which at 0x5F88 is the string
+game that needs it: the scoreboard's **QUALIFY**, which at 0x5F87 is the string
 `2C 1E 0B 16 13 10 21`. Somebody laid out an alphabet without the three letters
 that were not needed, and then had to add one back.
 

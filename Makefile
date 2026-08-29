@@ -74,6 +74,10 @@ sanity: $(WORK)/hyperolympic1.trace.json
 	@echo " ni un comentario portado puede describir la instruccion del HERMANO"
 	@echo "=================================================================="
 	@python3 tools/cifras_portadas.py
+	@echo "=================================================================="
+	@echo " toda tira de bytes publicada tiene que estar DONDE se dice"
+	@echo "=================================================================="
+	@python3 tools/comprueba_las_tiras.py
 
 densidad:
 	@python3 tools/densidad.py $(SRC)/hyperolympic1.asm
