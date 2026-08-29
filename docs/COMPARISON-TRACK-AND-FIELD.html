@@ -137,7 +137,7 @@ A 0x6B78-0x7FFE  -&gt;  B 0x6B59-0x7FDF   -31</code></pre>
 <blockquote>Note for the <code>.notes</code>: the <code>pantalla_del_menu</code> block is described as &quot;the PLAY SELECT label and the four numbers down the left&quot;, but <b>its first four blocks place the game logo</b>, not PLAY SELECT. PLAY SELECT and the numbers are the two blocks behind them (VRAM 0x390B and 0x39AB).</blockquote>
 <hr>
 <h2 id="2-the-code">2. The code</h2>
-<p>MEASURED. Aligning both builds instruction by instruction — every instruction normalised, with 16-bit operands and JR/DJNZ displacements zeroed, which is the method of <code>tools/porta_notas.py</code> — the result is:</p>
+<p>MEASURED. Aligning both builds instruction by instruction — every instruction normalised, with 16-bit operands and JR/DJNZ displacements zeroed, which is the method of <code>porta_notas.py</code>, which lives in the sibling&#x27;s repository because that is the one that received the port, — the result is:</p>
 <table><tr><th></th><th>RC-710</th><th>RC-711</th></tr><tr><td>instructions in A / in B</td><td>5032 / 5038</td><td>5345 / 5348</td></tr><tr><td>aligned</td><td>5014</td><td>5328</td></tr><tr><td>identical byte for byte</td><td>4439</td><td>4700</td></tr><tr><td>merely relocated (same destination)</td><td>575</td><td>628</td></tr><tr><td>genuinely changed while aligned</td><td><b>0</b></td><td><b>0</b></td></tr><tr><td>stretches that do not match</td><td><b>19</b></td><td><b>14</b></td></tr></table>
 <p>In other words: <b>of the instructions that pair up, not a single one points somewhere else.</b> All the code change sits in 19 stretches (RC-710) and 14 (RC-711), 48 and 39 bytes of A respectively. Here they are.</p>
 <h3 id="2-1-what-changes-behaviour">2.1 What changes behaviour</h3>
@@ -147,7 +147,10 @@ A 0x6B78-0x7FFE  -&gt;  B 0x6B59-0x7FDF   -31</code></pre>
 <p>MEASURED: in A&#x27;s disassembly <b>no instruction names 0xE09F</b>; 0xE09F is the last byte of the 0xE060-0xE09F block, the scoreboards being painted. B repurposes it as the shadow.</p>
 <p>ASSESSMENT (not measured on real hardware): this looks like a compatibility fix. Reading PSG register 7 back does not behave the same on every machine, and a RAM copy sidesteps the question.</p>
 <p>There is an asymmetry between the two cartridges, and it is MEASURED:</p>
-<ul><li>On the RC-711, <code>MUEVE_EL_SONIDO</code> starts in B with <code>0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h</code>: <b>it rewrites the mixer from the shadow on every pass.</b></li><li>On the RC-710, <code>MUEVE_EL_SONIDO</code> starts in B with <code>0x6AF7 ld a,(0E09Fh)</code> <b>and nothing else</b>. Register A is overwritten at <code>0x6B27 ld a,(ix+002h)</code> before anyone reads it: that instruction <b>does nothing</b>. Three dead bytes.</li></ul>
+<ul><li>On the RC-711, <code>MUEVE_EL_SONIDO</code> starts in B with</li></ul>
+<p><code>0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h</code>: <b>it rewrites the mixer from the shadow on every pass.</b></p>
+<ul><li>On the RC-710, <code>MUEVE_EL_SONIDO</code> starts in B with <code>0x6AF7 ld a,(0E09Fh)</code> **and</li></ul>
+<p>nothing else<b>. Register A is overwritten at <code>0x6B27 ld a,(ix+002h)</code> before anyone reads it: that instruction </b>does nothing**. Three dead bytes.</p>
 <p><b>b) 0xE022 is cleared when the attempt is retried.</b> On both cartridges.</p>
 <pre><code>RC-710   A  0x474A  OTRA_VEZ_A_LA_LINEA:  ld hl,0 / ld (0E02Ch),hl / jp PINTA_EL_TURNO
          B  0x474E                        xor a / ld l,a / ld h,a / ld (0E02Ch),hl
@@ -171,10 +174,14 @@ B  0x530F  cp 012h</code></pre>
 <p>The first two on each cartridge are the logo, already covered. Two things are left.</p>
 <h3 id="3-1-the-scoreboards-same-screen-better-packed">3.1 The scoreboards: same screen, better packed</h3>
 <p>MEASURED by running both scripts (<code>tools/pinta_corto.py</code>): in all three cases <b>the resulting VRAM is identical</b>, the same 416 addresses (0x3960-0x3AFF) with the same values. All that changes is the packing.</p>
-<ul><li><code>marcador_del_salto_de_longitud</code>: A paints it in <b>two blocks</b> (384 bytes from 0x3960 and 32 from 0x3AE0, which are contiguous) and also splits runs that could be joined: <code>32 x 0xB0</code> plus <code>32 x 0xB0</code> in A is <code>64 x 0xB0</code> in B. B does it in <b>one block</b>. -9 bytes.</li><li><code>marcador_del_martillo</code>: same with the runs. Where A writes <code>run of 10 x 0xC0 / 2 literal bytes C0 C1 / run of 20 x 0xC1</code>, B writes <code>run of 11 x 0xC0 / run of 21 x 0xC1</code>. -14 bytes.</li><li><code>marcador_de_la_jabalina</code> (RC-711): likewise. -6 bytes.</li></ul>
+<ul><li><code>marcador_del_salto_de_longitud</code>: A paints it in <b>two blocks</b> (384 bytes from</li></ul>
+<p>0x3960 and 32 from 0x3AE0, which are contiguous) and also splits runs that could be joined: <code>32 x 0xB0</code> plus <code>32 x 0xB0</code> in A is <code>64 x 0xB0</code> in B. B does it in <b>one block</b>. -9 bytes.</p>
+<ul><li><code>marcador_del_martillo</code>: same with the runs. Where A writes</li></ul>
+<p><code>run of 10 x 0xC0 / 2 literal bytes C0 C1 / run of 20 x 0xC1</code>, B writes <code>run of 11 x 0xC0 / run of 21 x 0xC1</code>. -14 bytes.</p>
+<ul><li><code>marcador_de_la_jabalina</code> (RC-711): likewise. -6 bytes.</li></ul>
 <p>As a control, <code>marcador_de_los_100_metros</code> (RC-710) comes out identical in both builds, the same 74 bytes.</p>
 <h3 id="3-2-rc-711-only-hurdlers-is-corrected">3.2 RC-711 only: HURDLERS is corrected</h3>
-<p>MEASURED. The big-letter label of the third event, <code>rotulo_110_vallas</code>, is a list of glyph indices closed with 0xFF (the leading 0x11 is the label type). Indices 0-9 are the digits, 10 is the space, and from 11 up come the letters A to Y with no Q, X or Z.</p>
+<p>MEASURED. The big-letter label of RC-711&#x27;s FIRST event, <code>rotulo_110_vallas</code>, is a list of glyph indices closed with 0xFF (the leading 0x11 is the label type). Indices 0-9 are the digits, 10 is the space, and from 11 up come the letters A to Y with no Q, X or Z.</p>
 <pre><code>A  0x64B1   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1B 1C 0A FF
                   1  1  0     H  U  R  D  L  E  R  S
 B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
@@ -182,7 +189,7 @@ B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
 <p><b>The HYPER OLYMPIC 2 build writes &quot;110 HURDLERS&quot;. The TRACK &amp; FIELD 2 build writes &quot;110 HURDLES&quot;, which is how it is spelt.</b> It is the only text change on either cartridge.</p>
 <p><img src="imagenes/ho2_vallas_A.png" alt="110 HURDLERS"> <img src="imagenes/ho2_vallas_B.png" alt="110 HURDLES"></p>
 <p>(Both labels drawn with the cartridge&#x27;s own font at normal size: the cartridge stretches them to double height before uploading.)</p>
-<p>(The glyph table is checked against other labels in the same format: <code>0x6320</code> gives &quot; 100 METER DASH &quot;, <code>0x6344</code> gives &quot; LONG JUMP &quot; and <code>0x6351</code> gives &quot;  HAMMER THROW &quot; on the RC-710.)</p>
+<p>(The glyph table is checked against other labels in the same format: <code>0x6320</code> gives &quot; 100 METER DASH &quot;, <code>0x6344</code> gives &quot; LONG JUMP &quot; and <code>0x6351</code> gives &quot; HAMMER THROW &quot; on the RC-710.)</p>
 <hr>
 <h2 id="4-konami-s-hidden-mark">4. Konami&#x27;s hidden mark</h2>
 <p>MEASURED with <code>tools/marca_konami.py</code>, the tool that extracts the katakana title and the RC number Konami hid behind the padding at the end of some cartridges — a finding by Manuel Pazos (@ManuelPazosMSX), September 2021: <b>none of the four ROMs carries it.</b> The tool exits with code 1 for all four. This was already known for the two HYPER OLYMPIC builds; the two TRACK &amp; FIELD ones do not carry it either.</p>
@@ -190,7 +197,8 @@ B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
 <hr>
 <h2 id="5-the-disassembly-serves-both">5. The disassembly serves both</h2>
 <p>MEASURED, and this is the hardest proof of the lot.</p>
-<ol><li>Trace the TRACK &amp; FIELD build with <code>tools/z80trace.py</code> from its INIT (0x4080) and its interrupt routine (0x4010). Both come out <b>with no blind spots</b>: 9332 bytes of code on the RC-710 and 9871 on the RC-711.</li><li>Carry the annotations across with <code>tools/porta_notas.py</code>. <b>2307 of 2315</b> land on the RC-710 (99.65 %) and <b>2311 of 2323</b> on the RC-711 (99.48 %).</li><li>Generate the listing with <code>tools/mkasm.py</code> and assemble it with pasmo.</li></ol>
+<ol><li>Trace the TRACK &amp; FIELD build with <code>tools/z80trace.py</code> from its INIT</li></ol>
+<p>(0x4080) and its interrupt routine (0x4010). Both come out <b>with no blind spots</b>: 9332 bytes of code on the RC-710 and 9871 on the RC-711. 2. Carry the annotations across with <code>porta_notas.py</code>, which lives in the sibling&#x27;s repository because that is the one that received the port. <b>2307 of 2315</b> land on the RC-710 (99.65 %) and <b>2311 of 2323</b> on the RC-711 (99.48 %). 3. Generate the listing with <code>tools/mkasm.py</code> and assemble it with pasmo.</p>
 <pre><code>b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  ho1sony.bin
 b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  TRACK &amp; FIELD 1
 b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52  ho2sony.bin
@@ -206,7 +214,13 @@ RC-711: OTRA_VEZ_A_LA_LINEA (0x476F), 0x49C6, 0x4AAD, 0x530C, 0x5328,
 <hr>
 <h2 id="6-which-one-came-first">6. Which one came first</h2>
 <p>SUPPOSITION, not measured. The binary carries no date and no version number, so this cannot be settled from the ROM. What is measured is the direction the changes run in, and it all points the same way:</p>
-<ul><li>the TRACK &amp; FIELD build <b>removes dead code</b> the other one has (RC-710 0x56AE, RC-711 0x56F0);</li><li>it <b>shortens instructions</b> without changing what they do, in the seventeen places listed in 2.2;</li><li>it <b>fixes a spelling mistake</b> (HURDLERS for HURDLES);</li><li>it <b>replaces a PSG read-back with a RAM copy</b>, which is what you do when something misbehaves on some machine;</li><li>and it ends up smaller: 32 free bytes at the end instead of 1.</li></ul>
+<ul><li>the TRACK &amp; FIELD build <b>removes dead code</b> the other one has (RC-710</li></ul>
+<p>0x56AE, RC-711 0x56F0);</p>
+<ul><li>it <b>shortens instructions</b> without changing what they do, in the seventeen</li></ul>
+<p>places listed in 2.2;</p>
+<ul><li>it <b>fixes a spelling mistake</b> (HURDLERS for HURDLES);</li><li>it <b>replaces a PSG read-back with a RAM copy</b>, which is what you do when</li></ul>
+<p>something misbehaves on some machine;</p>
+<ul><li>and it ends up smaller: 32 free bytes at the end instead of 1.</li></ul>
 <p>All of that is typical of a later revision, but <b>it is a reading, not a measurement</b>: nothing in the binary says which was manufactured first. And in particular, nothing in the binary says who published which.</p>
 <p>One measured detail argues against that reading: on the RC-710, the TRACK &amp; FIELD build leaves <b>three dead bytes</b> in <code>MUEVE_EL_SONIDO</code> (<code>0x6AF7 ld a,(0E09Fh)</code>, with A overwritten immediately after) that on the RC-711 are part of a meaningful <code>ld a,(0E09Fh) / call ESCRIBE_EL_MEZCLADOR</code>. Either the patch was applied to the RC-710 half-finished, or the RC-711 got the rest of it later. It cannot be decided from here.</p>
 <hr>

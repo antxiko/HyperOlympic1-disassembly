@@ -53,16 +53,17 @@ verdad se ganan el sueldo:
 - **ningún byte declarado como datos puede salir como código**, y al revés;
 - **ningún punto de entrada puede caer dentro de una zona de datos**;
 - **ni un byte del cartucho sin asignar** — el presupuesto tiene que sumar
-  16.384, repartidos entre código al que el trazador llega de verdad y rangos
-  de datos con nombre y explicación.
+16.384, repartidos entre código al que el trazador llega de verdad y rangos de
+datos con nombre y explicación.
 
 Y una cuarta, que nació en este proyecto por un motivo concreto: **ninguna
 anotación puede citar una dirección del cartucho hermano**. Hyper Olympic 1 y 2
 son casi el mismo programa, así que las anotaciones se portan de uno a otro con
-`tools/porta_notas.py`; eso las coloca en la dirección buena pero no cambia lo
-que dicen. `tools/repasa_el_porte.py` comprueba que toda dirección citada dentro
-de un comentario —o dentro de una página de esta web— sea arranque de
-instrucción o caiga en un rango de datos **de este cartucho**.
+`porta_notas.py`, que vive en el repositorio del hermano porque es el que
+recibio el porte; eso las coloca en la dirección buena pero no cambia lo que
+dicen. `tools/repasa_el_porte.py` comprueba que toda dirección citada dentro de
+un comentario —o dentro de una página de esta web— sea arranque de instrucción
+o caiga en un rango de datos **de este cartucho**.
 
 ## Qué hay dentro
 

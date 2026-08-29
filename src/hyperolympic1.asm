@@ -118,15 +118,15 @@ INIT:
 	ld (hl),l			;4096   ; con L, que en este momento vale cero
 	ldir		;4097
 	ld sp,hl			;4099   ; y deja la pila justo encima, en 0xE3FE
-	ld a,008h		;409a   ; los tres registros de tono del PSG
+	ld a,008h		;409a   ; los registros 8, 9 y 10 del PSG, que son los tres de VOLUMEN
 	ld e,000h		;409c
-	ld b,003h		;409e   ; a cero, para que no suene nada
+	ld b,003h		;409e   ; a cero, que es lo que de verdad calla los tres canales
 LIMPIA_UN_REGISTRO_DEL_PSG:
 	call 00093h		;40a0   ; BIOS WRTPSG - Writes data to PSG-register
 	inc a			;40a3
 	djnz LIMPIA_UN_REGISTRO_DEL_PSG		;40a4
-	ld de,081a2h		;40a6   ; canal A a volumen 8, mezclador a 0xA2
-	call FIJA_ESCRITURA		;40a9
+	ld de,081a2h		;40a6   ; esto NO es el PSG: 0x81A2 es una direccion de VRAM y lo que sigue
+	call FIJA_ESCRITURA		;40a9   ; es FIJA_ESCRITURA, que deja puesta la direccion de escritura del VDP; nadie escribe detras (ver docs/es/PREGUNTAS-ABIERTAS.md)
 	ld a,00fh		;40ac   ; registro 15, el puerto de salida
 	ld e,0cfh		;40ae
 	call 00093h		;40b0   ; BIOS WRTPSG - Writes data to PSG-register

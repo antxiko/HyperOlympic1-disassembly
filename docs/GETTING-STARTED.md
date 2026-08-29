@@ -54,15 +54,16 @@ that really earn their keep:
 - **no byte declared as data may come out as code**, and the other way round;
 - **no entry point may fall inside a data area**;
 - **not one byte of the cartridge left unassigned** — the budget has to add up
-  to 16,384, split between code the tracer actually reaches and data ranges with
-  a name and an explanation.
+to 16,384, split between code the tracer actually reaches and data ranges with
+a name and an explanation.
 
 And a fourth one, born in this project for a specific reason: **no annotation
 may cite an address from the sibling cartridge**. Hyper Olympic 1 and 2 are
 nearly the same program, so the annotations are ported from one to the other
-with `tools/porta_notas.py`; that puts them at the right address but does not
-change what they say. `tools/repasa_el_porte.py` checks that every address cited
-inside a comment —or inside a page of this website— is the start of an
+with `porta_notas.py`, which lives in the sibling's repository because that is
+the one that received the port; that puts them at the right address but does
+not change what they say. `tools/repasa_el_porte.py` checks that every address
+cited inside a comment —or inside a page of this website— is the start of an
 instruction or falls in a data range **of this cartridge**.
 
 ## What is inside

@@ -112,8 +112,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p>Y sin embargo <b>la Q existe</b>. Esta al final, en el indice <b>0x2C</b>, fuera del alfabeto y entre los simbolos, y el motivo se ve en la unica palabra del juego que la necesita: el rotulo <b>QUALIFY</b> del marcador, que en 0x5F87 es la tira <code>2C 1E 0B 16 13 10 21</code>. Alguien monto el alfabeto sin las tres letras que no hacian falta, y despues tuvo que anadir una.</p>
 <p>X y Z no aparecen ni asi: ninguna palabra del cartucho las usa.</p>
 <p>La hoja entera esta en <code>docs/imagenes/fuente.png</code>, y la dibuja <code>tools/graficos.py</code> leyendo el rango que declara el listado. Esto es de lo que solo se ve DIBUJANDO: leyendo el bloque, los 51 glifos son 408 bytes iguales.</p>
-<h2 id="7-tres-tablas-indexadas-desde-uno">7. Tres tablas indexadas desde uno</h2>
-<p>0x49BA avanza 2*0xE016 posiciones ANTES de leer, asi que la direccion que registra el codigo cae dos bytes por delante de la primera casilla util. Pasa lo mismo con la tabla de melodias (el codigo dice 0x6D26 y la tabla empieza en 0x6D28) y con la de fichas de actor (0x7B44 por 0x7B46). En el caso de la tabla de pantallas, esos dos bytes de &quot;casilla cero&quot; son el 0xFF 0xFF que cierra el ultimo mensaje del menu: dos bytes que sirven para dos cosas.</p>
+<h2 id="7-cinco-tablas-indexadas-desde-uno">7. Cinco tablas indexadas desde uno</h2>
+<p>0x49BA avanza 2*0xE016 posiciones ANTES de leer, asi que la direccion que registra el codigo cae dos bytes por delante de la primera casilla util. Son cinco tablas: los rotulos de la prueba (el codigo registra 0x4F33 y la tabla empieza en 0x4F35), las pantallas (0x4F3B por 0x4F3D), los marcadores (0x4F43 por 0x4F45), las melodias (0x6D26 por 0x6D28) y las fichas de actor (0x7B44 por 0x7B46). En la de ROTULOS, esos dos bytes de &quot;casilla cero&quot; son el 0xFF 0xFF que cierra el ultimo mensaje del menu: dos bytes que sirven para dos cosas.</p>
 <h2 id="8-el-piloto-de-la-demo-aporrea-el-boton-al-azar">8. El piloto de la demo aporrea el boton al azar</h2>
 <p>La demo no lleva una partida grabada: la juega la interrupcion. Cuando 0xE002 vale 1, 0x4030 mete en 0xE00B un valor de <code>ld a,r</code> -el registro de refresco de la memoria- enmascarado a dos bits, una vez cada cuatro cuadros. Eso es todo el piloto: pulsaciones al azar.</p>
 <p>OJO CON EL BIT 7 DE 0xE029. Da la impresion de ser el interruptor, porque 0x5849 lo pone y 0x4030 lo mira, pero MEDIDO en el emulador (<code>medidas/demo.txt</code>) esta puesto igual en la demo y en una partida de verdad: 0xE029 vale 0x82 en las dos. El que manda es 0xE002, que vale 1 en la demo y 0 en partida, y es lo primero que mira la interrupcion. En partida las pulsaciones inventadas no llegan nunca a 0xE00B.</p>
@@ -130,15 +130,17 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <h3 id="las-cifras">Las cifras</h3>
 <pre><code>contra                bytes en comun   % de Hyper Olympic 1   tramo mayor
 -------------------   --------------   --------------------   -----------
-Hyper Olympic 2                6.298                 67,5 %        63 B
-Frogger                          175                  1,9 %        21 B
-Super Cobra                      173                  1,9 %        21 B
-Athletic Land                    120                  1,3 %        21 B
-Billiards de Konami              105                  1,1 %        23 B
-Monkey Academy                   103                  1,1 %        20 B
-Pippols                           64                  0,7 %        20 B
+Hyper Olympic 2                6.298                 67,5 %       681 B
+Frogger                          175                  1,9 %        42 B
+Super Cobra                      173                  1,9 %        37 B
+Monkey Academy                   103                  1,1 %        37 B
+Billiards de Konami              105                  1,1 %        36 B
+Athletic Land                    120                  1,3 %        32 B
+Pippols                           64                  0,7 %        22 B
 Time Pilot                        21                  0,2 %        21 B</code></pre>
 <h3 id="lo-que-sale-de-ahi">Lo que sale de ahi</h3>
-<p>Hyper Olympic 1 y 2 son el MISMO programa: dos tercios del codigo es comun. Con cualquier otro cartucho Konami de MSX de la serie no comparten NADA: los tramos mas largos son de veinte bytes, que es lo que dan por casualidad dos programas escritos por la misma casa (un <code>ldir</code> de relleno, un bucle de espera). No hay ni rastro del reproductor de sonido de Frogger y Time Pilot, ni del armazon de Athletic Land.</p>
+<p>Hyper Olympic 1 y 2 son el MISMO programa: dos tercios del codigo es comun, y el tramo mayor son 681 bytes seguidos (0x7B27 aqui, 0x7B52 alli), o sea rutinas enteras reensambladas en otro sitio.</p>
+<p>Con los demas cartuchos Konami de MSX de la serie la diferencia es de dos ordenes de magnitud: ninguno pasa del 2 %, y sus tramos mayores van de 21 a 42 bytes. NO hay ni rastro del reproductor de sonido de Frogger y Time Pilot, ni del armazon de Athletic Land: 175 bytes repartidos en tramos sueltos no es un componente compartido.</p>
+<p>Los 42 bytes de Frogger son la excepcion que merece mirarse y queda apuntada: es mas de lo que dan por casualidad dos programas de la misma casa, y no se ha identificado que rutina es. Con todo, son 42 contra 681.</p>
 <p>O sea: los dos Hyper Olympic no pertenecen a ninguno de los dos armazones Konami que ya estaban medidos en esta serie. Son un TERCERO, y de momento solo tiene dos miembros.</p>
 <footer><p><em>Hyper Olympic 1</em> lo publico Konami para MSX; su numero de catalogo es RC-710 y son 16 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservacion, estudio y documentacion, y la imagen del cartucho no se distribuye.</p></footer></div>

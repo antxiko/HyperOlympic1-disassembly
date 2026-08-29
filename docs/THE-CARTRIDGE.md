@@ -16,11 +16,14 @@ INIT sets up house and leaves:
 
 1. hooks the interrupt at **H.KEYI** (0xFD9A) with a `jp` to 0x4010;
 2. clears 0xE000-0xE3FE and puts the stack right above it, at 0xE3FE;
-3. silences the PSG —the three tone registers to zero— and leaves it with
-   channel A at volume 8 and the mixer at 0xA2;
-4. turns off the CAPS lamp;
-5. copies the four world records from 0x5174 to 0xE040;
-6. puts the menu arrow on the first line.
+3. silences the PSG by zeroing its registers **8, 9 and 10**, which are the
+   three volume ones: not the tone ones, which at zero would silence nothing;
+4. sets the VDP write address to 0x81A2 —and writes nothing behind it; see
+   [Open questions](OPEN-QUESTIONS.md)— and puts PSG register 15, the output
+   port, at 0xCF;
+5. turns off the CAPS lamp;
+6. copies the four world records from 0x5174 to 0xE040;
+7. puts the menu arrow on the first line.
 
 From then on **the main program and the interrupt split the work**. The
 interrupt carries the clock, the controls and anything that has to go at screen
@@ -82,7 +85,7 @@ they are about to be written, which is how the VDP wants them: that is why
 0x7800 is the name table and 0x5800 the sprite patterns. Worth keeping in mind
 when reading a dump, or the numbers will not add up.
 
-## Three tables indexed from one
+## Five tables indexed from one
 
 A pattern that repeats and that misleads when reading the listing: there are
 tables whose recorded address falls **two bytes ahead** of the first useful
@@ -91,12 +94,14 @@ reading.
 
 | table | what the code says | where it really starts |
 |---|---|---|
-| screens (0x49BA) | — | two bytes later |
-| melodies | 0x6D26 | 0x6D28 |
+| event labels | 0x4F33 | 0x4F35 |
+| event screens | 0x4F3B | 0x4F3D |
+| event scoreboards | 0x4F43 | 0x4F45 |
+| melody pointers | 0x6D26 | 0x6D28 |
 | actor records | 0x7B44 | 0x7B46 |
 
-It is not a mistake: slot zero is never used. And in the case of the screen
-table those two bytes **do double duty**: they are the `FF FF` that closes the
+It is not a mistake: slot zero is never used. And the **label** table's slot
+zero does double duty: the two bytes at 0x4F33 are the `FF FF` that closes the
 last menu message. Two bytes with two jobs.
 
 ## The actors shove each other

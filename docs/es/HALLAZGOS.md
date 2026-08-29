@@ -95,13 +95,14 @@ La hoja entera esta en `docs/imagenes/fuente.png`, y la dibuja
 `tools/graficos.py` leyendo el rango que declara el listado. Esto es de lo que
 solo se ve DIBUJANDO: leyendo el bloque, los 51 glifos son 408 bytes iguales.
 
-## 7. Tres tablas indexadas desde uno
+## 7. Cinco tablas indexadas desde uno
 
 0x49BA avanza 2*0xE016 posiciones ANTES de leer, asi que la direccion que
-registra el codigo cae dos bytes por delante de la primera casilla util. Pasa
-lo mismo con la tabla de melodias (el codigo dice 0x6D26 y la tabla empieza en
-0x6D28) y con la de fichas de actor (0x7B44 por 0x7B46). En el caso de la
-tabla de pantallas, esos dos bytes de "casilla cero" son el 0xFF 0xFF que
+registra el codigo cae dos bytes por delante de la primera casilla util. Son
+cinco tablas: los rotulos de la prueba (el codigo registra 0x4F33 y la tabla
+empieza en 0x4F35), las pantallas (0x4F3B por 0x4F3D), los marcadores (0x4F43
+por 0x4F45), las melodias (0x6D26 por 0x6D28) y las fichas de actor (0x7B44 por
+0x7B46). En la de ROTULOS, esos dos bytes de "casilla cero" son el 0xFF 0xFF que
 cierra el ultimo mensaje del menu: dos bytes que sirven para dos cosas.
 
 ## 8. El piloto de la demo aporrea el boton al azar
@@ -158,23 +159,30 @@ Frogger, 7,5 % de Time Pilot). El metodo crudo daba 354.
 
     contra                bytes en comun   % de Hyper Olympic 1   tramo mayor
     -------------------   --------------   --------------------   -----------
-    Hyper Olympic 2                6.298                 67,5 %        63 B
-    Frogger                          175                  1,9 %        21 B
-    Super Cobra                      173                  1,9 %        21 B
-    Athletic Land                    120                  1,3 %        21 B
-    Billiards de Konami              105                  1,1 %        23 B
-    Monkey Academy                   103                  1,1 %        20 B
-    Pippols                           64                  0,7 %        20 B
+    Hyper Olympic 2                6.298                 67,5 %       681 B
+    Frogger                          175                  1,9 %        42 B
+    Super Cobra                      173                  1,9 %        37 B
+    Monkey Academy                   103                  1,1 %        37 B
+    Billiards de Konami              105                  1,1 %        36 B
+    Athletic Land                    120                  1,3 %        32 B
+    Pippols                           64                  0,7 %        22 B
     Time Pilot                        21                  0,2 %        21 B
 
 ### Lo que sale de ahi
 
-Hyper Olympic 1 y 2 son el MISMO programa: dos tercios del codigo es comun. Con
-cualquier otro cartucho Konami de MSX de la serie no comparten NADA: los tramos
-mas largos son de veinte bytes, que es lo que dan por casualidad dos programas
-escritos por la misma casa (un `ldir` de relleno, un bucle de espera). No hay
-ni rastro del reproductor de sonido de Frogger y Time Pilot, ni del armazon de
-Athletic Land.
+Hyper Olympic 1 y 2 son el MISMO programa: dos tercios del codigo es comun, y
+el tramo mayor son 681 bytes seguidos (0x7B27 aqui, 0x7B52 alli), o sea rutinas
+enteras reensambladas en otro sitio.
+
+Con los demas cartuchos Konami de MSX de la serie la diferencia es de dos
+ordenes de magnitud: ninguno pasa del 2 %, y sus tramos mayores van de 21 a 42
+bytes. NO hay ni rastro del reproductor de sonido de Frogger y Time Pilot, ni
+del armazon de Athletic Land: 175 bytes repartidos en tramos sueltos no es un
+componente compartido.
+
+Los 42 bytes de Frogger son la excepcion que merece mirarse y queda apuntada:
+es mas de lo que dan por casualidad dos programas de la misma casa, y no se ha
+identificado que rutina es. Con todo, son 42 contra 681.
 
 O sea: los dos Hyper Olympic no pertenecen a ninguno de los dos armazones
 Konami que ya estaban medidos en esta serie. Son un TERCERO, y de momento solo

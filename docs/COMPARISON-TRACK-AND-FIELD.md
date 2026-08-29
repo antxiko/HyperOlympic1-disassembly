@@ -8,9 +8,9 @@ for 100 % of each cartridge.
 The short answer, number first: **no, it is not only the logo — although by
 volume it nearly is.** In Hyper Olympic 1, 1,143 bytes out of 16,384 really
 change (6.98 %), and 860 of them are the title-screen script, where the logo
-lives: that leaves **283 bytes of change outside the logo**. In Hyper Olympic 2,
-1,047 bytes change (6.39 %), 850 in the title script and **197 outside**. And
-among those outside bytes there is **code**, not just decoration.
+lives: that leaves **283 bytes of change outside the logo**. In Hyper Olympic
+2, 1,047 bytes change (6.39 %), 850 in the title script and **197 outside**.
+And among those outside bytes there is **code**, not just decoration.
 
 ---
 
@@ -23,8 +23,8 @@ among those outside bytes there is **code**, not just decoration.
 | RC-711 | HYPER OLYMPIC 2 | `f254764f4bd1634f50abcdabe5813d133d719197216071772845983ffabad22d` | 16384 |
 | RC-711 | TRACK & FIELD 2 | `b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52` | 16384 |
 
-Below, **A** is the HYPER OLYMPIC build (the one that is disassembled) and **B**
-the TRACK & FIELD build.
+Below, **A** is the HYPER OLYMPIC build (the one that is disassembled) and
+**B** the TRACK & FIELD build.
 
 ### About the publisher's name
 
@@ -51,8 +51,8 @@ shifted**, so nearly every 16-bit operand lands a little further along or a
 little further back.
 
 Aligning the two builds first, the bytes that fail to match drop to **1,379
-(8.4 %)** on the RC-710 and **1,263 (7.7 %)** on the RC-711. Separating what has
-merely moved from what has changed leaves the 1,143 and 1,047 bytes of the
+(8.4 %)** on the RC-710 and **1,263 (7.7 %)** on the RC-711. Separating what
+has merely moved from what has changed leaves the 1,143 and 1,047 bytes of the
 summary.
 
 The shift between the two RC-710 builds keeps changing along the cartridge:
@@ -85,8 +85,8 @@ A 0x6B78-0x7FFE  ->  B 0x6B59-0x7FDF   -31
 ```
 
 MEASURED: at the end of the cartridge, A leaves **1 byte** of 0xFF padding and
-B leaves **32** on the RC-710; on the RC-711, A leaves **2** and B leaves **12**.
-The TRACK & FIELD build takes up less room.
+B leaves **32** on the RC-710; on the RC-711, A leaves **2** and B leaves
+**12**. The TRACK & FIELD build takes up less room.
 
 ---
 
@@ -118,11 +118,11 @@ The label that comes out:
 | RC-710 | `HYPER 1 / OLYMPIC` | `TRACK 1 / & FIELD` |
 | RC-711 | `HYPER 2 / OLYMPIC` | `TRACK 2 / & FIELD` |
 
-![HYPER 1 OLYMPIC](imagenes/ho1_rotulo_A.png)
-![TRACK 1 & FIELD](imagenes/ho1_rotulo_B.png)
+![HYPER 1 OLYMPIC](imagenes/ho1_rotulo_A.png) ![TRACK 1 &
+FIELD](imagenes/ho1_rotulo_B.png)
 
-![HYPER 2 OLYMPIC](imagenes/ho2_rotulo_A.png)
-![TRACK 2 & FIELD](imagenes/ho2_rotulo_B.png)
+![HYPER 2 OLYMPIC](imagenes/ho2_rotulo_A.png) ![TRACK 2 &
+FIELD](imagenes/ho2_rotulo_B.png)
 
 The menu script changes too, because the new label uses fewer cells: A writes
 59 name-table cells and B writes 56; the three spare ones are 0x38B4, 0x38B5
@@ -140,7 +140,8 @@ cartridges.
 
 MEASURED. Aligning both builds instruction by instruction — every instruction
 normalised, with 16-bit operands and JR/DJNZ displacements zeroed, which is the
-method of `tools/porta_notas.py` — the result is:
+method of `porta_notas.py`, which lives in the sibling's repository because
+that is the one that received the port, — the result is:
 
 | | RC-710 | RC-711 |
 |---|---|---|
@@ -168,15 +169,15 @@ somewhere else.** All the code change sits in 19 stretches (RC-710) and 14
 | RC-711 | `0x6CB4  ESCRIBE_EL_MEZCLADOR` | `0x6CA7  ld (0E09Fh),a` in front |
 | RC-711 | INIT, nothing there | `0x4099  ld a,0B8h / call 6CA7h` |
 
-A **reads PSG register 7 back** (the mixer) through the BIOS every time it turns
-a voice on or off. B **does not read it: it keeps a copy in RAM at 0xE09F** and
-reads that. INIT seeds the copy with 0xB8, the normal MSX mixer value (all
-three tones open, noise off, port A input, port B output), and writes it to the
-PSG on the way.
+A **reads PSG register 7 back** (the mixer) through the BIOS every time it
+turns a voice on or off. B **does not read it: it keeps a copy in RAM at
+0xE09F** and reads that. INIT seeds the copy with 0xB8, the normal MSX mixer
+value (all three tones open, noise off, port A input, port B output), and
+writes it to the PSG on the way.
 
-MEASURED: in A's disassembly **no instruction names 0xE09F**; 0xE09F is the last
-byte of the 0xE060-0xE09F block, the scoreboards being painted. B repurposes it
-as the shadow.
+MEASURED: in A's disassembly **no instruction names 0xE09F**; 0xE09F is the
+last byte of the 0xE060-0xE09F block, the scoreboards being painted. B
+repurposes it as the shadow.
 
 ASSESSMENT (not measured on real hardware): this looks like a compatibility
 fix. Reading PSG register 7 back does not behave the same on every machine, and
@@ -185,11 +186,11 @@ a RAM copy sidesteps the question.
 There is an asymmetry between the two cartridges, and it is MEASURED:
 
 - On the RC-711, `MUEVE_EL_SONIDO` starts in B with
-  `0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h`: **it rewrites the mixer from the
-  shadow on every pass.**
+`0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h`: **it rewrites the mixer from the
+shadow on every pass.**
 - On the RC-710, `MUEVE_EL_SONIDO` starts in B with `0x6AF7 ld a,(0E09Fh)` **and
-  nothing else**. Register A is overwritten at `0x6B27 ld a,(ix+002h)` before
-  anyone reads it: that instruction **does nothing**. Three dead bytes.
+nothing else**. Register A is overwritten at `0x6B27 ld a,(ix+002h)` before
+anyone reads it: that instruction **does nothing**. Three dead bytes.
 
 **b) 0xE022 is cleared when the attempt is retried.** On both cartridges.
 
@@ -214,13 +215,13 @@ B  0x530F  cp 012h
 
 This is in `MIRA_SI_HAY_QUE_REFRESCAR`, right after `pop bc / ld a,c`. The
 condition "C below 0x11" becomes "C below 0x12". On the RC-710 the same place
-(`0x52D2` in A, `0x52D3` in B) carries `cp 011h` in both builds: **the change is
-RC-711 only.**
+(`0x52D2` in A, `0x52D3` in B) carries `cp 011h` in both builds: **the change
+is RC-711 only.**
 
 ### 2.2 What does not change behaviour
 
-Everything else is either a shorter instruction doing exactly the same thing, or
-dead code removed. Each one checked against the state it is reached with:
+Everything else is either a shorter instruction doing exactly the same thing,
+or dead code removed. Each one checked against the state it is reached with:
 
 | where | A | B | why it makes no difference |
 |---|---|---|---|
@@ -276,12 +277,12 @@ MEASURED by running both scripts (`tools/pinta_corto.py`): in all three cases
 the same values. All that changes is the packing.
 
 - `marcador_del_salto_de_longitud`: A paints it in **two blocks** (384 bytes from
-  0x3960 and 32 from 0x3AE0, which are contiguous) and also splits runs that
-  could be joined: `32 x 0xB0` plus `32 x 0xB0` in A is `64 x 0xB0` in B. B does
-  it in **one block**. -9 bytes.
+0x3960 and 32 from 0x3AE0, which are contiguous) and also splits runs that
+could be joined: `32 x 0xB0` plus `32 x 0xB0` in A is `64 x 0xB0` in B. B does
+it in **one block**. -9 bytes.
 - `marcador_del_martillo`: same with the runs. Where A writes
-  `run of 10 x 0xC0 / 2 literal bytes C0 C1 / run of 20 x 0xC1`, B writes
-  `run of 11 x 0xC0 / run of 21 x 0xC1`. -14 bytes.
+`run of 10 x 0xC0 / 2 literal bytes C0 C1 / run of 20 x 0xC1`, B writes `run of
+11 x 0xC0 / run of 21 x 0xC1`. -14 bytes.
 - `marcador_de_la_jabalina` (RC-711): likewise. -6 bytes.
 
 As a control, `marcador_de_los_100_metros` (RC-710) comes out identical in both
@@ -289,8 +290,8 @@ builds, the same 74 bytes.
 
 ### 3.2 RC-711 only: HURDLERS is corrected
 
-MEASURED. The big-letter label of the third event, `rotulo_110_vallas`, is a
-list of glyph indices closed with 0xFF (the leading 0x11 is the label type).
+MEASURED. The big-letter label of RC-711's FIRST event, `rotulo_110_vallas`, is
+a list of glyph indices closed with 0xFF (the leading 0x11 is the label type).
 Indices 0-9 are the digits, 10 is the space, and from 11 up come the letters A
 to Y with no Q, X or Z.
 
@@ -305,26 +306,26 @@ B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
 writes "110 HURDLES", which is how it is spelt.** It is the only text change on
 either cartridge.
 
-![110 HURDLERS](imagenes/ho2_vallas_A.png)
-![110 HURDLES](imagenes/ho2_vallas_B.png)
+![110 HURDLERS](imagenes/ho2_vallas_A.png) ![110
+HURDLES](imagenes/ho2_vallas_B.png)
 
 (Both labels drawn with the cartridge's own font at normal size: the cartridge
 stretches them to double height before uploading.)
 
 (The glyph table is checked against other labels in the same format: `0x6320`
-gives " 100 METER DASH ", `0x6344` gives " LONG JUMP " and `0x6351` gives
-"  HAMMER THROW " on the RC-710.)
+gives " 100 METER DASH ", `0x6344` gives " LONG JUMP " and `0x6351` gives "
+HAMMER THROW " on the RC-710.)
 
 ---
 
 ## 4. Konami's hidden mark
 
-MEASURED with `tools/marca_konami.py`, the tool that extracts the katakana title
-and the RC number Konami hid behind the padding at the end of some cartridges —
-a finding by Manuel Pazos (@ManuelPazosMSX), September 2021: **none of the four
-ROMs carries it.** The tool exits with code 1 for all four. This was already
-known for the two HYPER OLYMPIC builds; the two TRACK & FIELD ones do not carry
-it either.
+MEASURED with `tools/marca_konami.py`, the tool that extracts the katakana
+title and the RC number Konami hid behind the padding at the end of some
+cartridges — a finding by Manuel Pazos (@ManuelPazosMSX), September 2021:
+**none of the four ROMs carries it.** The tool exits with code 1 for all four.
+This was already known for the two HYPER OLYMPIC builds; the two TRACK & FIELD
+ones do not carry it either.
 
 The last useful bytes are 0x7FFE (HYPER OLYMPIC 1), 0x7FDF (TRACK & FIELD 1),
 0x7FFD (HYPER OLYMPIC 2) and 0x7FF3 (TRACK & FIELD 2), and what follows is 0xFF
@@ -336,12 +337,13 @@ padding, not a mark.
 
 MEASURED, and this is the hardest proof of the lot.
 
-1. Trace the TRACK & FIELD build with `tools/z80trace.py` from its INIT (0x4080)
-   and its interrupt routine (0x4010). Both come out **with no blind spots**:
-   9332 bytes of code on the RC-710 and 9871 on the RC-711.
-2. Carry the annotations across with `tools/porta_notas.py`. **2307 of 2315**
-   land on the RC-710 (99.65 %) and **2311 of 2323** on the RC-711 (99.48 %).
-3. Generate the listing with `tools/mkasm.py` and assemble it with pasmo.
+1. Trace the TRACK & FIELD build with `tools/z80trace.py` from its INIT
+(0x4080) and its interrupt routine (0x4010). Both come out **with no blind
+spots**: 9332 bytes of code on the RC-710 and 9871 on the RC-711. 2. Carry the
+annotations across with `porta_notas.py`, which lives in the sibling's
+repository because that is the one that received the port. **2307 of 2315**
+land on the RC-710 (99.65 %) and **2311 of 2323** on the RC-711 (99.48 %). 3.
+Generate the listing with `tools/mkasm.py` and assemble it with pasmo.
 
 ```
 b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  ho1sony.bin
@@ -364,10 +366,10 @@ RC-711: OTRA_VEZ_A_LA_LINEA (0x476F), 0x49C6, 0x4AAD, 0x530C, 0x5328,
         ENCIENDE_O_APAGA_LA_VOZ (0x6C95)
 ```
 
-What `porta_notas.py` does NOT carry across are the D and F directives, that is,
-the name and row width of the data blocks: closing a TRACK & FIELD disassembly
-properly would mean placing those again — mechanical work, using the shift map
-above.
+What `porta_notas.py` does NOT carry across are the D and F directives, that
+is, the name and row width of the data blocks: closing a TRACK & FIELD
+disassembly properly would mean placing those again — mechanical work, using
+the shift map above.
 
 ---
 
@@ -378,12 +380,12 @@ this cannot be settled from the ROM. What is measured is the direction the
 changes run in, and it all points the same way:
 
 - the TRACK & FIELD build **removes dead code** the other one has (RC-710
-  0x56AE, RC-711 0x56F0);
+0x56AE, RC-711 0x56F0);
 - it **shortens instructions** without changing what they do, in the seventeen
-  places listed in 2.2;
+places listed in 2.2;
 - it **fixes a spelling mistake** (HURDLERS for HURDLES);
 - it **replaces a PSG read-back with a RAM copy**, which is what you do when
-  something misbehaves on some machine;
+something misbehaves on some machine;
 - and it ends up smaller: 32 free bytes at the end instead of 1.
 
 All of that is typical of a later revision, but **it is a reading, not a
@@ -391,10 +393,10 @@ measurement**: nothing in the binary says which was manufactured first. And in
 particular, nothing in the binary says who published which.
 
 One measured detail argues against that reading: on the RC-710, the TRACK &
-FIELD build leaves **three dead bytes** in `MUEVE_EL_SONIDO` (`0x6AF7
-ld a,(0E09Fh)`, with A overwritten immediately after) that on the RC-711 are
-part of a meaningful `ld a,(0E09Fh) / call ESCRIBE_EL_MEZCLADOR`. Either the
-patch was applied to the RC-710 half-finished, or the RC-711 got the rest of it
+FIELD build leaves **three dead bytes** in `MUEVE_EL_SONIDO` (`0x6AF7 ld
+a,(0E09Fh)`, with A overwritten immediately after) that on the RC-711 are part
+of a meaningful `ld a,(0E09Fh) / call ESCRIBE_EL_MEZCLADOR`. Either the patch
+was applied to the RC-710 half-finished, or the RC-711 got the rest of it
 later. It cannot be decided from here.
 
 ---

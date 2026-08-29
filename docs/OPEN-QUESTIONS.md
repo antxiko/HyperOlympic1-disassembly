@@ -15,7 +15,16 @@ byte identical and just as dead, in Hyper Olympic 2 (at 0x4E64). ASSUMPTION:
 they are left over from an earlier version that uploaded three sprites at
 start-up.
 
-## 2. The type 0 labels that overlap
+## 2. INIT sets a VRAM address and writes nothing behind it
+
+At 0x40A6 there is `ld de,081a2h` and a `call` to the routine that sets the VDP
+write address. No write to VRAM follows: next comes PSG register 15, the CAPS
+lamp and the copy of the records. The address stays set until some other routine
+sets it again. ASSUMPTION: it is left over from an earlier version. What IS
+measured is that the PSG is not touched there, whatever this listing's comment
+said until 2026-08-29.
+
+## 3. The type 0 labels that overlap
 
 0x629E, 0x62B0 and 0x62BE declare 24 bytes of length and only carry 16 of their
 own. The decoder (0x4C63) keeps reading and takes the first eight of the
@@ -44,8 +53,9 @@ code that sets them and code that reads them. Bits 3, 5, 6 and 7 are used inside
 the race motor and are commented for what they do at each site, but they have
 not been given a single name.
 
-## 6. The 31 large-letter labels go by address
+## 6. Fifteen large-letter labels go by address
 
-The blocks from 0x619A to 0x6361 are delimited by the walk over the scripts, but
-only four have a name of their own: the four events'. The rest are published as
-`rotulo_XXXX`. Naming them would mean drawing them one by one.
+The NINETEEN large-letter labels, from 0x619A to 0x6362, are delimited by the
+walk over the scripts, but only FOUR have a name of their own: the four events'.
+The other FIFTEEN are published as `rotulo_XXXX`. Naming them would mean drawing
+them one by one.

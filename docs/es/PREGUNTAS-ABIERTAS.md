@@ -1,9 +1,9 @@
 # Lo que queda sin cerrar, contado uno a uno
 
 El presupuesto esta al 100 %: los 16.384 bytes del cartucho estan repartidos
-entre codigo trazado (9.335) y rangos de datos con nombre (7.049), y
-`make sanity` lo comprueba. Lo que sigue no son bytes sin repartir, sino cosas
-que se explican con menos certeza de la que me gustaria.
+entre codigo trazado (9.335) y rangos de datos con nombre (7.049), y `make
+sanity` lo comprueba. Lo que sigue no son bytes sin repartir, sino cosas que se
+explican con menos certeza de la que me gustaria.
 
 ## 1. Doce bytes muertos en 0x4E7B
 
@@ -14,7 +14,16 @@ ningun puntero de la ROM cae ahi. Estan tambien, byte a byte iguales y igual de
 muertos, en Hyper Olympic 2 (en 0x4E64). SUPOSICION: son restos de una version
 anterior que subia tres sprites al arrancar.
 
-## 2. Los rotulos de tipo 0 que se pisan
+## 2. INIT fija una direccion de VRAM y no escribe nada detras
+
+En 0x40A6 hay `ld de,081a2h` y un `call` a la rutina que fija la direccion de
+escritura del VDP. Detras no viene ninguna escritura a VRAM: lo siguiente es el
+registro 15 del PSG, el piloto de CAPS y la copia de los records. La direccion
+queda puesta hasta que otra rutina la vuelva a fijar. SUPOSICION: es un resto
+de una version anterior. Lo que SI esta medido es que ahi no se toca el PSG,
+aunque el comentario de este listado dijera lo contrario hasta el 2026-08-29.
+
+## 3. Los rotulos de tipo 0 que se pisan
 
 0x629E, 0x62B0 y 0x62BE declaran 24 bytes de largo y solo llevan 16 suyos. El
 decodificador (0x4C63) sigue leyendo y se lleva los ocho primeros del bloque
@@ -43,9 +52,10 @@ agotado) porque hay codigo que los pone y codigo que los mira. Los bits 3, 5, 6
 y 7 se usan dentro del motor de la carrera y estan comentados por lo que hacen
 en cada sitio, pero no se les ha puesto un nombre unico.
 
-## 6. Los 31 rotulos de letra grande van por direccion
+## 6. Quince rotulos de letra grande van por direccion
 
-Los bloques de 0x619A a 0x6361 estan delimitados por el recorrido de los
-guiones, pero solo cuatro tienen nombre propio: los de las cuatro pruebas. Los
-demas se publican como `rotulo_XXXX`. Para bautizarlos habria que dibujarlos
-uno a uno.
+Los DIECINUEVE rotulos de letra grande, de 0x619A a 0x6362, estan delimitados
+por el recorrido de los guiones, pero solo CUATRO tienen nombre propio: los de
+las cuatro pruebas. Los otros QUINCE se publican como `rotulo_XXXX`. Para
+bautizarlos habria que dibujarlos uno a uno. Para bautizarlos habria que
+dibujarlos uno a uno.

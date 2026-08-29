@@ -52,8 +52,8 @@ desplazada**, asi que casi cada operando de dieciseis bits cae un poco mas alla
 o un poco mas aca.
 
 Alineando primero las dos compilaciones, los bytes que no casan bajan a **1.379
-(8,4 %)** en el RC-710 y **1.263 (7,7 %)** en el RC-711. Y separando lo que solo
-se ha movido de lo que ha cambiado, quedan los 1.143 y 1.047 bytes del
+(8,4 %)** en el RC-710 y **1.263 (7,7 %)** en el RC-711. Y separando lo que
+solo se ha movido de lo que ha cambiado, quedan los 1.143 y 1.047 bytes del
 resumen.
 
 El desplazamiento entre las dos compilaciones del RC-710 va cambiando a lo
@@ -121,14 +121,14 @@ El rotulo que sale:
 | RC-710 | `HYPER 1 / OLYMPIC` | `TRACK 1 / & FIELD` |
 | RC-711 | `HYPER 2 / OLYMPIC` | `TRACK 2 / & FIELD` |
 
-![HYPER 1 OLYMPIC](../imagenes/ho1_rotulo_A.png)
-![TRACK 1 & FIELD](../imagenes/ho1_rotulo_B.png)
+![HYPER 1 OLYMPIC](../imagenes/ho1_rotulo_A.png) ![TRACK 1 &
+FIELD](../imagenes/ho1_rotulo_B.png)
 
-![HYPER 2 OLYMPIC](../imagenes/ho2_rotulo_A.png)
-![TRACK 2 & FIELD](../imagenes/ho2_rotulo_B.png)
+![HYPER 2 OLYMPIC](../imagenes/ho2_rotulo_A.png) ![TRACK 2 &
+FIELD](../imagenes/ho2_rotulo_B.png)
 
-El guion del menu tambien cambia porque el rotulo nuevo gasta menos casillas:
-A escribe 59 casillas de la tabla de nombres y B 56; las tres que sobran son
+El guion del menu tambien cambia porque el rotulo nuevo gasta menos casillas: A
+escribe 59 casillas de la tabla de nombres y B 56; las tres que sobran son
 0x38B4, 0x38B5 (fila 5, columnas 20 y 21) y 0x38D4 (fila 6, columna 20). Es el
 mismo numero en los dos cartuchos.
 
@@ -143,7 +143,8 @@ mismo numero en los dos cartuchos.
 
 MEDIDO. Alineando las dos compilaciones instruccion a instruccion —cada
 instruccion normalizada, los operandos de dieciseis bits y el desplazamiento de
-los JR/DJNZ a cero, que es el metodo de `tools/porta_notas.py`— el resultado es:
+los JR/DJNZ a cero, que es el metodo de `porta_notas.py`, que vive en el
+repositorio del hermano porque es el que recibio el porte,— el resultado es:
 
 | | RC-710 | RC-711 |
 |---|---|---|
@@ -155,8 +156,8 @@ los JR/DJNZ a cero, que es el metodo de `tools/porta_notas.py`— el resultado e
 | tramos que no casan | **19** | **14** |
 
 O sea: **de las instrucciones que se emparejan, ni una sola apunta a otro
-sitio.** Todo el cambio de codigo esta en 19 tramos (RC-710) y 14 (RC-711),
-48 y 39 bytes de A respectivamente. Estos son.
+sitio.** Todo el cambio de codigo esta en 19 tramos (RC-710) y 14 (RC-711), 48
+y 39 bytes de A respectivamente. Estos son.
 
 ### 2.1 Lo que cambia el comportamiento
 
@@ -177,9 +178,9 @@ que enciende o apaga una voz. B **no lo lee: mantiene una copia en RAM en
 del mezclador en MSX (los tres tonos abiertos, el ruido cerrado, el puerto A de
 entrada y el B de salida), y de paso lo escribe en el PSG.
 
-MEDIDO: en el desensamblado de A **ninguna instruccion nombra 0xE09F**;
-0xE09F es el ultimo byte del bloque 0xE060-0xE09F, el de los marcadores que se
-pintan. B lo aprovecha como sombra.
+MEDIDO: en el desensamblado de A **ninguna instruccion nombra 0xE09F**; 0xE09F
+es el ultimo byte del bloque 0xE060-0xE09F, el de los marcadores que se pintan.
+B lo aprovecha como sombra.
 
 VALORACION (no medido en maquina real): esto tiene toda la pinta de un arreglo
 de compatibilidad. Releer el registro 7 del PSG no se comporta igual en todas
@@ -188,11 +189,11 @@ las maquinas, y una copia en RAM se lo quita de encima.
 Hay una asimetria entre los dos cartuchos, y es MEDIDA:
 
 - En el RC-711, `MUEVE_EL_SONIDO` empieza en B con
-  `0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h`: **vuelve a escribir el mezclador
-  desde la sombra en cada pasada**.
+`0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h`: **vuelve a escribir el mezclador
+desde la sombra en cada pasada**.
 - En el RC-710, `MUEVE_EL_SONIDO` empieza en B con `0x6AF7 ld a,(0E09Fh)` **y
-  nada mas**. El registro A se pisa en `0x6B27 ld a,(ix+002h)` antes de que
-  nadie lo lea: esa instruccion **no hace nada**. Son tres bytes muertos.
+nada mas**. El registro A se pisa en `0x6B27 ld a,(ix+002h)` antes de que nadie
+lo lea: esa instruccion **no hace nada**. Son tres bytes muertos.
 
 **b) 0xE022 se limpia al repetir el intento.** En los dos cartuchos.
 
@@ -205,8 +206,8 @@ RC-711   A  0x476F   igual que arriba
 ```
 
 0xE022 es, segun el desensamblado, **quien pasa a la siguiente ronda**. A no lo
-toca al volver a montar la prueba tras un intento fallido; B lo pone a cero.
-Es la unica diferencia de codigo que cambia una variable del juego.
+toca al volver a montar la prueba tras un intento fallido; B lo pone a cero. Es
+la unica diferencia de codigo que cambia una variable del juego.
 
 **c) Solo en el RC-711: un umbral que sube en uno.**
 
@@ -279,12 +280,12 @@ MEDIDO ejecutando los dos guiones (`tools/pinta_corto.py`): en los tres casos
 con los mismos valores. Lo unico que cambia es como se comprime.
 
 - `marcador_del_salto_de_longitud`: A lo pinta en **dos bloques** (uno de 384
-  bytes desde 0x3960 y otro de 32 desde 0x3AE0, que van seguidos) y ademas
-  parte rachas que se podian unir: `32 x 0xB0` mas `32 x 0xB0` en A es
-  `64 x 0xB0` en B. B lo hace en **un bloque**. -9 bytes.
+bytes desde 0x3960 y otro de 32 desde 0x3AE0, que van seguidos) y ademas parte
+rachas que se podian unir: `32 x 0xB0` mas `32 x 0xB0` en A es `64 x 0xB0` en
+B. B lo hace en **un bloque**. -9 bytes.
 - `marcador_del_martillo`: lo mismo con las rachas. Donde A pone
-  `racha de 10 x 0xC0 / 2 bytes tal cual C0 C1 / racha de 20 x 0xC1`, B pone
-  `racha de 11 x 0xC0 / racha de 21 x 0xC1`. -14 bytes.
+`racha de 10 x 0xC0 / 2 bytes tal cual C0 C1 / racha de 20 x 0xC1`, B pone
+`racha de 11 x 0xC0 / racha de 21 x 0xC1`. -14 bytes.
 - `marcador_de_la_jabalina` (RC-711): igual. -6 bytes.
 
 De control, `marcador_de_los_100_metros` (RC-710) sale identico en las dos
@@ -292,10 +293,10 @@ compilaciones, los mismos 74 bytes.
 
 ### 3.2 Solo en el RC-711: se corrige HURDLERS
 
-MEDIDO. El rotulo de letra grande de la tercera prueba, `rotulo_110_vallas`,
-es una lista de indices de glifo cerrada con 0xFF (el 0x11 de delante es el
-tipo de rotulo). Los indices son 0-9 las cifras, 10 el espacio y de 11 en
-adelante las letras de la A a la Y sin la Q, la X ni la Z.
+MEDIDO. El rotulo de letra grande de la PRIMERA prueba del RC-711,
+`rotulo_110_vallas`, es una lista de indices de glifo cerrada con 0xFF (el 0x11
+de delante es el tipo de rotulo). Los indices son 0-9 las cifras, 10 el espacio
+y de 11 en adelante las letras de la A a la Y sin la Q, la X ni la Z.
 
 ```
 A  0x64B1   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1B 1C 0A FF
@@ -308,15 +309,15 @@ B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
 TRACK & FIELD 2 escribe "110 HURDLES", que es como se dice.** Es el unico
 cambio de texto de los dos cartuchos.
 
-![110 HURDLERS](../imagenes/ho2_vallas_A.png)
-![110 HURDLES](../imagenes/ho2_vallas_B.png)
+![110 HURDLERS](../imagenes/ho2_vallas_A.png) ![110
+HURDLES](../imagenes/ho2_vallas_B.png)
 
 (Los dos rotulos dibujados con la fuente del propio cartucho, a tamano normal:
 el cartucho los estira al doble antes de subirlos.)
 
 (La tabla de glifos esta comprobada con otros rotulos del mismo formato:
-`0x6320` da " 100 METER DASH ", `0x6344` da " LONG JUMP " y `0x6351` da
-"  HAMMER THROW " en el RC-710.)
+`0x6320` da " 100 METER DASH ", `0x6344` da " LONG JUMP " y `0x6351` da "
+HAMMER THROW " en el RC-710.)
 
 ---
 
@@ -329,8 +330,8 @@ algunos cartuchos —hallazgo de Manuel Pazos (@ManuelPazosMSX), septiembre de
 para las cuatro. Ya se sabia de las dos compilaciones HYPER OLYMPIC; las dos
 TRACK & FIELD tampoco.
 
-Los ultimos bytes utiles son 0x7FFE (HYPER OLYMPIC 1), 0x7FDF (TRACK & FIELD 1),
-0x7FFD (HYPER OLYMPIC 2) y 0x7FF3 (TRACK & FIELD 2), y lo que hay detras es
+Los ultimos bytes utiles son 0x7FFE (HYPER OLYMPIC 1), 0x7FDF (TRACK & FIELD
+1), 0x7FFD (HYPER OLYMPIC 2) y 0x7FF3 (TRACK & FIELD 2), y lo que hay detras es
 relleno 0xFF, no una marca.
 
 ---
@@ -339,13 +340,13 @@ relleno 0xFF, no una marca.
 
 MEDIDO, y es la prueba mas dura de todas.
 
-1. Se traza la compilacion TRACK & FIELD con `tools/z80trace.py` desde su
-   INIT (0x4080) y su rutina de interrupcion (0x4010). Sale **sin ningun punto
-   ciego** en las dos: 9332 bytes de codigo en el RC-710 y 9871 en el RC-711.
-2. Se llevan las anotaciones con `tools/porta_notas.py`. Portan
-   **2307 de 2315** en el RC-710 (99,65 %) y **2311 de 2323** en el RC-711
-   (99,48 %).
-3. Se genera el listado con `tools/mkasm.py` y se ensambla con pasmo.
+1. Se traza la compilacion TRACK & FIELD con `tools/z80trace.py` desde su INIT
+(0x4080) y su rutina de interrupcion (0x4010). Sale **sin ningun punto ciego**
+en las dos: 9332 bytes de codigo en el RC-710 y 9871 en el RC-711. 2. Se llevan
+las anotaciones con `porta_notas.py`, que vive en el repositorio del hermano
+porque es el que recibio el porte. Portan **2307 de 2315** en el RC-710 (99,65
+%) y **2311 de 2323** en el RC-711 (99,48 %). 3. Se genera el listado con
+`tools/mkasm.py` y se ensambla con pasmo.
 
 ```
 b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  ho1sony.bin
@@ -370,8 +371,8 @@ RC-711: OTRA_VEZ_A_LA_LINEA (0x476F), 0x49C6, 0x4AAD, 0x530C, 0x5328,
 
 Lo que NO porta `porta_notas.py` son las directivas D y F, o sea el nombre y la
 anchura de los bloques de datos: para dar por cerrado un desensamblado de la
-compilacion TRACK & FIELD habria que volver a situarlos, que es trabajo mecanico
-con el mapa de desplazamiento de arriba.
+compilacion TRACK & FIELD habria que volver a situarlos, que es trabajo
+mecanico con el mapa de desplazamiento de arriba.
 
 ---
 
@@ -382,12 +383,12 @@ esto no se puede cerrar desde la ROM. Lo que si esta medido es la direccion en
 la que van los cambios, y toda apunta al mismo lado:
 
 - la compilacion TRACK & FIELD **quita codigo muerto** que la otra tiene
-  (RC-710 0x56AE, RC-711 0x56F0);
+(RC-710 0x56AE, RC-711 0x56F0);
 - **acorta instrucciones** sin cambiar lo que hacen, en los diecisiete sitios
-  de la tabla de 2.2;
+de la tabla de 2.2;
 - **corrige una errata de texto** (HURDLERS por HURDLES);
 - **cambia una lectura del PSG por una copia en RAM**, que es lo que se hace
-  cuando algo no funciona en alguna maquina;
+cuando algo no funciona en alguna maquina;
 - y acaba ocupando menos: 32 bytes libres al final en vez de 1.
 
 Todo eso es tipico de una revision posterior, pero **es una lectura, no una

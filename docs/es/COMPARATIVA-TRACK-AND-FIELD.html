@@ -137,7 +137,7 @@ A 0x6B78-0x7FFE  -&gt;  B 0x6B59-0x7FDF   -31</code></pre>
 <blockquote>Nota para el <code>.notes</code>: el bloque <code>pantalla_del_menu</code> esta descrito como &quot;el rotulo PLAY SELECT y los cuatro numeros de la izquierda&quot;, pero <b>sus cuatro primeros bloques colocan el logotipo del juego</b>, no PLAY SELECT. PLAY SELECT y los numeros son los dos bloques de detras (VRAM 0x390B y 0x39AB).</blockquote>
 <hr>
 <h2 id="2-el-codigo">2. El codigo</h2>
-<p>MEDIDO. Alineando las dos compilaciones instruccion a instruccion —cada instruccion normalizada, los operandos de dieciseis bits y el desplazamiento de los JR/DJNZ a cero, que es el metodo de <code>tools/porta_notas.py</code>— el resultado es:</p>
+<p>MEDIDO. Alineando las dos compilaciones instruccion a instruccion —cada instruccion normalizada, los operandos de dieciseis bits y el desplazamiento de los JR/DJNZ a cero, que es el metodo de <code>porta_notas.py</code>, que vive en el repositorio del hermano porque es el que recibio el porte,— el resultado es:</p>
 <table><tr><th></th><th>RC-710</th><th>RC-711</th></tr><tr><td>instrucciones en A / en B</td><td>5032 / 5038</td><td>5345 / 5348</td></tr><tr><td>alineadas</td><td>5014</td><td>5328</td></tr><tr><td>identicas byte a byte</td><td>4439</td><td>4700</td></tr><tr><td>solo reubicadas (mismo destino)</td><td>575</td><td>628</td></tr><tr><td>con cambio real estando alineadas</td><td><b>0</b></td><td><b>0</b></td></tr><tr><td>tramos que no casan</td><td><b>19</b></td><td><b>14</b></td></tr></table>
 <p>O sea: <b>de las instrucciones que se emparejan, ni una sola apunta a otro sitio.</b> Todo el cambio de codigo esta en 19 tramos (RC-710) y 14 (RC-711), 48 y 39 bytes de A respectivamente. Estos son.</p>
 <h3 id="2-1-lo-que-cambia-el-comportamiento">2.1 Lo que cambia el comportamiento</h3>
@@ -147,7 +147,10 @@ A 0x6B78-0x7FFE  -&gt;  B 0x6B59-0x7FDF   -31</code></pre>
 <p>MEDIDO: en el desensamblado de A <b>ninguna instruccion nombra 0xE09F</b>; 0xE09F es el ultimo byte del bloque 0xE060-0xE09F, el de los marcadores que se pintan. B lo aprovecha como sombra.</p>
 <p>VALORACION (no medido en maquina real): esto tiene toda la pinta de un arreglo de compatibilidad. Releer el registro 7 del PSG no se comporta igual en todas las maquinas, y una copia en RAM se lo quita de encima.</p>
 <p>Hay una asimetria entre los dos cartuchos, y es MEDIDA:</p>
-<ul><li>En el RC-711, <code>MUEVE_EL_SONIDO</code> empieza en B con <code>0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h</code>: <b>vuelve a escribir el mezclador desde la sombra en cada pasada</b>.</li><li>En el RC-710, <code>MUEVE_EL_SONIDO</code> empieza en B con <code>0x6AF7 ld a,(0E09Fh)</code> <b>y nada mas</b>. El registro A se pisa en <code>0x6B27 ld a,(ix+002h)</code> antes de que nadie lo lea: esa instruccion <b>no hace nada</b>. Son tres bytes muertos.</li></ul>
+<ul><li>En el RC-711, <code>MUEVE_EL_SONIDO</code> empieza en B con</li></ul>
+<p><code>0x6C45 ld a,(0E09Fh) / 0x6C48 call 6CA7h</code>: <b>vuelve a escribir el mezclador desde la sombra en cada pasada</b>.</p>
+<ul><li>En el RC-710, <code>MUEVE_EL_SONIDO</code> empieza en B con <code>0x6AF7 ld a,(0E09Fh)</code> **y</li></ul>
+<p>nada mas<b>. El registro A se pisa en <code>0x6B27 ld a,(ix+002h)</code> antes de que nadie lo lea: esa instruccion </b>no hace nada**. Son tres bytes muertos.</p>
 <p><b>b) 0xE022 se limpia al repetir el intento.</b> En los dos cartuchos.</p>
 <pre><code>RC-710   A  0x474A  OTRA_VEZ_A_LA_LINEA:  ld hl,0 / ld (0E02Ch),hl / jp PINTA_EL_TURNO
          B  0x474E                        xor a / ld l,a / ld h,a / ld (0E02Ch),hl
@@ -171,10 +174,14 @@ B  0x530F  cp 012h</code></pre>
 <p>Los dos primeros de cada cartucho son el logotipo, ya visto. Quedan dos cosas.</p>
 <h3 id="3-1-los-marcadores-la-misma-pantalla-mejor-comprimida">3.1 Los marcadores: la misma pantalla, mejor comprimida</h3>
 <p>MEDIDO ejecutando los dos guiones (<code>tools/pinta_corto.py</code>): en los tres casos <b>la VRAM que queda es identica</b>, las mismas 416 direcciones (0x3960-0x3AFF) con los mismos valores. Lo unico que cambia es como se comprime.</p>
-<ul><li><code>marcador_del_salto_de_longitud</code>: A lo pinta en <b>dos bloques</b> (uno de 384 bytes desde 0x3960 y otro de 32 desde 0x3AE0, que van seguidos) y ademas parte rachas que se podian unir: <code>32 x 0xB0</code> mas <code>32 x 0xB0</code> en A es <code>64 x 0xB0</code> en B. B lo hace en <b>un bloque</b>. -9 bytes.</li><li><code>marcador_del_martillo</code>: lo mismo con las rachas. Donde A pone <code>racha de 10 x 0xC0 / 2 bytes tal cual C0 C1 / racha de 20 x 0xC1</code>, B pone <code>racha de 11 x 0xC0 / racha de 21 x 0xC1</code>. -14 bytes.</li><li><code>marcador_de_la_jabalina</code> (RC-711): igual. -6 bytes.</li></ul>
+<ul><li><code>marcador_del_salto_de_longitud</code>: A lo pinta en <b>dos bloques</b> (uno de 384</li></ul>
+<p>bytes desde 0x3960 y otro de 32 desde 0x3AE0, que van seguidos) y ademas parte rachas que se podian unir: <code>32 x 0xB0</code> mas <code>32 x 0xB0</code> en A es <code>64 x 0xB0</code> en B. B lo hace en <b>un bloque</b>. -9 bytes.</p>
+<ul><li><code>marcador_del_martillo</code>: lo mismo con las rachas. Donde A pone</li></ul>
+<p><code>racha de 10 x 0xC0 / 2 bytes tal cual C0 C1 / racha de 20 x 0xC1</code>, B pone <code>racha de 11 x 0xC0 / racha de 21 x 0xC1</code>. -14 bytes.</p>
+<ul><li><code>marcador_de_la_jabalina</code> (RC-711): igual. -6 bytes.</li></ul>
 <p>De control, <code>marcador_de_los_100_metros</code> (RC-710) sale identico en las dos compilaciones, los mismos 74 bytes.</p>
 <h3 id="3-2-solo-en-el-rc-711-se-corrige-hurdlers">3.2 Solo en el RC-711: se corrige HURDLERS</h3>
-<p>MEDIDO. El rotulo de letra grande de la tercera prueba, <code>rotulo_110_vallas</code>, es una lista de indices de glifo cerrada con 0xFF (el 0x11 de delante es el tipo de rotulo). Los indices son 0-9 las cifras, 10 el espacio y de 11 en adelante las letras de la A a la Y sin la Q, la X ni la Z.</p>
+<p>MEDIDO. El rotulo de letra grande de la PRIMERA prueba del RC-711, <code>rotulo_110_vallas</code>, es una lista de indices de glifo cerrada con 0xFF (el 0x11 de delante es el tipo de rotulo). Los indices son 0-9 las cifras, 10 el espacio y de 11 en adelante las letras de la A a la Y sin la Q, la X ni la Z.</p>
 <pre><code>A  0x64B1   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1B 1C 0A FF
                   1  1  0     H  U  R  D  L  E  R  S
 B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
@@ -182,7 +189,7 @@ B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
 <p><b>La compilacion HYPER OLYMPIC 2 escribe &quot;110 HURDLERS&quot;. La compilacion TRACK &amp; FIELD 2 escribe &quot;110 HURDLES&quot;, que es como se dice.</b> Es el unico cambio de texto de los dos cartuchos.</p>
 <p><img src="../imagenes/ho2_vallas_A.png" alt="110 HURDLERS"> <img src="../imagenes/ho2_vallas_B.png" alt="110 HURDLES"></p>
 <p>(Los dos rotulos dibujados con la fuente del propio cartucho, a tamano normal: el cartucho los estira al doble antes de subirlos.)</p>
-<p>(La tabla de glifos esta comprobada con otros rotulos del mismo formato: <code>0x6320</code> da &quot; 100 METER DASH &quot;, <code>0x6344</code> da &quot; LONG JUMP &quot; y <code>0x6351</code> da &quot;  HAMMER THROW &quot; en el RC-710.)</p>
+<p>(La tabla de glifos esta comprobada con otros rotulos del mismo formato: <code>0x6320</code> da &quot; 100 METER DASH &quot;, <code>0x6344</code> da &quot; LONG JUMP &quot; y <code>0x6351</code> da &quot; HAMMER THROW &quot; en el RC-710.)</p>
 <hr>
 <h2 id="4-la-marca-oculta-de-konami">4. La marca oculta de Konami</h2>
 <p>MEDIDO con <code>tools/marca_konami.py</code>, la herramienta que saca el titulo en katakana y el numero RC que Konami escondio detras del relleno del final de algunos cartuchos —hallazgo de Manuel Pazos (@ManuelPazosMSX), septiembre de 2021—: <b>ninguna de las cuatro ROM la lleva</b>. La herramienta sale con codigo 1 para las cuatro. Ya se sabia de las dos compilaciones HYPER OLYMPIC; las dos TRACK &amp; FIELD tampoco.</p>
@@ -190,7 +197,8 @@ B  0x64A6   11 0A 01 01 00 0A 12 1E 1B 0E 16 0F 1C 0A 0A FF
 <hr>
 <h2 id="5-el-desensamblado-sirve-para-las-dos">5. El desensamblado sirve para las dos</h2>
 <p>MEDIDO, y es la prueba mas dura de todas.</p>
-<ol><li>Se traza la compilacion TRACK &amp; FIELD con <code>tools/z80trace.py</code> desde su INIT (0x4080) y su rutina de interrupcion (0x4010). Sale <b>sin ningun punto ciego</b> en las dos: 9332 bytes de codigo en el RC-710 y 9871 en el RC-711.</li><li>Se llevan las anotaciones con <code>tools/porta_notas.py</code>. Portan <b>2307 de 2315</b> en el RC-710 (99,65 %) y <b>2311 de 2323</b> en el RC-711 (99,48 %).</li><li>Se genera el listado con <code>tools/mkasm.py</code> y se ensambla con pasmo.</li></ol>
+<ol><li>Se traza la compilacion TRACK &amp; FIELD con <code>tools/z80trace.py</code> desde su INIT</li></ol>
+<p>(0x4080) y su rutina de interrupcion (0x4010). Sale <b>sin ningun punto ciego</b> en las dos: 9332 bytes de codigo en el RC-710 y 9871 en el RC-711. 2. Se llevan las anotaciones con <code>porta_notas.py</code>, que vive en el repositorio del hermano porque es el que recibio el porte. Portan <b>2307 de 2315</b> en el RC-710 (99,65 %) y <b>2311 de 2323</b> en el RC-711 (99,48 %). 3. Se genera el listado con <code>tools/mkasm.py</code> y se ensambla con pasmo.</p>
 <pre><code>b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  ho1sony.bin
 b8988e622d10461140951ef5d072ce4f1ef66e6a8b8d795788cb3e2988338eb6  TRACK &amp; FIELD 1
 b0cb044eb80c0cdd359e39a0f1b8727dba91de3e6de28a3ba4426a474eeafc52  ho2sony.bin
@@ -206,7 +214,13 @@ RC-711: OTRA_VEZ_A_LA_LINEA (0x476F), 0x49C6, 0x4AAD, 0x530C, 0x5328,
 <hr>
 <h2 id="6-cual-es-anterior">6. Cual es anterior</h2>
 <p>SUPOSICION, no medida. El binario no lleva fecha ni numero de version, asi que esto no se puede cerrar desde la ROM. Lo que si esta medido es la direccion en la que van los cambios, y toda apunta al mismo lado:</p>
-<ul><li>la compilacion TRACK &amp; FIELD <b>quita codigo muerto</b> que la otra tiene (RC-710 0x56AE, RC-711 0x56F0);</li><li><b>acorta instrucciones</b> sin cambiar lo que hacen, en los diecisiete sitios de la tabla de 2.2;</li><li><b>corrige una errata de texto</b> (HURDLERS por HURDLES);</li><li><b>cambia una lectura del PSG por una copia en RAM</b>, que es lo que se hace cuando algo no funciona en alguna maquina;</li><li>y acaba ocupando menos: 32 bytes libres al final en vez de 1.</li></ul>
+<ul><li>la compilacion TRACK &amp; FIELD <b>quita codigo muerto</b> que la otra tiene</li></ul>
+<p>(RC-710 0x56AE, RC-711 0x56F0);</p>
+<ul><li><b>acorta instrucciones</b> sin cambiar lo que hacen, en los diecisiete sitios</li></ul>
+<p>de la tabla de 2.2;</p>
+<ul><li><b>corrige una errata de texto</b> (HURDLERS por HURDLES);</li><li><b>cambia una lectura del PSG por una copia en RAM</b>, que es lo que se hace</li></ul>
+<p>cuando algo no funciona en alguna maquina;</p>
+<ul><li>y acaba ocupando menos: 32 bytes libres al final en vez de 1.</li></ul>
 <p>Todo eso es tipico de una revision posterior, pero <b>es una lectura, no una medida</b>: nada del binario dice cual se fabrico antes. Y en particular, nada del binario dice quien publico cual.</p>
 <p>Contra esa lectura juega un detalle, tambien medido: en el RC-710 la compilacion TRACK &amp; FIELD deja <b>tres bytes muertos</b> en <code>MUEVE_EL_SONIDO</code> (<code>0x6AF7 ld a,(0E09Fh)</code>, con A pisada acto seguido) que en el RC-711 son parte de un <code>ld a,(0E09Fh) / call ESCRIBE_EL_MEZCLADOR</code> con sentido. O el parche se aplico primero en el RC-710 a medias, o al RC-711 se le anadio despues. No se puede decidir desde aqui.</p>
 <hr>

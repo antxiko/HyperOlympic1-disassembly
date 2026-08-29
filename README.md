@@ -26,7 +26,7 @@ The ROM is **not distributed here**. It goes in the root as `hyperolympic1.rom`,
 | bytes explained | 16,384 of 16,384 (100 %) |
 | traced code | 9,335 bytes, 5,032 instructions |
 | identified data | 7,049 bytes in 92 named ranges |
-| commented | 1,680 line comments, 33.4 % |
+| commented | 1,681 line comments, 33.4 % |
 | thin routines (under 10 %) | 0 of 569 |
 
 The annotations live apart from the listing, anchored to the address they
@@ -35,7 +35,7 @@ describe. What the `.notes` file holds:
 | | |
 |---|---|
 | named labels | 569 |
-| anchored comments | 1.667 |
+| anchored comments | 1.668 |
 | explained data ranges | 92 |
 
 ## What is in here

@@ -96,14 +96,15 @@ The whole sheet is in `docs/imagenes/fuente.png`, drawn by `tools/graficos.py`
 reading the range the listing declares. This is the kind of thing you only see
 by DRAWING it: read as a block, the 51 glyphs are 408 bytes that all look alike.
 
-## 7. Three tables indexed from one
+## 7. Five tables indexed from one
 
 0x49BA advances 2*0xE016 positions BEFORE reading, so the address the code
-records falls two bytes ahead of the first useful slot. The same happens with
-the melody table (the code says 0x6D26 and the table starts at 0x6D28) and with
-the actor records (0x7B44 for 0x7B46). In the case of the screen table, those
-two "slot zero" bytes are the 0xFF 0xFF that closes the last menu message: two
-bytes doing two jobs.
+records falls two bytes ahead of the first useful slot. There are five: the
+event labels (the code records 0x4F33 and the table starts at 0x4F35), the
+screens (0x4F3B for 0x4F3D), the scoreboards (0x4F43 for 0x4F45), the melodies
+(0x6D26 for 0x6D28) and the actor records (0x7B44 for 0x7B46). In the LABEL
+table, those two "slot zero" bytes are the 0xFF 0xFF that closes the last menu
+message: two bytes doing two jobs.
 
 ## 8. The demo's pilot mashes the button at random
 
@@ -159,22 +160,30 @@ Frogger, 7.5 % of Time Pilot). The raw method gave 354.
 
     against               bytes in common   % of Hyper Olympic 1   longest run
     -------------------   ---------------   --------------------   -----------
-    Hyper Olympic 2                 6,298                 67.5 %        63 B
-    Frogger                           175                  1.9 %        21 B
-    Super Cobra                       173                  1.9 %        21 B
-    Athletic Land                     120                  1.3 %        21 B
-    Konami's Billiards                105                  1.1 %        23 B
-    Monkey Academy                    103                  1.1 %        20 B
-    Pippols                            64                  0.7 %        20 B
+    Hyper Olympic 2                 6,298                 67.5 %       681 B
+    Frogger                           175                  1.9 %        42 B
+    Super Cobra                       173                  1.9 %        37 B
+    Monkey Academy                    103                  1.1 %        37 B
+    Konami's Billiards                105                  1.1 %        36 B
+    Athletic Land                     120                  1.3 %        32 B
+    Pippols                            64                  0.7 %        22 B
     Time Pilot                         21                  0.2 %        21 B
 
 ### What comes out of that
 
-Hyper Olympic 1 and 2 are the SAME program: two thirds of the code is shared.
-With any other Konami MSX cartridge in the series they share NOTHING: the
-longest runs are twenty bytes, which is what two programs written by the same
-house give by coincidence (a filler `ldir`, a wait loop). There is no trace of
-Frogger and Time Pilot's sound player, nor of Athletic Land's framework.
+Hyper Olympic 1 and 2 are the SAME program: two thirds of the code is shared,
+and the longest run is 681 consecutive bytes (0x7B27 here, 0x7B52 there) — whole
+routines reassembled somewhere else.
+
+With the other Konami MSX cartridges in the series the difference is two orders
+of magnitude: none goes past 2 %, and their longest runs go from 21 to 42 bytes.
+There is NO trace of Frogger and Time Pilot's sound player, nor of Athletic
+Land's framework: 175 bytes spread over scattered runs is not a shared
+component.
+
+Frogger's 42 bytes are the exception worth looking at, and it is noted here: it
+is more than two programs from the same house give by coincidence, and the
+routine has not been identified. Even so, it is 42 against 681.
 
 So: the two Hyper Olympics belong to neither of the two Konami frameworks
 already measured in this series. They are a THIRD, and so far it has just two

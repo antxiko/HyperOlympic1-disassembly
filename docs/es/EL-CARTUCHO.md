@@ -16,11 +16,14 @@ INIT se prepara la casa y se va:
 
 1. engancha la interrupción en **H.KEYI** (0xFD9A) con un `jp` a 0x4010;
 2. limpia 0xE000-0xE3FE y pone la pila justo encima, en 0xE3FE;
-3. calla el PSG —los tres registros de tono a cero— y lo deja con el canal A a
-   volumen 8 y el mezclador a 0xA2;
-4. apaga el piloto de CAPS;
-5. copia los cuatro récords del mundo de 0x5174 a 0xE040;
-6. coloca la flecha del menú en la primera línea.
+3. calla el PSG poniendo a cero sus registros **8, 9 y 10**, que son los tres
+   de volumen: no los de tono, que a cero no callarían nada;
+4. fija en el VDP la dirección de escritura 0x81A2 —y no escribe nada detrás;
+   ver [Preguntas abiertas](PREGUNTAS-ABIERTAS.md)—, y pone el registro 15 del
+   PSG, el puerto de salida, a 0xCF;
+5. apaga el piloto de CAPS;
+6. copia los cuatro récords del mundo de 0x5174 a 0xE040;
+7. coloca la flecha del menú en la primera línea.
 
 A partir de ahí **el programa principal y la interrupción se reparten el
 trabajo**. La interrupción lleva el reloj, los mandos y lo que tiene que ir a
@@ -81,7 +84,7 @@ En el listado, las direcciones de VRAM aparecen **con el bit 14 puesto**
 0x7800 es la tabla de nombres y 0x5800 los patrones de sprite. Al leer un
 volcado conviene tenerlo presente o los números no cuadran.
 
-## Tres tablas indexadas desde uno
+## Cinco tablas indexadas desde uno
 
 Un patrón que se repite y que despista al leer el listado: hay tablas cuya
 dirección registrada cae **dos bytes por delante** de la primera casilla útil,
@@ -89,13 +92,15 @@ porque el índice empieza en uno y el código avanza `2*indice` antes de leer.
 
 | tabla | lo que dice el código | dónde empieza de verdad |
 |---|---|---|
-| pantallas (0x49BA) | — | dos bytes después |
-| melodías | 0x6D26 | 0x6D28 |
+| rótulos de la prueba | 0x4F33 | 0x4F35 |
+| pantallas de la prueba | 0x4F3B | 0x4F3D |
+| marcadores de la prueba | 0x4F43 | 0x4F45 |
+| punteros de melodía | 0x6D26 | 0x6D28 |
 | fichas de actor | 0x7B44 | 0x7B46 |
 
-No es un error: la casilla cero no se usa nunca. Y en el caso de la tabla de
-pantallas esos dos bytes **sirven además para otra cosa**: son el `FF FF` que
-cierra el último mensaje del menú. Dos bytes con dos oficios.
+No es un error: la casilla cero no se usa nunca. Y la de la tabla de **rótulos**
+sirve además para otra cosa: los dos bytes de 0x4F33 son el `FF FF` que cierra
+el último mensaje del menú. Dos bytes con dos oficios.
 
 ## Los actores se empujan unos a otros
 

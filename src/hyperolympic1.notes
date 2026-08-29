@@ -314,9 +314,10 @@ C 0x4087 y detras la direccion de nuestra interrupcion
 C 0x408d limpia la RAM del juego de 0xE000 a 0xE3FE
 C 0x4096 con L, que en este momento vale cero
 C 0x4099 y deja la pila justo encima, en 0xE3FE
-C 0x409a los tres registros de tono del PSG
-C 0x409e a cero, para que no suene nada
-C 0x40a6 canal A a volumen 8, mezclador a 0xA2
+C 0x409a los registros 8, 9 y 10 del PSG, que son los tres de VOLUMEN
+C 0x409e a cero, que es lo que de verdad calla los tres canales
+C 0x40a6 esto NO es el PSG: 0x81A2 es una direccion de VRAM y lo que sigue
+C 0x40a9 es FIJA_ESCRITURA, que deja puesta la direccion de escritura del VDP; nadie escribe detras (ver docs/es/PREGUNTAS-ABIERTAS.md)
 C 0x40ac registro 15, el puerto de salida
 C 0x40b3 apaga el piloto de CAPS
 C 0x40b8 los cuatro records del mundo

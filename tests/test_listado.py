@@ -87,7 +87,7 @@ class TestListado(unittest.TestCase):
                          % " ".join(sueltas[:12]))
 
     def test_no_queda_ninguna_etiqueta_sin_bautizar(self):
-        """Aqui se bautizaron las 676, incluidos los destinos de salto."""
+        """Aqui se bautizaron las 569, incluidos los destinos de salto."""
         sueltas = sorted(set(re.findall(r"\bL_[0-9A-F]{4}\b", asm())))
         self.assertEqual(sueltas, [], "etiquetas sin nombre: %s"
                          % " ".join(sueltas[:12]))
