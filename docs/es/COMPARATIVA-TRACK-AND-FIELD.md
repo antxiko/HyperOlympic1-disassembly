@@ -424,7 +424,12 @@ python tools/pinta_corto.py A.rom 0x65BA B.rom 0x65AE
 
 # que pinta un guion largo, y dibujarlo
 python tools/pinta_largo.py A.rom 0x5C96 0x6002 B.rom 0x5C8C 0x5FF6
-python tools/dibuja_rotulo_menu.py A.rom 0x5C96 0x6002 0x4E87 logo.png
+# los cuatro rotulos, cada uno con SU guion del titulo, SU fuente y SU guion
+# del menu; el recorte y el color los saca la herramienta de los datos
+python tools/dibuja_rotulo_menu.py hyperolympic1.rom 0x5C96 0x6002 0x4E87 ho1_rotulo_A.png
+python tools/dibuja_rotulo_menu.py trackfield1.rom   0x5C8C 0x5FF6 0x4E8B ho1_rotulo_B.png
+python tools/dibuja_rotulo_menu.py hyperolympic2.rom 0x5E35 0x6197 0x4E70 ho2_rotulo_A.png
+python tools/dibuja_rotulo_menu.py trackfield2.rom   0x5E2C 0x618C 0x4E74 ho2_rotulo_B.png
 
 # la marca oculta de Konami
 python tools/marca_konami.py *.rom
