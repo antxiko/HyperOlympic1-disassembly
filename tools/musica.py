@@ -1,99 +1,71 @@
 #!/usr/bin/env python3
-"""Recorre las melodias del reproductor PSG y dice donde acaba cada una.
+"""La musica del cartucho, ejecutando su motor de sonido (ver motor_musica.py).
 
-La tabla de punteros esta en 0x6D28 y se indexa DESDE UNO (el codigo registra
-0x6D26, dos bytes antes, el mismo truco que las tablas de pantalla). El indice
-sale del numero de sonido: por debajo de 0x81 es `id & 0x3F`; por encima, el
-`add a,a` pierde el acarreo y queda `id & 0x7F`. Un sonido de varias voces
-ocupa entradas SEGUIDAS.
-
-Las tiras terminan en 0xFF; un 0xFE con su cuenta detras vuelve a empezar. Los
-sonidos con el bit 7 puesto llevan la nota en UN byte (nibble alto = nota en la
-tabla de doce periodos de 0x6D1C, nibble bajo = cuantas duraciones); los demas
-la llevan en DOS (nibble alto = duracion, los doce bits restantes = periodo).
-
-Uso: musica.py <rom> <org>
+Pide el sonido con `PIDE_UN_SONIDO` (0x6A92, A = numero; no suena en la demo) y
+corre `MUEVE_EL_SONIDO` (0x6B1A), que la interrupcion llama cada cuadro (0x404C).
+Los tres canales son tres fichas de 11 bytes desde 0xE162.
+Uso:  musica.py registros 0x96 [cuadros] | mp3 0x96 f.mp3 | todas docs/audio
+      musica.py barrido 0x80 0xFF | emu
 """
+import os
 import sys
 
-rom = open(sys.argv[1], "rb").read()
-ORG = int(sys.argv[2], 0)
-TAB = 0x6D28
-b = lambda a: rom[a - ORG] if 0 <= a - ORG < len(rom) else None
-w = lambda a: b(a) | (b(a + 1) << 8)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import motor_musica  # noqa: E402
+from motor_musica import P  # noqa: E402
 
-IDS = [0x01, 0x02, 0x04, 0x43, 0x45, 0x47, 0x48, 0x49, 0x4A, 0x4C, 0x4F,
-       0x92, 0x96, 0x99, 0x9C, 0x9F, 0xA5]
+PIEZAS = [
+    P(0x96, "La música del título", "The title tune",
+      "`TITULO_SIN_PARPADEO`"),
+    P(0x02, "La fanfarria de clasificación", "The qualifying fanfare",
+      "la rutina de 0x451F; `PIDE_UN_SONIDO` lo reparte en tres: el 2, el "
+      "0x47 y el 0x49"),
+    P(0x99, "Récord nuevo", "New record", "`GUARDA_EL_RECORD_NUEVO`"),
+    P(0x9C, "La prueba nueva", "The new event", "`SUENA_LA_PRUEBA_NUEVA`"),
+    P(0x9F, "El cartel de fin", "The end sign", "`CARTEL_DE_FIN`"),
+    P(0x92, "La música que se espera", "The tune that is waited for",
+      "`ESPERA_A_QUE_ACABE_LA_MUSICA`"),
+    P(0x91, "Una pista de la tabla", "A track in the table",
+      "ninguna llamada directa: está en la tabla de pistas"),
+    P(0x95, "Otra pista de la tabla", "Another track in the table",
+      "ninguna llamada directa: está en la tabla de pistas"),
+    P(0xA8, "Una tercera pista de la tabla", "A third track in the table",
+      "ninguna llamada directa: está en la tabla de pistas"),
+    P(0xA9, "Una cuarta pista de la tabla", "A fourth track in the table",
+      "ninguna llamada directa: está en la tabla de pistas"),
+]
 
+PAGINA = motor_musica.pagina_basica(
+    "`MUEVE_EL_SONIDO`, 0x6B1A, y `PIDE_UN_SONIDO`, 0x6A92, que le reparte "
+    "los canales; lo llama la interrupción en 0x404C",
+    "`MUEVE_EL_SONIDO`, 0x6B1A, and `PIDE_UN_SONIDO`, 0x6A92, which hands it "
+    "the channels; the interrupt calls it at 0x404C",
+    "C-BIOS MSX1 japonés",
+    [("la música del título (0x96) entera, 642 cuadros",
+      "the title tune (0x96), whole, 642 frames"),
+     ("la pista 0x91 entera, 511 cuadros, con su vuelta",
+      "track 0x91, whole, 511 frames, with its repeat")],
+    [("Cómo se pide una pieza",
+      "`PIDE_UN_SONIDO` recibe el número en A y no suena en la demo. Los "
+      "efectos van por debajo de 0x81 y tienen una, dos o tres voces según "
+      "su número; de 0x81 a 0x95 la música usa dos voces y del 0x96 en "
+      "adelante tres. Las fichas de los canales están en 0xE162, 0xE16D y "
+      "0xE178. Las 0x91, 0x95, 0xA8 y 0xA9 son pistas de la tabla que ninguna "
+      "rutina pide con un `ld a`. El motor no escribe el mezclador del PSG: "
+      "lo deja el arranque, y aquí se parte de su mismo valor, 0xB8.",
+      "How a piece is asked for",
+      "`PIDE_UN_SONIDO` takes the number in A and makes no sound in the demo. "
+      "Effects are below 0x81 and take one, two or three voices depending on "
+      "their number; from 0x81 to 0x95 music uses two voices and from 0x96 "
+      "up three. The channel records are at 0xE162, 0xE16D and 0xE178. "
+      "Tracks 0x91, 0x95, 0xA8 and 0xA9 are in the table but no routine asks "
+      "for them with an `ld a`. The engine never writes the PSG mixer: "
+      "start-up leaves it set, and here it starts from that same value, "
+      "0xB8.")])
 
-def voces(a):
-    if a == 1:
-        return 2
-    if a >= 0x96:
-        return 3
-    if a >= 0x81:
-        return 2
-    t = a & 0x3F
-    return 1 if t < 0x0A else (2 if t < 0x0C else 3)
+CFG = dict(rom="hyperolympic1.rom", org=0x4000, frame=0x6B1A, pide=0x6A92,
+           ram=(0xE162, 0xE184), hz=60, psg0={7: 0xB8}, piezas=PIEZAS,
+           pagina=PAGINA, cotejado=[(0x96, 642, None), (0x91, 511, 257)])
 
-
-def indice(a):
-    return 1 if a == 1 else (a & 0x7F if a >= 0x81 else a & 0x3F)
-
-
-def tira(p, compacta):
-    """Fin de una tira de melodia y por que acaba."""
-    for _ in range(3000):
-        v = b(p)
-        if v is None:
-            return p, "SE SALE"
-        if v == 0xFF:
-            return p + 1, "fin"
-        if v == 0xFE:
-            return p + 2, "repite"
-        if compacta:
-            while b(p) is not None and b(p) >= 0xD0:
-                p += 1
-            p += 1
-        else:
-            if (v & 0xF0) == 0x20:
-                p += 1
-                v = b(p)
-            if (v & 0xF0) == 0x10:
-                p += 1
-            p += 2
-    return p, "?"
-
-
-def main():
-    ent = {}
-    for i in IDS:
-        for k in range(voces(i)):
-            ent[indice(i) + k] = (w(TAB + 2 * (indice(i) + k - 1)), i & 0x80)
-    usado = bytearray(len(rom))
-    res = {}
-    for k in sorted(ent):
-        d, comp = ent[k]
-        f, m = tira(d, comp)
-        for x in range(d, f):
-            if 0 <= x - ORG < len(rom):
-                usado[x - ORG] = 1
-        res.setdefault((d, f, m), []).append(k)
-    for (d, f, m), ks in sorted(res.items()):
-        print("  %04X..%04X %4dB %-7s entradas %s"
-              % (d, f - 1, f - d, m, ks))
-    lo = min(d for d, _, _ in res)
-    hi = max(f for _, f, _ in res)
-    print("\n  cubierto %04X..%04X" % (lo, hi - 1))
-    h = None
-    for i in range(lo, min(hi, ORG + len(rom))):
-        if not usado[i - ORG] and h is None:
-            h = i
-        elif usado[i - ORG] and h is not None:
-            print("    hueco %04X..%04X (%d B)" % (h, i - 1, i - h))
-            h = None
-    if h is not None:
-        print("    hueco %04X..%04X (%d B)" % (h, hi - 1, hi - h))
-
-
-main()
+if __name__ == "__main__":
+    sys.exit(motor_musica.main(CFG, sys.argv[1:]))
