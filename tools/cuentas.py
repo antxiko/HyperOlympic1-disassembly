@@ -19,7 +19,7 @@ import sys
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
-sys.path.insert(0, r"C:/Users/Antxiko/Documents/DES_ASM/HYPEROLYMPIC1_DISAM/tools")
+sys.path.insert(0, r"C:/Users/Antxiko/Documents/DES_ASM/desensamblados/HYPEROLYMPIC1_DISAM/tools")
 from desplazamiento import Mapa, instrucciones                 # noqa: E402
 from informe import lee_notas                                  # noqa: E402
 

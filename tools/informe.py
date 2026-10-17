@@ -21,7 +21,7 @@ import sys
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
-sys.path.insert(0, r"C:/Users/Antxiko/Documents/DES_ASM/HYPEROLYMPIC1_DISAM/tools")
+sys.path.insert(0, r"C:/Users/Antxiko/Documents/DES_ASM/desensamblados/HYPEROLYMPIC1_DISAM/tools")
 from desplazamiento import (Mapa, destino_rel8, instrucciones,   # noqa: E402
                             lleva_abs16, lleva_rel8)
 

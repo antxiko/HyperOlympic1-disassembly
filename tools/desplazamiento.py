@@ -21,7 +21,7 @@ import difflib
 import json
 import sys
 
-sys.path.insert(0, r"C:/Users/Antxiko/Documents/DES_ASM/HYPEROLYMPIC1_DISAM/tools")
+sys.path.insert(0, r"C:/Users/Antxiko/Documents/DES_ASM/desensamblados/HYPEROLYMPIC1_DISAM/tools")
 from z80trace import Tracer                                   # noqa: E402
 
 ABS16 = ({0x01, 0x11, 0x21, 0x31, 0x22, 0x2A, 0x32, 0x3A, 0xC3, 0xCD}
