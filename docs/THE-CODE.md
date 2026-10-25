@@ -214,3 +214,28 @@ splits the binary differently, the comments still land in the right place.
 VRAM addresses appear in the listing **with bit 14 set** (0x4000 added) when
 they are about to be written, which is how the VDP wants them. That is why the
 name table, which lives at 0x3800, is seen being written as 0x7800.
+
+## Code shared with other Konami cartridges
+
+This disassembly has been compared, instruction by instruction, with
+every other Konami one in the series. A block counts when the same
+instructions, at least six of them from a label to its `ret` or its
+unconditional jump, are in both cartridges; the addresses are left
+aside, because they change from one cartridge to the next. Of the
+other 57, **29** have at least one block in common with this one;
+these are the ones that share the most:
+
+| Cartridge | Blocks | Instructions | For example (here = there) |
+|---|---:|---:|---|
+| [Hyper Olympic 2](https://antxiko.github.io/HyperOlympic2-disassembly/) | 124 | 2,194 | `SUBE_LOS_PATRONES` (0x7F9C) |
+| [Konami's Tennis](https://antxiko.github.io/KonamisTennis-disassembly/) | 22 | 312 | `COPIA_VRAM_A_VRAM` (0x4C17) = `replica_vram` |
+| [Konami's Golf](https://antxiko.github.io/KonamisGolf-disassembly/) | 20 | 279 | `SUBE_EL_ROTULO` (0x4151) = `titulo_espera` |
+| [Konami's Baseball](https://antxiko.github.io/KonamisBaseball-disassembly/) | 19 | 218 | `COPIA_VRAM_A_VRAM` (0x4C17) = `replica_el_tercio_en_los_otros_dos` |
+| [Hyper Sports 1](https://antxiko.github.io/HyperSports1-disassembly/) | 9 | 105 | `MONTA_UN_CANAL` (0x6B01) = `SUMA_BONUS_7BE3` |
+| [Konami’s Mahjong Dojo](https://antxiko.github.io/KonamisMahjongDojo-disassembly/) | 5 | 122 | `NOTA_DE_UN_BYTE` (0x6CAA) = `lee_una_nota_de_musica` |
+| [Road Fighter](https://antxiko.github.io/RoadFighter-disassembly/) | 5 | 52 | `TOCA_LA_NOTA_DE_UN_BYTE` (0x6CFA) |
+| [Yie Ar Kung-Fu](https://antxiko.github.io/YieArKungFu-disassembly/) | 5 | 40 | `ADELANTA_LA_CAIDA` (0x6C96) = `apaga_poco_a_poco_si_no` |
+
+The whole matrix, the 58 cartridges against each other, is on
+[The routines](https://antxiko.github.io/MSX-disassembly-database/THE-ROUTINES.html) in the series database, along
+with the method and the program that measures it.

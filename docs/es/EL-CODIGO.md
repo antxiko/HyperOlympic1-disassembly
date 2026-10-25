@@ -215,3 +215,28 @@ reparte el binario de otra forma, los comentarios siguen cayendo en su sitio.
 Las direcciones de VRAM aparecen en el listado **con el bit 14 puesto** (sumado
 0x4000) cuando se va a escribir, que es como lo pide el VDP. Por eso la tabla de
 nombres, que está en 0x3800, se ve escrita como 0x7800.
+
+## Código compartido con otros cartuchos de Konami
+
+Este desensamblado se ha comparado, instrucción por instrucción, con
+todos los demás de Konami de la serie. Cuenta un bloque cuando las
+mismas instrucciones, al menos seis desde una etiqueta hasta su `ret`
+o su salto sin condición, están en los dos cartuchos; las direcciones
+no se miran, porque cambian de un cartucho a otro. De los otros 57,
+**29** tienen al menos un bloque en común con este; estos son los
+que más comparten:
+
+| Cartucho | Bloques | Instrucciones | Por ejemplo (aquí = allí) |
+|---|---:|---:|---|
+| [Hyper Olympic 2](https://antxiko.github.io/HyperOlympic2-disassembly/es/) | 124 | 2.194 | `SUBE_LOS_PATRONES` (0x7F9C) |
+| [Konami's Tennis](https://antxiko.github.io/KonamisTennis-disassembly/es/) | 22 | 312 | `COPIA_VRAM_A_VRAM` (0x4C17) = `replica_vram` |
+| [Konami's Golf](https://antxiko.github.io/KonamisGolf-disassembly/es/) | 20 | 279 | `SUBE_EL_ROTULO` (0x4151) = `titulo_espera` |
+| [Konami's Baseball](https://antxiko.github.io/KonamisBaseball-disassembly/es/) | 19 | 218 | `COPIA_VRAM_A_VRAM` (0x4C17) = `replica_el_tercio_en_los_otros_dos` |
+| [Hyper Sports 1](https://antxiko.github.io/HyperSports1-disassembly/es/) | 9 | 105 | `MONTA_UN_CANAL` (0x6B01) = `SUMA_BONUS_7BE3` |
+| [Konami’s Mahjong Dojo](https://antxiko.github.io/KonamisMahjongDojo-disassembly/es/) | 5 | 122 | `NOTA_DE_UN_BYTE` (0x6CAA) = `lee_una_nota_de_musica` |
+| [Road Fighter](https://antxiko.github.io/RoadFighter-disassembly/es/) | 5 | 52 | `TOCA_LA_NOTA_DE_UN_BYTE` (0x6CFA) |
+| [Yie Ar Kung-Fu](https://antxiko.github.io/YieArKungFu-disassembly/es/) | 5 | 40 | `ADELANTA_LA_CAIDA` (0x6C96) = `apaga_poco_a_poco_si_no` |
+
+La matriz entera, los 58 cartuchos entre sí, está en
+[Las rutinas](https://antxiko.github.io/MSX-disassembly-database/es/LAS-RUTINAS.html) de la base de datos de la
+serie, con el método y el programa que la mide.
